@@ -1,0 +1,64 @@
+Firmware for a Sinner Cypreus Tri-EDC with a BLF17DD driver with 
+triple XP-L emitters and a capacitor to enable off-time memory.
+
+Interface:
+
+  - A short press (0.5s or less) moves the mode forward by one.
+  - A medium press (~0.5s to 1.5s) moves the mode backward by one.
+  - A long press (more than 1.5s) resets to the first mode.  So, after 
+    being off for a while it always starts at the first mode.
+  - Going "backward" from the first mode will take you to semi-hidden 
+    "negative" modes.
+  - A short press from any "negative" mode resets the light to the first 
+    mode.
+
+Modes:
+
+   1. Moon.  VERY voltage-sensitive, so it will be fairly bright on a 
+      full cell and very dim on a low battery.  Sorry, the alternative 
+      was to always be too bright to be considered a "moon" mode.
+      (varies from ~0.01 lm to ~3.3 lm)
+   2. Low / ~0.4% / ~12lm.
+   3. Medium / ~3.1% / ~94lm.
+   4. High / ~16.5% / ~494lm.
+   5. Higher / ~47% / ~1411lm. (w/ turbo step-down to "high" after 30s)
+   6. Maximum / 100% / ~3000lm. (w/ turbo step-down to "higher" after 30s)
+   7. High-vis dual-level 1Hz flasher: Moon-Med.  Stutters at Med mode 
+      briefly, then settles at Moon mode.  Repeats once per second.
+   8. High-vis flasher: Low-High.
+   9. High-vis flasher: Med-Higher.
+  10. 1Hz Heartbeat beacon.  Blinks twice, waits, repeats.
+  11. 12Hz motion-freezing strobe.  (not tactical, more like a party strobe)
+  12. 24Hz motion-freezing strobe.
+  13. 60Hz motion-freezing strobe.
+  14. Self-ramping 10Hz to 24Hz motion-freezing strobe.  Point it at a 
+      ceiling fan or something, it looks neat.
+  15. Battery check mode.  Measures, blinks 0 to 5 times, waits, repeats:
+      - 0 blinks: < 3.0V
+      - 1 blink : 3.0-3.3V
+      - 2 blinks: 3.3-3.6V
+      - 3 blinks: 3.6-3.9V
+      - 4 blinks: 3.9-4.2V
+      - 5 blinks: > 4.2V
+
+Negative modes:
+
+  -1. "Impress" mode (a.k.a. maximum output),
+      for quick access to "ZOMG that's bright!".
+  -2. 24Hz strobe, looks nice on falling water.
+  -3. Battery check mode.
+
+When the battery voltage gets low, the light will step down and 
+eventually turn off.  If on a blinky mode, it'll "step down" to the 
+"Med" mode first, then low, then off.  If on a regular/solid mode, it 
+will step down one level each time until it's at "low", then turn off.  
+At low voltage, "moon" is basically the same as off, so we skip it 
+during low-voltage step-down.
+
+Lumen outputs above "medium" are estimated, not actually measured.  My 
+light box has difficulties with this light for some reason.
+
+The moon mode can use self-adjusting PFM to keep its brightness level 
+more consistent, but it takes a lot of space in the code and the results 
+are still mediocre.  However, it does at least look cool when it does 
+the initial adjustment (ramps up, looks best on a battery near 3.7V).

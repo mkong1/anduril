@@ -1,0 +1,20 @@
+Hi,
+this is the momentary STAR firmware I have changed a bit
+
+https://www.dropbox.com/s/txcu7hjwhp7l0i0/starmomentfirmw.c
+
+Some small changes and some lines to make the turbostepdown like a slow
+rampdown and it also ramps down on the two highest modes(200 and255) to the
+mid(130)...
+
+I am not sure if this is useful for other at all but maybe some things will
+evolve into something useful.
+
+
+I also have some minor improvements for the offtimememory
+
+https://www.dropbox.com/s/u8kkye0p9jqs9s4/starfirmwarecapmemory.c
+
+just added some small things to reduce the mcu current a bit, but I also
+customized things(Star defaults like modeorder) which might confuse other
+people.

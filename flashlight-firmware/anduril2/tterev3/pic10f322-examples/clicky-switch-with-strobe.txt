@@ -1,0 +1,3 @@
+http://budgetlightforum.com/node/30556#comment-569012
+
+Here's an example program I put together for the 1822. It's a very simple flashlight with 3 brightnesses and a randomized strobe that changes modes on power cycle. This should help you get started with the 1822:

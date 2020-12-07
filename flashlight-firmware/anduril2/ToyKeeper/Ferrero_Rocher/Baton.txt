@@ -1,0 +1,22 @@
+This UI is similar to an Olight Baton or BLF SD10.  The interface is:
+
+From off:
+
+  - Short press to access the last-used mode.
+  - Long press to enter moon mode.
+  - Even longer press to activate or deactivate soft lock-out.
+  - Double click for turbo mode.
+
+While on:
+
+  - Short press to turn off.
+  - Long press and hold to increase brightness level.  Hold until 
+    desired level is reached.  Loops from turbo to "low", bypassing moon 
+    mode.
+  - (TODO) Double click for a blinky mode (beacon?).
+
+The long press (and hold) action skips moon when it loops.  Moon can 
+only be accessed from off.
+
+Turbo step-down (90 seconds) and low-voltage protection are enabled by 
+default.

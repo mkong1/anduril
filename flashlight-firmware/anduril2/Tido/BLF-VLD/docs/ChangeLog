@@ -1,0 +1,38 @@
+2011-01-10  Tido Klaassen  <tido@4gh.eu>
+
+	* BLF-VLD: release v0.4
+
+	* driver.c: fixed initialisation of ADC
+
+	* driver.c: added support for mode switching based on an I/O pin's 
+	state
+
+	* driver.c: fixed driver getting possibly stuck in extended mode if
+	compiled without extended mode support and EEPROM gets corrupted.
+
+	* driver.c: added compile time option for gradually lowering light 
+	level in low battery situation
+	
+
+2010-12-09  Tido Klaassen  <tido@4gh.eu>
+
+	* BLF-VLD: release v0.3
+	
+	* driver.c: mode functions can now be en/disabled without rearranging 
+	modeline offsets
+	
+	* driver.c: EEPROM image configurations containing disabled mode 
+	functions will result in compile time error
+
+	* driver.c: added support for battery monitoring and handling of low
+	battery voltage
+	
+	* driver.c: added wear levelling to mode switching to protect EEPROM
+
+	* driver.c: added timer prescaling config option
+
+	* driver.c: added mode functions for SOS, alpine distress signal and 
+	fading beacon
+
+	* README: added info on how to set up battery monitoring
+

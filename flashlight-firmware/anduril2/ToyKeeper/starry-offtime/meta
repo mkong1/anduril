@@ -1,0 +1,7 @@
+Description: STAR_off_time with better dual PWM config and some extras
+Button-Type: clicky
+Memory: offtime, OTC, star-configurable
+MCU: attiny13
+Authors: JonnyC, ToyKeeper
+Modes: tactical strobe, battcheck
+Extras: dual PWM, offtime-3, turbo timer

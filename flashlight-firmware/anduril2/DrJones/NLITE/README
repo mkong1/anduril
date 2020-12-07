@@ -1,0 +1,32 @@
+Since you can't backup the original NANJG firmware (it's protected, you only
+get garbage if you try), you can't restore it's functionality if you flashed a
+new firmware to it. Here's a firmware that is somewhat similar (i.e. the mode
+group is selected by solder bridges between stars and the outer ring), but with
+more and different groups that seem to be needed more often (no blink modes).
+
+It's levels are 5%-33%-100% and optionally a moon mode (a few milliamperes,
+depending on hardware variations like LED voltage).
+
+star	open					closed (soldered)
+1	The 1st star is a dummy and not connected anyway.
+2	3 modes L/M/H				4 modes, additional moon level
+3	ascending mode order (moon/)L/M/H	descending mode order H/M/L(/moon)
+4	classic memory				no memory
+
+Any combination is valid, so these are 8 groups in total and should meet most
+people's needs.
+
+Example: Moon/Low/Mid/High, no memory: Solder stars 2 and 4 to ground (the
+outer ring).
+
+It also has a PWM frequency of 18kHz, which is not visible and not audible (no
+whining noises).
+
+Battery monitoring: Whenever the battery falls below 3V under load, brightness
+is reduced (about half).
+
+Recommended fuses are low: 0x75, high: 0xFF.
+
+Firmware download: nlite.hex, it's completely free (including commercial use).
+Please consider sending me a message if you use it commercially (i.e. sell
+drivers/dropins/lights etc); just for curiosity.

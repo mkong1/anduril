@@ -1,0 +1,11 @@
+ATTiny starter code
+tterev3
+Tue, 05/06/2014 - 12:30
+
+I put together this simple flashlight example code for the ATTiny10 after a
+request from Microa in my PIC quickstart thread, but it didn't seem appropriate
+to post there. Hopefully it will help anyone getting started with coding for
+ATTiny devices. This implements a simple 3-level light plus off using a
+momentary switch and includes voltage monitoring. I hope it can provide a
+foundation for anyone who wants to develop their own UIs. Let me know if there
+are any questions about the implementation

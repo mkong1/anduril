@@ -1,0 +1,40 @@
+This UI is similar to STAR momentary.  The interface is:
+
+From off:
+
+  - Short press to enter the lowest level.
+  - Long press to enter the highest level.  Keep holding to step down to 
+    lower levels, and release when the desired level is reached.
+  - Short-then-long press to display battery status and then shut off.
+
+While on:
+
+  - Short press to increase brightness level.
+  - Long press to decrease brightness level.  Keep holding to keep 
+    decreasing.
+
+The long press (and hold) action will stop when it reaches the "off" 
+state, so you can always shut the light off by holding the button down.
+
+Turbo step-down (30 seconds) and low-voltage protection are enabled by 
+default.
+
+The battery check mode reads the voltage a few times with no significant 
+load, then should blink up to five times:
+
+  - 0 blinks: < 3.3V        (low battery, recharge ASAP!)
+  - 1 blink : 3.3V to 3.6V  (0% to 25% full, probably time to recharge)
+  - 2 blinks: 3.6V to 3.8V  (25% to 50% full)
+  - 3 blinks: 3.8V to 4.0V  (50% to 75% full)
+  - 4 blinks: 4.0V to 4.2V  (75% to 100% full)
+  - 5 blinks: > 4.2V        (4.35V battery or > 100% full)
+
+For more information on what the above means for different types of 
+batteries, see the charts in this post:
+
+  http://www.candlepowerforums.com/vb/showthread.php?345795-Estimating-remaning-capacity-in-LiIon-batteries
+
+The short version is: high-amperage batteries maintain a higher voltage 
+than high-capacity batteries, so one blink might mean 5% full for a 
+high-amp cell while it would mean 30% full for a high-cap cell.  It is 
+recommended that you remember what kind of battery is being used.

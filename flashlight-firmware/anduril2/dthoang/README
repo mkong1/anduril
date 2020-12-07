@@ -1,0 +1,39 @@
+STAR Firmware by JonnyC - Source Code and Explanation
+new code version 1.1
+dthoang
+Mon, 01/19/2015 - 02:40
+#898
+
+* ToyKeeper wrote:
+> * dthoang wrote:
+> >  I am trying to replicate the OLight S20 Baton but without flash modes.
+>
+> You might be interested in Baton.c / Baton.hex in my code repo, under
+> ToyKeeper/Ferrero_Rocher/ . The link is below, in my signature.
+>
+> It implements the Olight Baton interface (including soft lockout), but without
+> the flash modes.
+
+I cleaned up the UI and adopted the blink-on-power option from your Baton.c
+code.
+
+Here is the modified UI:
+
+From OFF:
+
+  * Short press turns ON to last mode.
+  * Long press turns ON to moon.
+  * Double press turn ON to turbo.
+
+From ON:
+
+  * Short press turns OFF.
+  * Long press cycles to next mode. Keep pressing to continue cycling.
+  * Double press cycles to previous mode. Keep pressing to continue cycling.
+
+Notes:
+
+  * There is no previous mode from moon. This is to prevent jarring transition
+    from moon to turbo.
+
+https://docs.google.com/document/d/1UDpOdG98RQDNvgPmMDsKvbe9mGdbI3vw2-Nun9SVhEs/edit?usp=sharing

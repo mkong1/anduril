@@ -1,0 +1,11 @@
+182 - 4.17V
+125 - 3.00V
+#define ADC_42          185 // the ADC value we expect for 4.20 volts
+#define ADC_100         185 // the ADC value for 100% full (4.2V resting)
+#define ADC_75          175 // the ADC value for 75% full (4.0V resting)
+#define ADC_50          164 // the ADC value for 50% full (3.8V resting)
+#define ADC_25          154 // the ADC value for 25% full (3.6V resting)
+#define ADC_0           139 // the ADC value for 0% full (3.3V resting)
+#define ADC_LOW         123 // When do we start ramping down
+#define ADC_CRIT        113 // When do we shut the light off
+

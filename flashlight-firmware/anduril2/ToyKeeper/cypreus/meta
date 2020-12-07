@@ -1,0 +1,7 @@
+Description: TK's Sinner Cypreus full-featured clicky firmware
+Button-Type: clicky
+Memory: offtime, OTC, none
+MCU: attiny13
+Authors: ToyKeeper
+Modes: battcheck, party strobe, beacon, bike flasher, variable strobe
+Extras: offtime-3, hidden modes, self-adjusting moon, turbo timer

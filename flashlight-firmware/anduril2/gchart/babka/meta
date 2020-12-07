@@ -1,0 +1,12 @@
+Description: "Babka" firmware for nanjg-style drivers
+  http://budgetlightforum.com/node/50088
+  Based on biscotti, but with more/different mode groups, hidden blinkies
+  toggle, turbo timer with ramp-down, factory reset, etc.
+  (needs more details here)
+Button-Type: clicky
+Memory: offtime, configurable
+MCU: attiny13
+Authors: gchart, ToyKeeper
+Modes: battcheck, tactical strobe, beacon, config, SOS
+Extras: mode groups, LVP, turbo timer
+License: GPLv3

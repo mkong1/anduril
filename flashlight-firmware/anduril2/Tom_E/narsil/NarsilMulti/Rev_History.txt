@@ -1,0 +1,87 @@
+Vers 1.3 2018-08-11:
+- make SaveConfig() safer by disabling ints, ensure 0xff's get written in old position, using library routine first
+  eeprom writes and not using eeprom erase
+- limit mode set choices to just those sets that are compiled in, if it's 12 or 8 sets for example
+
+Vers 1.3 2018-07-29:
+- added the TWOCHAN_3C_PINS option, so a standard TA triple board can be used in FET+1 mode (no 7135 bank needed)
+
+Vers 1.3 2018-01-28:
+- added support for TA's driver for the new Astrolux S42. It uses the single 7135 on pin #3 and the FET on pin#5, with the Indicator LED on pin #7.
+
+Vers 1.3 2017-10-16:
+tweaks made to battery voltage level readings:
+- The single cell mode using the internal V ref and no resistors appears to be more accurate now, rounded to the blinked out value.
+- for using R1/R2, it should also be more accurate now - still in testing
+
+
+----------------------------------------------------------------
+Vers 1.2 2017-10-16
+- changed momentary/tactical mode so fast clicks have no effect, and only way to exit is to power cycle
+
+Vers 1.2 2017-10-15
+- if strobes are disabled, a 2X click from 2X turbo should restore the previous level you were at
+- BUG FIXED: 4X clicks in modes operation engages lockout - not supposed to
+- operation change: make click&hold in MODES or STROBES wrap from 1st mode to last
+- BUG FIXED: in LVP switch LED control: the LED sometimes is left on after an LVP drop, and is not
+  blinking the way it should be. The "bug" is that I'm trying to control the switch LEDs from
+  multiple places so it's getting turned off quickly after turned on, and left on when it should
+  be left off. It's a timing thing, so has sort of a random pattern - sometimes left on, sometimes
+  left off. The 8 sec LVP blink need to be qualified better, and should not be calling Setlevel()
+  as is because it wants to control the LED
+- BUG FIXED: temp stepdown should not happen right away from turn ON. Delay it by 15 seconds
+- BUG FIXED: for temperature stepdown, in moon mode, a temp stepdown is actually done because moon
+  mode is marked as special level 255, which is considered as a high level of output instead of very
+  low. The stepdown results in the light switching much brighter. This should only happen id the
+  temperature threshold is set to a low temp, or the light is still hot and not cooled down when moon
+  mode is chosen. It can also result in an immediate jump to the stepdown level as soon as the light
+  is turned on in moon mode. Might appear as a bright flash when ramping first starts.
+
+----------------------------------------------------------------
+Vers 1.1 2017-08-12
+- added in the BLF GT Buck driver support, all conditionally compilied in
+- to build what you want, choose the applicable setup header file, and tk-calib header file.
+- added capability to ramp to less tham max FET/Buck, then dbl click goes to full max
+- added a new momentary/tactical mode feature 5X click to enter/exit it, it blinks 5X (2 slow, 3 quick)
+  on entry and exit. Also if the blinkies are disabled, the 2X click in ramping turbo will instead
+  enter momentary mode, then 2X or 5X exits.
+- fixed a bug for 3 channel, #6 mode set where 5% was set wrong: was 255, 10%, corrected to 150
+
+Vers 1.0 2017-05-29
+- restored default moon level PWM value back to 3 for the 2 channel Q8. The ramping table
+  starts at level 3, so to work with the current ramping nicely, 3 should be defaulted
+Vers 1.0 2017-05-28
+- bumped up the default moon level from a PWM value of 3 to 4, just in case the low value gives
+  us problems with the 7135's in production (4 is a little better, might not be enough)
+- changed default temp stepdown from 54 to 55
+Vers 1.0 2017-05-20
+- in ramping, when you 3X click for battery level, or 4X click for lock-out, no more max
+  level flashing. So a 2X click to max is now slightly delayed
+- in Mode Sets, you can now access temp readings and version # readings (2X click navigate,
+  just like in ramping)
+- reset to factory defaults is now accessible from Mode Sets (non ramping) because you can
+  get into the version # blinking out state
+- in Mode Sets, slightly lengthened time it takes to get into strobe (1.1s to 1.2s): trying
+  to make it slightly harder to inadvertently access it
+- in Mode Sets, lengthened the time to get into the Config Settings UI (from 2.5s to 3.2s):
+  also attempt to make inadvertent access slightly less likely
+- Lock-Out can be exited by either 2X click and quick click&hold, or 4X clicks. This way
+  the light can be in Lock-Out and use the "Mode Sets" way to exit, or the "Ramping" way to exit
+
+Vers 1.0 2017-05-14 --> Initial Release
+- combined Narsil (2 chans) with NarsilTriple, and breaking out compile time settings
+  to a separate header file called: setups.h
+- Bug Fix: in ramping, blinky modes were unconditionally being invoked even if disabled by
+  the user -- fixed this
+- Bug Fix: in Mode Sets confoguration, the timed/thermal step down settings were not handled
+  right, mis-interpreted -- fixed this
+- New Feature: you can now reset the settings to factory defaults by press&hold while in
+  version # display mode
+- changed the intense (1st) strobe to 18 Hz from 16 Hz (made it more intense) and added
+  the setting as an option in setups.h
+- timeouts for a configuration setting of no clicks was 3.2 seconds, now 3.5 seconds:
+  slightly longer.
+- timeouts for a configuration setting with clicks was 1 second, now 2 seconds: longer
+ (this timeout was pretty quick)
+
+

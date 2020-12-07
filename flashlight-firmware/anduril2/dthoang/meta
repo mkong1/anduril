@@ -1,0 +1,7 @@
+Description: Olight Baton-like UI
+Authors: dthoang, JonnyC
+MCU: attiny13
+Button-Type: momentary
+Memory: none
+Modes:
+Extras: Baton UI, turbo timer

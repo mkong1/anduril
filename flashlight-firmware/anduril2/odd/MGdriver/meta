@@ -1,0 +1,14 @@
+Description: Off-time multigroup driver by odd, based on luxdrv030 by DrJones
+     Main differences to luxdrvß30:
+     - REMOVED: Ramping mode
+     - REMOVED: Wear leveling
+     - CHANGED: OFFTime memory instead of ONTime memory
+     - ADDED: Multiple groups
+     - ADDED: Memory or nomemory selectable for each group
+     - ADDED: Simple UI for switching groups
+Authors: odd, DrJones
+MCU: attiny13
+Button-Type: clicky
+Memory: offtime, none
+Modes: beacon, strobe
+Extras: mode groups

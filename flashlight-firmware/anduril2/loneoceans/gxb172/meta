@@ -1,0 +1,13 @@
+Description: GXB172 driver example firmware
+    Single-Cell ~50W 17mm Boost LED Flashlight Driver
+    Note - The ATtiny841 is configured to run with internal 8MHz oscillator, low CKDIV8 unchecked
+        As a result, set fuses to 0xFF, DF, C2 (ext, Hi, Low)
+        This firmware is a very preliminary firmware and there will probably be several bugs! Use at your own risk :)
+    http://www.loneoceans.com/labs/gxb172/
+    https://github.com/loneoceans/gxb172-attiny841
+Authors: loneoceans
+MCU: attiny841
+Button-Type: momentary
+Memory: yes
+Modes:
+Extras: thermal regulation

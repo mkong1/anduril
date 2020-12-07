@@ -1,0 +1,164 @@
+RampingIOS V2 Manual
+
+This Markdown-formatted manual was contributed by phil_g under a 
+Creative Commons CC0 waiver:
+  http://aperiodic.net/phil/archives/Geekery/rampingios-v2.html
+  https://creativecommons.org/publicdomain/zero/1.0/
+
+<figure style="float: right">
+  <a href="https://bazaar.launchpad.net/~toykeeper/flashlight-firmware/emisar-d4/download/head:/d4uiv2.png-20170728053640-qi1sb2a4z410pcs7-1/d4-ui-v2.png">
+    <!-- img width="256em" src="https://bazaar.launchpad.net/~toykeeper/flashlight-firmware/emisar-d4/download/head:/d4uiv2.svg-20170728053640-qi1sb2a4z410pcs7-2/d4-ui-v2.svg" -->
+    <img width="256em" src="https://bazaar.launchpad.net/~toykeeper/flashlight-firmware/emisar-d4/download/head:/d4uiv2.png-20170728053640-qi1sb2a4z410pcs7-1/d4-ui-v2.png">
+  </a>
+  <figcaption>RampingIOS V2 UI diagram</figcaption>
+</figure>
+    
+The Emisar [D4][emisar-d4], [D1][emisar-d1], and [D1S][emisar-d1s]
+flashlights all use a firmware named RampingIOS V2.  (The earliest D4s
+were released with V1, but there aren't many of those around.  The Emisar
+[D4S][emisar-d4s] uses [RampingIOS V3][rampingios-v3].)  There's not
+really a manual; the only thing we get is the diagram on the right.  It's
+pretty comprehensive, but I thought a textual manual would be nice, so I
+decided to write one.
+
+  [emisar-d4]: https://intl-outdoor.com/emisar-d4-high-power-led-flashlight-p-921.html
+  [emisar-d1]: https://intl-outdoor.com/emisar-d1-mini-thrower-p-922.html
+  [emisar-d1s]: https://intl-outdoor.com/emisar-d1s-thrower-p-926.html
+  [emisar-d4s]: https://intl-outdoor.com/emisar-d4s-26650-high-power-led-flashlight-p-932.html
+  [rampingios-v3]: http://aperiodic.net/phil/archives/Geekery/rampingios-v3.html
+
+The Emisar lights only work when the head and tailcap are tightened fully.
+You can physically lock out the lights--prevent them from turning on
+accidentally--by simply loosening the tailcap a small amount.  A quarter
+turn will do it.
+
+The lights use a ramping interface.  Rather than have a small number of
+distinct brightness levels, they can vary their brightness anywhere
+between their lowest and highest levels, like a light on a dimmer.
+
+The drivers for the lights have two different chipsets.  At low brightness
+levels, a fairly-efficient but low-power chipset (called a *7135*) is
+used.  These lowest brightness levels are called the "*regulated levels*".
+Each regulated level will always be the same brightness regardless of how
+much charge the battery has.  Above a particular brightness level, the
+light switches over to a less-efficient but high-power chipset (called a
+*FET*).  These levels are called "*direct-drive*".  The brightness of the
+direct-drive levels is directly related to the battery's charge level; the
+more charged the battery, the brighter the levels.  The lights are at
+their most efficient, in terms of power used for every lumen generated, at
+the brightest regulated level.  When the light is first powered by
+tightening the tailcap, it will default to this level.
+
+At higher brightness levels, the lights' LEDs generate a lot of heat.  If
+a light exceeds its configured maximum temperature, it will begin dimming
+itself automatically until the temperature drops below the allowed
+maximum.
+
+#### Basic Usage
+
+While the light is off, press and release the button (**1 click**) to turn
+it on.  It will turn on at the last-used brightness level.  (This is
+called "*mode memory*".)  Immediately after loosening and tightening the
+tailcap (or after changing the battery), the default level will be the
+light's max regulated level.
+
+When the light is on, 1 click will turn it off.  The current brightness
+level will be memorized for future use.
+
+When the light is on, holding the button down with gradually brighten the
+light ("*ramping up*").  If you release the button and immediately hold it
+again, the ramping direction will switch, so if it had been ramping up
+it'll be dimming ("*ramping down*") afterward.
+
+While the light is ramping, it'll briefly blink off and on again at three
+different brightness levels: the minimum brightness, the maximum
+brightness, and the maximum regulated level.
+
+While the light is either on or off, double-pressing the button (**2
+clicks**) will immediately jump to the maximum brightness level.  Another
+two clicks will go back to the previous brightness level.  If the light
+was off before the the initial two clicks, the second two clicks will go
+to the memorized brightness level.
+
+While the light is off, if you hold the button the light will turn on at
+its lowest level.  If you continue holding the button, the light will
+begin ramping up.
+
+#### Other Modes
+
+The other modes largely involve multiple clicks from off.  They're not
+generally needed for everyday use, but they supplement the light's basic
+operations.
+
+##### BattCheck/TempCheck Modes
+
+From off, **3 clicks** will enter "BattCheck" mode, which gives the
+battery level.  It blinks out the current battery voltage.  First it
+blinks the number of volts, then it pauses, then it blinks out the tenths
+of volts.  Thus, if the battery were at 3.5 volts, the light would blink
+three times, pause, then five times.  For zeroes, it gives a very short
+blink.
+
+A fully-charged lithium-ion battery is 4.2 volts.  The light considers 2.8
+volts to be an empty battery and won't turn on if the battery is at or
+below 2.8 volts.
+
+The voltage sequence will continue blinking until you turn off the light
+with a single click.
+
+While the light is in BattCheck mode, **2 clicks** will enter TempCheck
+mode.  Instead of blinking out the battery voltage, the light will start
+blinking out its current temperature in degrees Celsius, first the tens
+digit then the units digit.  Like BattCheck mode, the light will continue
+blinking out the temperature until you turn it off with a single click.
+
+##### Tactical Mode
+
+From off, **4 clicks** will enter "tactical" or "momentary" mode.  The
+light will flash four times to show that it's entered the mode.  In
+tactical mode, the light will turn on at maximum brightness for as long as
+the button is being held down.  It will turn off as soon as the button is
+released.
+
+Another 4 clicks will exit tactical mode.  The light will flash twice to
+show that it's left the mode.
+
+##### Lockout Mode
+
+From off, **6 clicks** will enter lockout mode.  The light will flash four
+times to show that it's entered the mode.  In lockout mode, the light will
+not turn on, no matter how the button is pressed.
+
+Another 6 clicks will exit lockout mode.  The light will flash twice to
+show that it's left the mode.
+
+Remember that loosening the tailcap a quarter turn will also lock out the
+light.  Using the 6 clicks is called "*electronic lockout*", while turning
+the tailcap is "*physical lockout*".
+
+##### Beacon Mode
+
+From off, **8 clicks** will enter beacon mode.  In beacon mode, the light
+will blink on and off every two and a half seconds.
+
+1 click will exit beacon mode.
+
+##### Thermal Configuration Mode
+
+From off, **10 or more clicks** followed by holding down the button will
+enter thermal configuration mode.
+
+In thermal config mode, the light will first blink out the current maximum
+temperature.  As with TempCheck mode, it blinks the tens digit followed by
+the units digit.  If you release the button at this point, the light will
+turn off and no changes to the configuration will be made.
+
+If you continue to hold the button, the light will then flicker for a
+second or so.  After that, it will turn on at its maximum brightness.  It
+won't turn off until you release the button, which you should do when you
+feel like the light has gotten too hot.  The temperature at that point
+will be the new maximum temperature.  The light will blink out that new
+maximum temperature and then turn off.
+
+The default temperature threshold is 45°C.
+

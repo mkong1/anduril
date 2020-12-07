@@ -1,0 +1,10 @@
+Description: OTSM example code (offtime sleep mode)
+  for measuring button-press time accurately while power is disconnected
+  http://budgetlightforum.com/comment/1395867#comment-1395867
+Button-Type: clicky
+Memory: offtime, OTSM
+MCU: attiny25
+Authors: Flashy Mike
+Modes:
+Extras: dual PWM, offtime-3, OTSM
+License: unspecified

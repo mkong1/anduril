@@ -1,0 +1,8 @@
+Description: ramping e-switch firmware for Emisar products (D4, ...)
+  (based on Narsil)
+Authors: Tom E, ToyKeeper, JonnyC
+MCU: attiny45, attiny85
+Button-Type: momentary
+Memory: yes
+Modes: ramp, beacon, battcheck, tempcheck, soft lock, momentary
+Extras: ramping UI, soft lock, thermal regulation, LVP, dual PWM

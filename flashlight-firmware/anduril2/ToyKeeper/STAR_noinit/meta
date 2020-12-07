@@ -1,0 +1,8 @@
+Description: STAR noinit (STAR_off_time with mem-decay instead of OTC)
+Button-Type: clicky
+Memory: offtime, mem decay, star-configurable
+MCU: attiny13
+Authors: JonnyC, ToyKeeper
+Modes:
+Extras: dual PWM, star-configurable moon, star-configurable mode order, turbo
+  timer

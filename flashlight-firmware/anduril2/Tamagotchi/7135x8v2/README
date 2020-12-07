@@ -1,0 +1,88 @@
+From http://budgetlightforum.com/node/799?page=27#comment-744725
+
+* Serp wrote:
+Hi
+This project has been developing for several years.
+From forum.fonarevka.ru/showthread.php?t=20782
+This firmware - as Lego
+you can choose what you need
+for thermal control you need to solder the NTC thermistor to 3 and 4 legs
+
+http://109.87.62.61/uploads/LD_7135_v_2.6.5.zip
+
+(pic of driver, driver-layout.jpg)
+
+If you have any questions I will try to answer (but only with the use of Google Translate :)
+
+
+-----
+
+From http://forum.fonarevka.ru/showthread.php?t=20782
+* Tamagotchi wrote (2013-05-12): (translated by Chrome)
+The first part of the topic here http://forum.fonarevka.ru/showthread.php?t=15966
+
+----------------------- A new modification of LED driver Nanjg 105C . To work
+in addition to the firmware you must first modify the driver 8x7135
+http://avr.tamatronix.com/3-8x-amc7135-attiny13a-led-driver soldered capacitor 5uF
+between the first leg of the MC and the ground. What can a modified driver :
+
+That our driver is able to:
+- Switching modes in one click.
+- Three or four modes. *
+- Switching down - from the powerful to the weak mode or weak to the powerful. *
+- You can select currents: *
+  * 0005mA - Included 1pc. AMC7135 and controlled PWM
+  * 0075mA - Included 1 pc. AMC7135 and controlled PWM
+  * 0175mA - Included 1 pc. AMC7135 and controlled PWM
+  * 0350mA - Included 1 pc. AMC7135, PWM is not used
+  * 0700mA - Includes 2 pcs. AMC7135, PWM is not used
+  * 1050mA - Includes 3 pieces. AMC7135, PWM is not used
+  * 1750mA - Includes 5 pieces. AMC7135, PWM is not used
+  * 2100mA - Included 6 pcs. AMC7135, PWM is not used
+  * 2450mA - Enabled 7units. AMC7135, PWM is not used
+  * 2800mA - On 8 pieces. AMC7135, PWM is not used
+- Calibrated protection from overheating or lack of such opportunities *
+- Mode Memory or No memory mode *
+- In an unconscious mode is possible to set the starting number mode *
+- Option memory uses wear leveling. This means that our driver is not exhausted
+  the resources of records in the EEPROM even with the most ruthless
+  exploitation.
+- Option without memory does not use record in the EEPROM when switching modes.
+- Protection against contact bounce buttons - the driver will not randomly
+  change modes and will not once again trigger protection against battery
+  discharge or overheating.
+- "Sucker" battery - switching to a low-current when the battery is critically
+  low on voltage, and then completely turning the lamp at full charge.
+- Displays the battery voltage is included three very quick click the power
+  button. Fully charged - 5 blinks, unloaded - one flash.
+- Status display temperature control ** If TC is disabled, the display after
+  the battery driver includes 0.5 sec series of quick flashes.
+- Strobe mode *
+- Mode Alpine distress signal *
+- You can select the number of short clicks to turn on the battery display
+  modes, strobe and distress. *
+
+* Select when compiling
+
+source code version 2.0 from 20.05.2013 here . Example settings for specific
+needs here . Home Page new fashion: http://avr.tamatronix.com/ To disable
+thermocontrol enter the calibration mode and disable 2 seconds (instead of
+short-click to save the value). Lamp turns on without a short gate and TC will
+be disabled. 20/07/2013 Skompiliny HEX V2.1 and description in this post.
+25.07.2013 source v2.2 . Some #define not work. 26/07/2013 Version 2.3 with
+ramping and without gates. Video of the ramping and skompileny HEX here . The
+source code here. For those who are not versed in the AVR Studio - a quick
+tutorial here . Modification of DooMmen here .
+
+http://forum.fonarevka.ru/showpost.php?p=329420&postcount=173
+http://forum.fonarevka.ru/showpost.php?p=328923&postcount=166
+http://avr.tamatronix.com/
+http://forum.fonarevka.ru/showpost.php?p=354390&postcount=445
+http://forum.fonarevka.ru/showpost.php?p=356859&postcount=465
+http://forum.fonarevka.ru/showpost.php?p=357710&postcount=479
+http://forum.fonarevka.ru/showpost.php?p=357873&postcount=484
+http://forum.fonarevka.ru/showpost.php?p=394789&postcount=620
+http://forum.fonarevka.ru/showpost.php?p=476547&postcount=24
+
+
+[Fixed: Tamagotchi, 14.02.2014 at 20:45 ]

@@ -1,0 +1,7 @@
+Description: STAR for combined momentary+clicky switch lights
+Authors: JonnyC
+MCU: attiny13
+Button-Type: momentary, clicky
+Memory: star-configurable
+Modes:
+Extras: star-configurable mode order, turbo timer

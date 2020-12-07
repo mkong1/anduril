@@ -1,0 +1,7 @@
+Description: PIC 10f322 examples
+Authors: tterev3
+MCU: pic10f322
+Button-Type: clicky, momentary
+Memory: offtime, mem decay
+Modes: tactical strobe
+Extras:

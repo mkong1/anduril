@@ -1,0 +1,60 @@
+This is a slightly modified version of the firmware for my Convoy 
+S7-219B, which is itself a heavily-modified version of JonnyC's STAR 
+on-time firmware.
+
+The hardware I'm using is a first edition of CNQG / FancyFlashlight's 
+"Brass 18650 EDC" light, with a XP-G2 R5 3B at 1400mA.  (at least, until 
+I upgrade the emitter to a Nichia 219B ~5000K 92CRI)
+
+The modes are as follows:  (with output measurements from my personal light)
+
+- 1 tap: moon / 0.45 lm
+- 2 taps: low / 8.9 lm
+- 3 taps: med / 46.6 lm
+- 4 taps: high / 173.6 lm
+- 5 taps: max / 403 lm  (no turbo step-down)
+- 6 taps: 1Hz moon-med flasher (actually, off-med due to a bug)
+- 7 taps: 1Hz low-high flasher
+- 8 taps: 1Hz med-max flasher
+- 9 taps: 1Hz heartbeat beacon
+- 10 taps: 12Hz true strobe
+- 11 taps: 24Hz true strobe (my favorite)
+- 12 taps: 60Hz true strobe
+- 13 taps: ~7Hz to ~18Hz self-ramping strobe
+- 14 taps: battery check mode (each flash represents 25% total charge)
+
+It uses "short-cycle" memory, so the next tap will reset to the first 
+mode after it has been on for one full second.  This means you don't 
+have to go through all the blink modes to get back to moon or low.
+
+Every mode except 'moon' uses fast PWM (18 kHz).  Moon mode uses 
+phase-correct 9 kHz PWM.
+
+The "flasher" modes blink 4 times quickly on the higher of the two 
+levels, then stay on at the lower level, and repeat this cycle once per 
+second.  The timing is roughly 5ms for each blink, 65ms between, then 
+720ms of additional low mode until it starts over.  This is good for 
+high-visibility when you need to both see and be seen, such as on a 
+bike.
+
+All strobes are "true" motion-freezing strobes, not tactical strobes.
+
+The self-ramping strobes are just for fun.  Point one at a spinning fan.
+
+There is a low-voltage monitor, but I'm not sure if it works quite right 
+because I haven't tested it yet.  It will simply step down to 'low' mode 
+when the battery is low, unless it's already at 'low', in which case it 
+will shut off.
+
+The battery check mode will continuously read the voltage then blink to 
+show the approximate remaining charge.  The blinks are as follows:
+
+  - 0 blinks: < 3.0V
+  - 1 blink: 3.0 - 3.3V
+  - 2 blinks: 3.3 - 3.6V
+  - 3 blinks: 3.6 - 3.9V
+  - 4 blinks: 3.9 - 4.2V
+  - 5 blinks: > 4.2V
+
+No settings can be configured by soldering stars.  You'll need to 
+recompile and reflash to change anything.

@@ -1,0 +1,116 @@
+luxdrv 0.3 was my first firmware. It features short-cycle memory, ramping,
+battery monitoring (reduces brightness when batt is low, and has a battery
+level indicator).
+
+It's source code is available here(1), it's free for private and noncommercial
+use for members of BudgetLightForum.com and Taschenlampenforum.de
+
+[1] http://drjones.nerdcamp.net/luxdrv030.c
+
+-----
+
+luxdrv 0.4 is it's successor.
+Key features: Short-cycle memory, Ramping, programmable (i.e. modes are
+configurable by the user, by a number of taps), the number of modes can be
+changed, too. Has low-batt step-down (reduces brightness when battery is low)
+and battery indicator.
+
+-----
+
+http://budgetlightforum.com/node/5411
+luxdrv - custom modes driver firmware with ramping
+DrJones
+Sat, 11/05/2011 - 08:59
+
+
+This is about programming a driver yourself with all the modes you want; just
+like Tido's thread "How To Build a Flashlight With Perfect Modes (picture
+heavy)". It got quite lengthy, so I started a new one for my driver program.
+
+I finally found the time to program my own driver. After playing with the three
+pocket XM-L lights in the last week I found it good enough to publish it here.
+
+
+It has less features than Tido's, so it leaves room for improvements (meaning
+that there's indeed quite some free space left to do so). It doesn't have any
+battery monitoring yet.
+
+It implements sixty545's UI(post #254), which after some testing I found very
+nice. Gives you lots of modes without the need to cycle through all of them
+when switching between the favourites. Leaving the light on for only a short
+time (<2s) and the switching it off again will bring you to the next mode when
+you switch it on again. Leaving it on for longer will memorize this mode for
+the next time; but if you change modes again it will start from the first mode
+in the mode order. If you put your favourite modes to the front, this is a
+quite nice UI I think.
+
+Current modes are moon-medium-high- 6 levels of brightness
+-strobe-beacon-timer. 
+
+As a special mode I added a 5-minute timer - partly for fun, but I do need a
+5-minute timer relatively often.
+
+One of the PROs of this driver is the wide EEPROM wear leveling; writes are
+spread over 32bytes, and only 1-3bytes are written each time the light is
+switched on. A ramping mode might be feasible that way. 
+
+It is supposed for/tested on the NANJG 105C (2.8A) and NANJG 101-AK (1.05A+)
+drivers using AMC7135s and the ATtiny13A micro-controller.
+
+Tido's thread mentions everything you need, so here's a short version:
+
+  * Driver: NANJG 105C or  NANJG 101-AK or similar
+  * Programmer for flashing the program to the controller: there seem to be
+    some available for 4$ on ebay (search for "avr programmer").
+  * a clip for contacting the controller, search for "soic8 clip" at ebay
+  * Software: I use AVRstudio4 with WinAVR
+
+The driver program is just a C file; you could create a new project for the
+ATtiny13A using the wizard and then just copy&paste the contents into that
+projects C file.
+
+Since I am very sensitive to PWM (I easily notice 2kHz PWM...), I meanwhile use
+a CPU frequency of 4.8MHz with a PWM frequency of 9.4kHz, difficult to notice
+even if I want to Smile That means a low fuse of 0x75 (and I use a high fuse of
+0xff) and the lowest usable PWM value is 5. Shorter PWM pulses are too short to
+activate the AMC7135s.
+
+UPDATE: luxdrv 0.22 with ramping
+
+I implemented ramping, have played with it for a while and found it nice, so
+here's the new version officially:
+
+Standard modes are now (can be easily changed of course): 
+  moon - medium - high - ramping - use selected level - strobe - beacon - timer
+Tapping the switch while ramping will select that level. The ramp is actually
+25 levels 'only', so you can see it stepping up&down. Brightness doubles about
+every 5 steps (the darkest levels are spaced a bit wider).
+
+I also implemented sixty545's idea of skipping the 1st mode when starting over
+after already being in 1st mode. Also changed the wear leveling method; it
+writes even a bit less bytes now, but it does write 25 bytes per ramp, so you
+probably shouldn't use that for hours (~700 writes per EEPROM cell per hour).
+
+UPDATE: luxdrv 0.30 - added battery monitoring
+
+I implemented battery monitoring:
+
+  * When the battery (under load) goes below ~3.0V, the light automatically
+    steps down in brightness (halves the output); the reduced load usually gets
+    the battery voltage above 3V again. When it falls below that threshold
+    agan, output will be halved again - and so on.
+  * Beacon mode has a battery indicator: Before actually starting beacon mode,
+    a number of (low intensity) blinks indicates battery level (without load),
+    ~12 blinks is full, ~5 blinks is nearly empty. It's about one blink for
+    every 0.1V over 3.0V (cell voltage *without load*).
+  * Note that those values are not accurate due to production variances in the
+    microcontroller's internal voltage reference.
+
+Update: luxdrv 0.30b - improved config, const progmem, no dummy any more, timer
+removed, 4 main modes as default
+
+Driver download links:
+luxdrv 0.1
+luxdrv 0.22 with ramping
+luxdrv 0.30b, added battery monitoring 
+

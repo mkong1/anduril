@@ -1,0 +1,29 @@
+DrJones
+Sun, 07/27/2014 - 05:59 
+#44
+
+This thread inspired me to make some heartbeat effect... It's greatly inspired
+by hours of listening to the heartbeats of our children right before birth
+(cardiotocography), sometimes with the pulse rate going up (usually when the
+baby moves), sometimes down below good values, which always made my own
+heartbeat rise... (Fortunately we didn't have much of those... My
+implementation has more of them.)
+
+It's random, but not as random as the examples above. I sort of shaped
+randomness to get a less erratic, more organic effect.
+
+-> http://youtu.be/kk-JXUZ9GXo
+
+
+
+DrJones
+Wed, 07/30/2014 - 04:43 
+#59
+
+I cleaned it up a bit...
+
+The double pulse is just a ramp up, half a ramp down and up again, then back
+down to 0.
+
+
+Nice idea to react on visitors, an anthropophobic statue :)

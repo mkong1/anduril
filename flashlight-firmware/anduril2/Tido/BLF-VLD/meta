@@ -1,0 +1,9 @@
+Description: Tido's Budget Light Forum Versatile LED Driver
+  http://budgetlightforum.com/node/799
+Button-Type: clicky
+Memory: ontime
+MCU: attiny13
+Authors: Tido
+Modes: strobe, distress beacon, SOS, fade
+Extras: programmable modes
+License: GPLv2+

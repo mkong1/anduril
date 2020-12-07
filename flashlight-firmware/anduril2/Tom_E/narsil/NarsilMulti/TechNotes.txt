@@ -1,0 +1,55 @@
+	Program Memory Usage 	:	7248 bytes   88.5 % Full
+	Data Memory Usage 		:	149 bytes   29.1 % Full
+
+	Program Memory Usage 	:	7240 bytes   88.4 % Full
+	Data Memory Usage 		:	149 bytes   29.1 % Full
+
+
+v1.3 start on 2018-08-11:
+	Program Memory Usage 	:	7236 bytes   88.3 % Full
+	Data Memory Usage 		:	149 bytes   29.1 % Full
+
+
+Changes from Narsil Q8 1.3:
+--> 7610 bytes to start with in v1.3
+
+w/config settings initialized as it was: 7668 bytes
+w/config settings not initialized: 7660 bytes
+-->7716, with adding SetConfigDefaults() call
+-->7690, bug fix for mode sets  stepdown config UI, optimize UI config for step down
+-->7700, bug fix for blinkyMode disabled in ramping
+-->7684, removed LockOutEnable flag, replaced with LOCKOUT_ENABLE
+-->7676, inline the function: SetConfigDefaults()
+-->7916, adding reset to factory defaults (press&hold while blinking firmware vers #)
+-->7172, removed inline from DefineModeSet()
+-->7140, after final changes
+
+-->7410 bytes, Setups-31S, for triple channel, no R1/R2, Ind. LED
+-->6984 bytes, Setups-32S, for triple channel, R1/R2, no Ind. LED
+
+May 20th:
+-->7160 bytes - Q8, delay XX click processing, use 2X clicks for batt->temp->vers nav in ramping and modes sets
+-->7178 bytes - Q8, bug fix for mode sets 2X+ clicks
+
+May 28th:
+-->7180 bytes - Setups-Q8, 2 channels, no R1/R2, Ind. LED
+-->7448 bytes - Setups-31S, for triple channel, no R1/R2, Ind. LED
+-->7028 bytes - Setups-32S, for triple channel, R1/R2, no Ind. LED
+-->6780 bytes - Setups-1Chan, for single channel, no R1/R2, Ind. LED
+
+May 29th:
+-->7178 bytes - Setups-Q8, 2 channels, no R1/R2, Ind. LED
+-->7448 bytes - Setups-31S, for triple channel, no R1/R2, Ind. LED
+-->7028 bytes - Setups-32S, for triple channel, R1/R2, no Ind. LED
+-->6780 bytes - Setups-1Chan, for single channel, no R1/R2, Ind. LED
+
+June 1st - 7448 bytes for OTR M3: 31S, -3 for temp cal, thermal stepdown
+
+Aug 12 - 7192 bytes for GT Buck Driver
+
+Aug 08 - 7378 bytes for BLF Q8
+Aug 08 - 7354 bytes for GT Buck Driver
+
+Oct 16 - 7348 bytes for 3C2S
+Oct 16 - 7476 bytes for Q8 2C1S
+Oct 17 - 7762 bytes for 3C1s

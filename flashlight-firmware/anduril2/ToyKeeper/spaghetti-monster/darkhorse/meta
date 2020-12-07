@@ -1,0 +1,10 @@
+Description: DarkHorse, a ZebraLight clone UI for FSM.
+    Almost identical to ZL's UI from 2016, but makes sub-sub-level
+    configuration easier -- "click, release, hold" instead of
+    "6+ double-clicks".
+Authors: ToyKeeper
+MCU: attiny45, attiny85
+Button-Type: momentary
+Memory: none, sub-levels, sub-sub-levels
+Modes: battcheck, tactical strobe, beacon
+Extras: thermal regulation, LVP, dual PWM, triple PWM

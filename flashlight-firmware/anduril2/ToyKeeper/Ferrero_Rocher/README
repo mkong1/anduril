@@ -1,0 +1,36 @@
+These firmwares are derived from JonnyC's dual_pwm/STAR_momentary firmware,
+and are intended for use on ATTINY13A-based drivers with an electronic /
+momentary switch.  Testing and development was done on a Ferrero Rocher DD
+driver built by Comfychair of BLF.  This driver has red and green indicator
+LEDs which are used to indicate approximate battery voltage, but that can be
+disabled at compile time for use on other drivers.
+
+http://budgetlightforum.com/node/30673
+
+Three different interfaces are provided:
+
+  - Ferrero_Rocher: Similar to STAR_momentary, but with enhancements.
+
+  - Ramping_UI_table: Smooth ramping UI.
+
+  - Baton: Stepped ramping UI.
+
+The interfaces are described in the .txt files for each.
+
+The red/green indicators are calibrated for the following:
+
+  - Green:  Battery is at 3.6V or more.
+  - Yellow: Battery is at 3.3V to 3.6V.
+  - Red:    Battery is below 3.3V.
+
+The light may flicker between two colors when voltage is near a threshold.  In
+particular, it has a tendency to flicker between green and yellow in the 3.6V
+to 3.9V range, especially if using phase-correct PWM instead of fast PWM.
+Flickering will be reduced with the "LOWPASS_VOLTAGE" option enabled, or
+increased with that option disabled.  This is a matter of personal preference,
+since the flickering can be used to get a better idea what the exact voltage
+is, instead of using the coarse voltage ranges listed above.
+
+Additionally, each time the light powers up, the main emitter should blink once
+very briefly to let you know the batteries are connected.  This can be disabled
+at compile time.

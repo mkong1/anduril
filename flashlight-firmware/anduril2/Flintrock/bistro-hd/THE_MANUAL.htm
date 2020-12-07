@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  
+<style>
+p {font-size : 16px; 
+	background-color : #f5f3ee;
+	background-color : #ececea; padding : 0;
+	background-color : #f5f3ee;margin : 0;
+	line-height : 20px; 
+	}
+
+
+pre {
+   font-family: "Courier New", courier, monospace;
+   font-size: 16px;
+}
+#text{
+   font-family: "Times New Roman", Times, serif;
+   font-size: 16px;
+}
+
+u {
+    text-decoration: underline;
+  }
+</style>  
+  
+<title>Bistro-HD Manual v1.7.1 </title>
+</head>
+
+<body style="background-color: #f5f3ee;" lang="EN-US">
+
+<div>
+
+<pre id="text" style="white-space:pre-wrap">
+<center><b>BISTRO-HD MANUAL</b></center>
+
+Flintrock, 2017 (C)
+
+Please edit the html by hand (not Word) to preserve its simple hand-editable and text-readable structure.
+
+Licensing philosophy (for the manual only, code is gpl 3)Modify and distribute all you want, but presenting it as if you wrote much more of it than you did is immoral and fraudulent. Credit to others avoids that and generally goes appreciated too. That's it.
+
+
+<center><b>Contents</b></center>
+
+i. <a href="#Overview">Overview</a>
+
+I <a href="#QuickStart">Quick Start Guide</a>
+
+II <a href="#Operation">Operation</a>
+     i.2 General Operation
+     i.3 E-switch Operation
+
+II <a href="#Features">HD features</a>
+     I.1 Software development features
+     I.2 User features
+
+IV <a href="#Firmwares">Included firmwares</a>(listing of all/most firmwares, features and uses)
+
+V <a href="#Compiling">Compiling</a>
+     IV.1 Using Atmel Studio, without the Makefile: 
+     IV.2 Compiling with the Makefile
+          IV.2.1 One-click compiling (double click really)
+          IV.2.3 Makefile tips and tricks:
+
+VI <a href="#Customizing">Customizing</a>
+     V.1 Driver board layout
+     V.2 Customizing the firmware configuration
+     V.3 Customizing Modegroups 
+     V.4 Selecting your Configuration
+
+VII <a href="#Calibration">Calibration</a>
+     VII.1  Voltage Calibration with battcheck
+          VII1.1.a Divider read calibration
+          VIII.1.b Inverted ("internal") read calibration
+     VII.2 OTC CAP timing Adjustments
+     
+VIII  <a href="#Flashing">Flashing and Fuses</a>
+     VIII.1 Flashing
+     VIII.2 Fuses
+     
+IX <a href="#OTSMBuild">OTSM Build Instructions</a>(Parts)
+     IX.1 Short Version
+     IX.2 Long Version
+     IX.3 <a href="#TailcapLED">Tailcap LED</a>
+     
+X <a href="#Eswitch_devel">E-switch&amp; Dual Switch Hardware Development notes</a>
+
+Appendix A. <a href="#Vread"          >Voltage Readout Methods</a>(which builds use what and why)
+Appendix B. <a href="#TAmodegroups"   >TAv1.3+ modegruops</a>
+Appendix C. <a href="#TAcircuit"      >TA mcu electronics</a> (well, not really just TA)
+Appendix D. <a href="#OTSM_theory"    >OTSM Theory and technicalities</a>.
+Appendix E. <a href="#Under_the_Hood" >Under the Hood</a>
+     E.1 Space savings
+     E.2 OTSM/ESWITCH software.
+
+
+<center><b>i. <a name="Overview">Overview</a></b></center>
+i.1 overview
+
+Bistro-HD is setup to be easily configurable to produce a bistro (originally by ToyKeeper)customized for your needs, your driver board,your attiny version, the features modes, strobes and groups you want, with a one-click build script, and extra work on space savings mean you can fit more features in including several new ones. The original flagship feature is OTSM, a stable click-time replacement for OTC. Other new features include e-switch support, voltage read from Vcc pin,4-channel support, improved thermal control, power-saving,and more, all fitting into an attiny25. Builds for attiny13/45/85 also are made though. A large combination of builds already exist in the hex directory including biscotti, TA , classic, Q8, eswitch, and battcheck builds(see Sec. II).
+
+
+
+
+
+<center><b><a name="QuickStart">I Quick Start Guide</a></b></center>
+ 
+Go to the hex directory, choose one for the right version and attiny,and flash it. See "Flashing and fuses" section for instructions on flashing. See "Included firmwares"for descriptions of all firmwares. See Operation section for operating instructions.
+
+
+
+<center><b>II <a name="Operation">Operation</a></b></center>
+ 
+<u>II.1 General Operation </u>
+ 
+Essentially,while there's a ton of overhaul under the hood and some new features,it's still ToyKeeper's bistro. Short clicks advance to next mode. Long clicks (or leaving the light off) resets unless memory is enabled, then it returns on to the same mode it was in. Most included firmwares have medium click support. If included and enabled in the menu then medium clicks go back one mode except from the lowest mode, where medium clicks step through hidden modes.  A menu toggle can enable an extra moon mode if compiled in and turned on, and another option allows mode order to be reversed. See bistro documentation for full operation details: 
+
+<a href="http://bazaar.launchpad.net/%7Etoykeeper/flashlight-firmware/convoy/view/head:/ToyKeeper/bistro/bistro.txt">http://bazaar.launchpad.net/~toykeeper/flashlight-firmware/convoy/view/head:/ToyKeeper/bistro/bistro.txt</a>
+
+Many fast clicks enter the configuration menu as described there. The menu proceeds by blinking a number corresponding to the menu option, and then a strobe. To select the option, tap a short click during the strobe. 
+
+ Presently the menu options are: 
+
+ 1: muggle mode   
+ 2: memory   
+ 3: enable moon   
+ 4: reverse modes   
+ 5: Modegroup-select  
+ 6: Enable medium click   
+ 7: Temp cal   
+ 8: reset   
+ 9: toggle e-switch on and off (very uncertain feature, may get removed)
+
+
+I will try to keep the same menu options as the same on all firmwares.When menu options are not present in a firmware, that item is skipped in the menu sequence, but the menu numbers (number of blinks) don't change.
+
+Menu descriptions:
+
+1)<b>Muggle mode</b>: A simple3-mode group with no reverse clicks.
+
+2)<b>Memory</b>: enable/disable mode memory, described above.
+
+3)<b>Reverse modes</b>: Reverses order of modegroup:low to high or high to low.
+
+4)<b>Enable moon</b>: Adds a very low moon level to the beginning of the mode group.
+
+5)<b>Modegroup selection</b>: A main feature of all bistro firmwares is selectable modegroups. To select a modegroup,select menu option 5. The light will then blink a series of single blinks with pauses. Count the blinks and click off after the  one corresponding to the modegroup you wish to select.
+
+6)<b>Enable medium click</b>: Enables/disables medium click to move backwards in modegroup, or to move to hidden modes from the lowest enabled mode. Without this option hidden modes are not accessible.
+
+7)<b>Temp cal</b>: Temperature calibration set the temperature at which thermal protection will activate for firmwares that use it. Select mode 7. During the initial low-light period, click off to disable temperature calibration. If not, the light will go to turbo. When the light is as hot as you ever want it to get,  click to set the calibration. Do not set this too low. 8) Reset: reset to"factory"settings.
+
+<u>II.2 E-switch Operation</u>
+ 
+The eswith presently works exactly like the OTSM. Short clicks will advance the mode, medium go backwards, and long turn the light off. Presently any click turns the light back on, and the light is always off during clicks. This might change in the future. The only lockout presently is a menu item that locks out the eswitch entirely (possibly useful if you have two switches), should not be included in single switch build obviously, and the feature is heading toward the chopping block. 
+
+A configuration has been included specifically for the Q8, with ramps tailored to the Q8 and an indicator LED. The indicator acknowledges button presses, and power-off,and serves as a locater. No menu option presently to turn it off, coming soon maybe. 
+
+
+
+
+<center><b>III <a name="Features">HD FEATURES</a> (new or renewed)</b></center>
+ 
+<u>III.1 Software development features: </u>
+ 
+The biggest feature is maybe easy configurability and big space savings. Other new experimental features take advantage of the extra space. The easy configurability means the entire bistro family can be kept in one code,and the included Makefile automatically builds all configuration for every compatible attiny version and a battcheck build compatible with each configuration. BLFA6 even almost works with all features, but to get that lean in a small build may not be possible without a dedicated code. (A BLFA6 emulation is included, but the attiny13 build is too big. If you happen to like it though you could customize it for an attiny25). The new features are:
+
+Makefile to build every configuration on each compatible attiny, and with battcheck builds for each, also produces preprocessed source code file in the Preprocessor-output subdirectory for each build (with license text included, but other comments stripped) for streamlined code review, or debugging.
+
+Easy compiling even without Atmel Studio! See instructions below.
+
+Separated config and modegroup files from bistro.c for clarity.
+
+<u>III.2User/Builder Features:</u>
+ 
+<b>OTSM with BODS</b>: The feature that started this, now fully functional. The idea is that power-off time during clicks can be reliably measured by powering the mcu in sleep mode with a large cap to measure click times. This is much more reliable than OTC and doesn't change with every electronics change on the board or with temperature (turbo). Using it requires different component selection.See OTSM section below for details. This is the first OTSM using multiple power-saving techniques in order to work with relatively small capacitance.
+
+<b>HD thermal control</b>: Inspired by BLFA6 turbo timeout, all attiny25+ builds step down from turbo to a pre-defined step-down mode when the light overheats (set by the calibration menu option documented in original bistro). A single short press, bumps back up to turbo for 10 seconds or until the light overheats again, whichever is longer. The theory here is that turbo with temperature protection is not the same as thermal regulation. A sustainable regulated output is much lower than turbo, but prevents turbo use (because the light will already be hot). For turbo, you just want the light to cool off and be ready again when you need turbo again.
+
+<b>POWERSAVE</b>: (Noah's candle) 40days and 40 nights of moon mode (depends on modegroups). The POWERSAVE option is enables in most builds reducing run-time power from about 4mA to about 2mA (measured) for attiny25. Flor a 1mA moon mode and a 3-Ahr battery that's 1000 hours of moon mode or just over 40days in theory. The feature was added specifically to improve OTSM performance for technical reasons, but has a nice side effect. It should even work in attiny13's. 
+
+<b>Flexible voltage reading</b>:HD includes three voltage readout modes, standard 1.1V referenced divider,LDO(Vcc)-referenced divider, and inverted("internal")Vcc read, requiring no divider. See appendix A for details about which voltage methods to use and when, depending on driver board details. 
+
+<b>Simplified Voltage calibration</b>: All builds benefit from a simplified battery calibration method. For classic voltage divider builds, a single calibration point is used, obtained from the included battcheck builds. Adjust in fr-calibration.h before re-compiling. "internal" voltage read can instead be configured for any 1S build and should work fairly well with no calibration at all, or a small adjustment. It's only default on TAv1-OTSM(non LDO) builds though. Parameterized voltage calibration: Allows single measurement or small corrections for calibrating the voltage (for LIP or BATTCHECK).
+
+<b>SAFE_PRESSES</b>: See option description below. Improves on ToyKeeper's no init method, making OTC-less click timing more reliable by overcoming problems with RAM decay randomness. 
+
+<b>ESWITCH</b>: Not extensively tested. It works much like standard three-speed bistro clicks. Short and med presses work as usual and a long press turns off the light. Presently any press turns the light back on. The only lockout option is a global lockout to entirely disable the switch, for example in a two-switch light. This is kind of demonstration concept. It might need changes in UI.
+
+<b>DUAL SWITCH</b>: Several dual switch options are possible including different layouts, both switches on voltage pin, or one on OTC pin,and several control options. See the predefined builds for more details.
+
+<b>4-channel</b>: Now supports up to 4 channels of PWM in any combination. The attiny24/45/85 only have 3 independent waveform generators, but the 4th is achieved with clock-triggered interrupts to toggle the output. Full off is achieved on the 4th channel in spite of the limitations of the method. This is done simply by overriding the PWM and shutting the channel off. A PWM setting of 0 still creates a nice moon. 
+
+<b>Battcheck builds</b>: Built for every firmware for blinking out ADC values, used to calibrate the voltage
+
+<b>Turbo-timeout for attiny13</b> (biscotti build). Just like BLFA6
+
+<b>STAR3</b>: Untested.. use star 3 to enable memory mode.
+
+
+
+
+<center><b>IV <a name="Firmwares">Included Firmwares</a></b></center>
+ 
+Several pre-configured builds are included. Many represent rebuilds of older versions. Level of testing varies widely but many of the features included in the builds are tested (a few aren't yet).
+
+All builds except attiny13 builds, now include bistro-HDĄŊs new thermal control  method.  See features section for details. Battcheck builds are also included  corresponding to every firmware.  See Calibration section for details.
+
+default: This has no guaranteed setup. Probably will remain a triple build and may have new features come and go. It's purpose is to be THE definitive baseline configuration file, including all the latest build options(although some will be commented out, but still there). If starting a new configuration from scratch or studying the options, this is the one to look at.
+
+   attiny13 compatible builds (will auto build for attiny13 and above)
+
+<pre id="text"><b>biscotti-HD</b>:
+  Based on TK's biscotti
+  
+  Target layout: nanjg105D, 1-channel FET only
+  Limitations:
+     Very minimal, no OTC, no med press, no reverse, no hidden modes, no muggle, no moon.
+  Features:
+     Includes turbo-timeout/bump-up in attiny13.
+     3 strobes, 4-bar battcheck, LVP, OTC-less short-press detection.
+  HD Features:
+     Original biscotti included no thermal or turbo-timeout.
+     Extra room in HD allows TURBO timeout/bump up (like BLFA6) in attiny13,
+     or the new bistro-HD thermal step-down in bigger attiny's.
+     Corruption protection for OTC-less press timing makes clicks more 
+     reliable. (SAFE_PRESSES)      
+  Modgroups:  
+     13 modegroups including strobe groups and reverse to make up for 
+     minimal features.
+  Notes: 
+        There is no reason a BLFA6-emu-like  build cannot be constructed for a convoy board layout.
+       attiny25 compatible builds (everything els):
+
+<b>BLFA6_EMU-HD</b>
+  Mimics BLFA6_emu code, but configurable with any bistro-HD features.
+  
+  Target layout: BLFA6 2-channel FET+1, but doesn't fit on attiny13
+                Only for attiny25 and higher. 1S or 2S (LDO or zener)
+  Limitations:
+     battcheck is "only" 8-bar version (by tradition), No OTSM in default 
+     config (but  can be for attiny25+)
+
+  Features:
+     Almost full bistro features: OTC, medium clicks, reverse, hidden, 
+     muggle,moon. 8-bar battcheck. Temp calibration in attiny25+
+
+  HD Features: 
+     Includes TURBO timeout/bump up (like original) in attiny13, or new 
+     thermal step-down/bump-up in bigger attiny's.       
+  
+  Modegroups: Very simple, only 2 groups included, 7 modes and 4 modes.
+     Strobes and turbo are in hidden modes.
+   
+   
+<b>classic-HD</b>
+  HD version of classic bistro  
+  
+  Target layout: BLFA6 2-channel FET+1, only for attiny25 and higher.
+                1S or 2S (LDO or zener)
+  Limitations: No OTSM in default config (but can be)
+  Features:   
+     Full-featured: OTC medium clicks, reverse, hidden, muggle, 
+     moon. Volts+tenth battcheck. 
+  HD Features: 
+     Bistro-HD thermal step-down.
+         
+  Modegroups: 10 modegroups, from 11o 6 modes, including strobe groups.
+     Strobes and turbo in hidden modes.   
+
+<b>tripledown-HD</b>
+  Essentially identical to classic but configured for a TA 3-channel 
+  FET+7135s+7135 board. Uses original bistro triple-down modes.
+  
+  Target layout: TAv1 triple OTC (original) build, 1S or 2S(LDO or zener).
+  Modegroups: Original TK tripledown modegroups
+  
+  
+<b>TAv1-OTC-HD</b>
+ Essentially identical to classic but configured for a TA 3-channel 
+  FET+7135s+7135board, and TA's extended modegroups.  v1 refers to version 1 
+  of the TA boards.
+  
+  Target layout: Tav1 triple OTC (original) build, 1S or 2S(LDO or zener).
+  Modegroups:
+            Includes TA's v1.3 modegroups, 26 modes in all including a two 
+            added by me (HD has room for more)
+            See Tav1.3+ modegroup listing in Appendix below.
+  HD Features: As all before uses new thermal control. 
+             Benefits from added space to get a couple of new modes.
+             
+<b>TAv1-OTC-NODIVIDER-1SONLY</b>
+ Essentially identical to classic but configured for a TA 3-channel 
+ FET+7135s+7135 board, and TA's extended modegroups. v1 refers to version 1 
+  of the TA boards.
+  
+  Target layout: TAv1 15mm.  Tav1 triple OTC (original)1S-ONLY.  Works on any
+        1S TAv1 board and does not require a voltage divider.
+  Modegroups:
+            Includes TA's v1.3 modegroups, 26 modes in all including a two 
+            added by me (HD has room for more)
+            See Tav1.3+ modegroup listing in Appendix below.
+  HD Features: As all before uses new thermal control. 
+             Benefits from added space to get a couple of new modes.
+            
+<b>TAv1-OTSM-HD</b>
+  The flagship build. OTSM Uses large cap to run timer during power-off, 
+  creating reliable,stable click-timing.   
+  
+  Target layout: TAv1 triple with OTSM components (see details in manual),
+   1S only for this build.
+  
+  Otherwise the same as TAv1-OTC, but uses "internal" (inverted) Vcc voltage 
+  reads.  This generally does not require calibration to be pretty close to 
+  right.
+  
+  HD Features: OTSM, Vcc read, HD thermal control
+
+<b>TAv1-OTSM-LDO-HD</b>
+  Same as TAv1-OTSM-HD, but uses Vcc-referenced divider reads needed for OTSM 
+  in builds&gt;1S.  Works on LDO or zener builds if appropriate diode (or high 
+  quality LDO) is used.
+
+  Target Layout: TA triple 2S builds with OTSM
+  HD Features:  OTSM, Vcc-referenced divider reads,HD thermal control.
+
+<b>TAv1-OTSM-fetonly-HD</b>
+  Same as TAv1-OTSM-HD but
+  .. for a single channel FET build with FET on PB4
+  Maps TA triple modegroups to a single channel.
+
+<b>TAv1-OTSM-LDO-fetonly-HD</b>
+  Same as TAv1-OTSM-LDO-HD but
+  .. for a single channel FET build with FET on PB4
+  Maps TA triple modegroups to a single channel.
+
+<b>eswitch-Q8-HD</b>
+  Designed specifically for Q8, with mode-ramps designed for its output
+  Includes eswitch and indicator support
+   
+  Target Layout : stock Q8, like BLFA6, FET+1 but has indicator on PB4
+  Basic features: behaves like TA triple build.
+  HD Features:  e-switch, indicator, power-save,thermal control
+  Modegroups: TA1.3+ triple modegroups mapped to the 2-channel driver
+
+<b>eswitch-TA-VCCREAD-INDICATOR-HD</b>
+  E-switch build using Vcc read to allow an indicator on pin7 
+   
+  Target:TAv1 triple, eswitch,no divider.  MCU must be fed with 1S voltage.
+     TAQ8 boards, even 2S/4S WILL work, because they get the mcu voltage 
+     off a single battery, no LDO.
+  Basic feature:  behave like TA triple build.
+  HD Features: e-switch, indicator, Vcc readout, power-save, thermal control
+  Modegroups: TAv1.3+
+
+<b>eswitch-TA-FETONLY-VCCREAD-INDICATOR-HD</b>
+  E-switch build using Vcc read to allow an indicator on pin7 
+   
+  Target:TAv1 FET only on PB4, eswitch, no divider.  MCU must be fed with 1S voltage.
+     TAQ8 boards, even 2S/4S WILL work, because they get the mcu voltage 
+     off a single battery, no LDO.
+  Basic feature: Provides TA tripple modegroups on a FET-only driver 
+  HD Features: e-switch, indicator, Vcc readout, power-save, thermal control
+  Modegroups: TAv1.3+
+
+     highly experimental builds:
+  
+<b>e-switch-noinit-HD:</b>
+  This is an experimental build for e-switch support.
+
+  Target Layout: TAv1, 1-S or 2S (LDO or zener), no OTC,standard TA divider
+  Features:standard bistro with TAv1.3+ modegroups
+  HD features: Eswitch, HD thermal control.
+  Note:almost completely un-tested  
+   
+Dual switch builds all have an eswitch.  But clicky switches just cut power. 
+Every firmware will do &gt;&gt;something &lt;&lt; when power is cut and restored, so in a sense 
+they are all dual-switch. The question is what they do.  "dual-switch" builds 
+interpret power loss and timing indifferent ways that add control 
+functionality:
+
+<b>dual-switch-OTSM-HD:</b>
+  This is an experimental build for dual switch, e-switch plus click switch, 
+  with OTSM timing for the click switch.
+  
+  Target Layout: TAv1, 1-S only version, OTSM parts, no OTC
+  Features:standard bistro with TAv1.3+ modegroups
+  HD features: Eswitch, HD thermal control,
+     adds dual-switch-noinit:Enables noinit timing control on clicky switch in 
+     a dual-switch light.
+  Note:completely untested, Use the highest recommended OTSM divider resistors 
+  (or try a bit higher)to reduce drain during e-switch off.  With 4k Ohms ,drain 
+  will be around 1mA which is about 120 days of power from a 3-Ahr battery, but 
+  voltage drops continuously over that time. Power it off with the 
+  click switch when shelving it.
+
+<b>dual-switch-noinit-HD:</b>
+  This is an experimental build for dual switch, e-switch plus click switch,
+     with no timing cap on the click switch.
+  
+  Target Layout: TAv1, 1-S or LDO, no OTC, standard C2 is fine (not OTSM),standard TA divider
+  Features:standard bistro with TAv1.3+ modegroups
+  
+  HD features: Eswitch, HD thermal control,
+     adds dual-switch-noinit:Enables noinit timing control on clicky switch in 
+     a dual-switch light.
+  Note:completely untested
+
+<b>dual-switch-dumbclick-HD:</b>
+  This is an experimental build for dual switch, e-switch plus click switch,
+     where click-switch does nothing (no mode change), light comes back on as it 
+     was, like along press with mode memory.  Especially useful if e-switch is 
+     set to not use mode memory, best of both.  Requested by Lexel.
+
+  Target Layout: TAv1,  1-S or LDO, no OTC, standard C2 is fine (not OTSM) 
+  Features: standard bistro with TAv1.3+ modegroups
+  HD features: Eswitch, HD thermal control,
+     adds dual-switch-dumbclick:Overrides all mode changes if click switch is 
+     press--&gt; just turns light off, and back on as it was.
+  Note: untested
+
+<b>dual-switch-turboclick-HD:</b>
+  This is an experimental build for dual switch, e-switch plus click switch,
+   where click-switch always goes to TURBO
+
+  Target Layout: TAv1,  1-S or LDO, no OTC, standard C2 is fine (not OTSM) 
+  Features:standard bistro with TAv1.3+ modegroups
+  HD features: Eswitch, HD thermal control, 
+   adds DUAL_SWITCH_TURBOCLICK: click switch always goes to first hidden mode 
+   (TURBO in this case).
+  Note:un-tested.  Likely non-sensical, eswitch needs low leakage 
+  but OTSM needs fast leakage, probably 1mA anyway.  
+
+<b>4-channel-dual-switch</b> This is 
+an experimental build for dual switch, and 4 PWM channels Really it's just a 
+ridiculous concept demonstration config to prove how much stuff can compile and 
+still fit in an attiny25.  The concept was actually tested a little at some point 
+though, with 4-channels certainly working, but calling it experimental is an 
+understatement.
+
+  Target Layout: quadrupledown, 1-S only, OTSM cap and parts,
+         4th PWM channel on OTC pin. E-switch and click switch both detected 
+         on voltage pin.
+  Features:standard bistro with TAv1.3+ modegroups
+  HD features: 
+    Eswitch, OTSM,4th-channel PWM, internal Vcc read, HD thermal control
+  Modegroups: Presently it's actually just setup with the3-channel modegroups of 
+    TAv1.3+, so it's not really even using PWM4.  It would need customization.
+  Note: mostly untested, would need a separate build for LDO version 
+  (because it uses OTSM).
+
+.. others emerging.
+</pre>
+
+
+
+
+<center><b>V <a name="Compiling">Compiling</a>:</b></center>
+ 
+As described above the included Makefile builds all configurations on attiny13, 25,45 and 85 and each with a battcheck build too. Like other builds the battcheck hex must correspond to your driver layout and attiny chip. It also must correspond to the voltage reading method you're using. This is why a battcheck is made corresponding to every firmware combination.
+
+You can compile from within Atmel studio you can use the included batch files together with either Atmel Studio 7.0 installed or  WinAVR 20100110 using the included batch files. The batch files use the included Makefile for compiler configuration. Within Atmel Studio you can use the included Makefile, or the normal Atmel studio way. Both are described here, but using the Make file means you'll get the same build configuration as the default builds and should be able to recreate exactly the same build sizes. On the other hand using the normal Atmel Studio way allows the debugger to work. Note that hex's built with the Makefile will end up in the hex/ directory and hex's built the AS way and without the Makefile will end up somewhere like Release/bin/ so don't use the wrong one.
+
+<u>V.1 Using Atmel Studio, without the Makefile: </u>
+ 
+You can compile a single build in the usual way in AS. You can even use two build configurations under Build-&gt;Configuration Manager, one for Makefile use and one for normal single-hex compiling. For single hex compiling without the Makefile, be sure to select the correct device in device tab of properties. Selecting it in the code configuration alone is not sufficient when compiling with AS. Debugging without the Makefile is fine,but to be sure get the best compiling options, for the final build, your best bet is to use the Makefile. The resulting hex file will normally be found in the"Release/bin" subdirectory.
+
+<u>V.2 Compiling with the Makefile</u>
+ 
+<u>V.2.1  One-click compiling (double click really)</u>
+ 
+Advantages: uses some compiler options as release builds used. Does not require importing files/project into Atmel Studio. You can edit code and configuration files in any editor you want, including Atmel Studio, but you don't need to import or create a project.
+
+There is an included Makefile that configures what hex's to build and how to build them. Two different bat files are included.  You can install either Atmel Studio 7.0 or WinAVR 20100110.  Tested builds were made with Atmel Studio 7.0. 
+
+If you installed Atmel Studio 7.0 with default directory choices, simply double click on "buildall-AS.bat" in windows file explorer to build all standard configurations.
+
+If you installed WinAVR 20100110with default directory choices simply double click on "buildall.bat" to build all standard configurations.
+
+The hex files built this way will be left in the hex subdirectory.
+
+If needed you can edit the buildall-WinAVR.bat file with your install path information. Or you can edit the GCC_DIR and INCLUDES in Makefile itself if you want to just type "make all" on the command line. Even if using Atmel Studio for editing and debugging, WinAVR seems to compile faster, which matters with &gt;50 hex builds.
+
+To configure which hex's are built see notes on editing the Makefile in next sub-section
+
+<u>V.2.2 Atmel Studio with the Makefile:</u>
+ 
+To use Atmel Studio with the Makefile, edit the Makefile and make sure the GCC_DIR and INCLUDES matches your Atmel install, but by default it should work for AS 7.0. You want to consult a guide on building firmware in AS if you don't know how already. After you get the code imported into an AS project, in Project-&gt;Properties-&gt;Build click Use External Makefile and select the file: Makefile. Then cntrl-alt-F7 to compile as usual.
+
+<u>V.2.3 Makefile tips and tricks: </u>
+ 
+After building,the output window will show the size of all build combinations produced. This build method is particularly useful when modifying the code, to make sure all configurations still compile, and with anticipated sizes.
+
+Using any of the Makefile methods you can instead compile only single firmware by un-commenting a ONE_BUILD define in the Makefile. See comments and examples there. The configuration that is built in that case is determined by that option, *not* by the configuration file defined in bistro-HD.c
+
+Have a look at the Makefile to customize which files to build. Notice that pre-processed source code is output in the Preprocessor-out subdirectory.  This is very helpful for debugging.
+
+Finally you can un-comment NO_BATTCHECK to disable battcheck builds(saves a little time)
+
+An example build summary looks like this:
+<pre id="text">                            text         data      bss      dec     hex   filename                     
+                            704       0        41     745      2e9  .\bin\battcheck-4channel-dual-switch-HD-attiny25.elf
+                            712       0        41     753      2f1  .\bin\battcheck-4channel-dual-switch-HD-attiny45.elf
+                            712       0        41     753      2f1  .\bin\battcheck-4channel-dual-switch-HD-attiny85.elf
+                            352       0        25     377      179  .\bin\battcheck-biscotti-HD-attiny13.elf
+                            372       0        29     401      191  .\bin\battcheck-biscotti-HD-attiny25.elf
+                            376       0        29     405      195  .\bin\battcheck-biscotti-HD-attiny45.elf
+                            376       0        29     405      195  .\bin\battcheck-biscotti-HD-attiny85.elf
+                            542       0        35     577      241  .\bin\battcheck-classic-HD-attiny25.elf
+                            546       0        35     581      245  .\bin\battcheck-classic-HD-attiny45.elf
+                            546       0        35     581      245  .\bin\battcheck-classic-HD-attiny85.elf
+                            526       0        39     565      235  .\bin\battcheck-custom-HD-attiny25.elf
+                            530       0        39     569      239  .\bin\battcheck-custom-HD-attiny45.elf
+                            530       0        39     569      239  .\bin\battcheck-custom-HD-attiny85.elf
+                            526       0        39     565      235  .\bin\battcheck-default-HD-attiny25.elf
+                            530       0        39     569      239  .\bin\battcheck-default-HD-attiny45.elf
+                            530       0        39     569      239  .\bin\battcheck-default-HD-attiny85.elf
+                            684       0        40     724      2d4  .\bin\battcheck-dual-switch-dumbclick-TA-HD-attiny25.elf
+                            692       0        40     732      2dc  .\bin\battcheck-dual-switch-dumbclick-TA-HD-attiny45.elf
+                            692       0        40     732      2dc  .\bin\battcheck-dual-switch-dumbclick-TA-HD-attiny85.elf
+                            640       0        34     674      2a2  .\bin\battcheck-dual-switch-noinit-TA-HD-attiny25.elf
+                            648       0        34     682      2aa  .\bin\battcheck-dual-switch-noinit-TA-HD-attiny45.elf
+                            648       0        34     682      2aa  .\bin\battcheck-dual-switch-noinit-TA-HD-attiny85.elf
+                            656       0        39     695      2b7  .\bin\battcheck-dual-switch-turboclick-TA-HD-attiny25.elf
+                            664       0        39     703      2bf  .\bin\battcheck-dual-switch-turboclick-TA-HD-attiny45.elf
+                            664       0        39     703      2bf  .\bin\battcheck-dual-switch-turboclick-TA-HD-attiny85.elf
+                            508       0        38     546      222   .\bin\battcheck-TAv1-OTC-HD-attiny25.elf
+                            512       0        38     550      226  .\bin\battcheck-TAv1-OTC-HD-attiny45.elf
+                            512       0        38     550      226   .\bin\battcheck-TAv1-OTC-HD-attiny85.elf
+                            584       0        39     623      26f  .\bin\battcheck-TAv1-OTSM-HD-attiny25.elf
+                            592       0        39     631      277  .\bin\battcheck-TAv1-OTSM-HD-attiny45.elf
+                            592       0        39     631      277  .\bin\battcheck-TAv1-OTSM-HD-attiny85.elf
+                            572       0        38     610      262  .\bin\battcheck-TAv1-OTSM-LDO-HD-attiny25.elf
+                            580       0        38     618      26a  .\bin\battcheck-TAv1-OTSM-LDO-HD-attiny45.elf
+                            580       0        38     618      26a  .\bin\battcheck-TAv1-OTSM-LDO-HD-attiny85.elf
+                            568       0        34     602      25a   .\bin\battcheck-tripledown-HD-attiny25.elf
+                            572       0        34     606      25e   .\bin\battcheck-tripledown-HD-attiny45.elf
+                            572       0        34     606      25e   .\bin\battcheck-tripledown-HD-attiny85.elf
+                           1924      0        42     1966     7ae  .\bin\bistro-4channel-dual-switch-HD-attiny25.elf
+                           1932      0        42     1974     7b6  .\bin\bistro-4channel-dual-switch-HD-attiny45.elf
+                           1932      0        42     1974     7b6  .\bin\bistro-4channel-dual-switch-HD-attiny85.elf
+                            990      0        28     1018     3fa  .\bin\bistro-biscotti-HD-attiny13.elf
+                           1102      0        32     1134     46e  .\bin\bistro-biscotti-HD-attiny25.elf
+                           1106      0        32     1138     472  .\bin\bistro-biscotti-HD-attiny45.elf
+                           1106      0        32     1138     472  .\bin\bistro-biscotti-HD-attiny85.elf
+                           1676      0        36     1712     6b0  .\bin\bistro-classic-HD-attiny25.elf
+                           1680      0        36     1716     6b4  .\bin\bistro-classic-HD-attiny45.elf
+                           1680      0        36     1716     6b4  .\bin\bistro-classic-HD-attiny85.elf
+                           1742      0        40     1782     6f6  .\bin\bistro-custom-HD-attiny25.elf
+                           1746      0        40     1786     6fa  .\bin\bistro-custom-HD-attiny45.elf
+                           1746      0        40     1786     6fa  .\bin\bistro-custom-HD-attiny85.elf
+                           1718      0        40     1758     6de  .\bin\bistro-default-HD-attiny25.elf
+                           1722      0        40     1762     6e2  .\bin\bistro-default-HD-attiny45.elf
+                           1722      0        40     1762     6e2  .\bin\bistro-default-HD-attiny85.elf
+                           1904      0        40     1944     798  .\bin\bistro-dual-switch-dumbclick-TA-HD-attiny25.elf
+                           1912      0        40     1952     7a0  .\bin\bistro-dual-switch-dumbclick-TA-HD-attiny45.elf
+                           1912      0        40     1952     7a0  .\bin\bistro-dual-switch-dumbclick-TA-HD-attiny85.elf
+                           1684      0        35     1719     6b7  .\bin\bistro-dual-switch-noinit-TA-HD-attiny25.elf
+                           1692      0        35     1727     6bf  .\bin\bistro-dual-switch-noinit-TA-HD-attiny45.elf
+                           1692      0        35     1727     6bf  .\bin\bistro-dual-switch-noinit-TA-HD-attiny85.elf
+                           1876      0        40     1916     77c  .\bin\bistro-dual-switch-turboclick-TA-HD-attiny25.elf
+                           1884      0        40     1924     784  .\bin\bistro-dual-switch-turboclick-TA-HD-attiny45.elf
+                           1884      0        40     1924     784  .\bin\bistro-dual-switch-turboclick-TA-HD-attiny85.elf
+                           1690      0        39     1729     6c1  .\bin\bistro-TAv1-OTC-HD-attiny25.elf
+                           1694      0        39     1733     6c5  .\bin\bistro-TAv1-OTC-HD-attiny45.elf
+                           1694      0        39     1733     6c5  .\bin\bistro-TAv1-OTC-HD-attiny85.elf
+                           1780      0        40     1820     71c  .\bin\bistro-TAv1-OTSM-HD-attiny25.elf
+                           1788      0        40     1828     724  .\bin\bistro-TAv1-OTSM-HD-attiny45.elf
+                           1788      0        40     1828     724  .\bin\bistro-TAv1-OTSM-HD-attiny85.elf
+                           1760      0        39     1799     707  .\bin\bistro-TAv1-OTSM-LDO-HD-attiny25.elf
+                           1768      0        39     1807     70f  .\bin\bistro-TAv1-OTSM-LDO-HD-attiny45.elf
+                           1768      0        39     1807     70f  .\bin\bistro-TAv1-OTSM-LDO-HD-attiny85.elf
+                           1666      0        35     1701     6a5  .\bin\bistro-tripledown-HD-attiny25.elf
+                           1670      0        35     1705     6a9  .\bin\bistro-tripledown-HD-attiny45.elf
+                           1670      0        35     1705     6a9  .\bin\bistro-tripledown-HD-attiny85.elf          
+</pre>
+
+
+
+
+<center><b>VI <a name="Customizing">Customizing</a></b></center>
+ 
+<u>VI.1 Driver Board Layout</u>
+ 
+Start with fr-tk-attiny.h.  This defines the driver board configuration or "layout". There are many predefined layouts and you can make your own or just use the "custom-layout" for your needs.  For now you only need to identify one you like and modify it, or create a new one. We'll select the one to actually use later. Configuration is significantly simplified from the past but the basic idea is the same.
+
+<b>PWM channels: </b>
+The first thing to configure is the PWM channels to enable. Ideally three things should match,the channels defined here, the channels tied to a FET or 7135 etc on your actual driver, and generally the channels defined by the "ramps" in the modegroup.h.  You can disable channels in modegroups.h by commenting out the ramp, and you CAN use a layout that enables more channels than your board has. (There's a chance this will cause issues with OTSM builds. OTSM sleep is very sensitive to how pin states are defined, but you can try).  This makes tripledown-layout a good all-around choice for most purposes. 
+
+What you cannot do is use a layout that is missing channels that are wired on your board.Channels not included in the layout get set to input high (for good but boring reasons). If your FET pin gets set high, you'll get turbo all the time.Again, disable the channel instead by commenting out its ramp or setting its ramp to 0's. PWM pins that are defined but not used, get set to output low.
+
+<b>Other pins</b>: You can define a CAP_PIN for OTC, an ESWITCH_PIN, a VOLTAGE_PIN, and an INDICATOR_PIN. It's safe to set these even if they won't be used or. They are only activated if the features are turned on in the main configuration file. This means they can even be defined on the same pin and in fact the ESWITH_PIN and VOLTAGE pin can be used on the same pin with a VCC reference fed by an LDO!
+
+<b>VOLTAGE_PIN</b>: If you want to measure voltage from Vcc (see option in Customizing Configuration) the definition of the VOLTAGE_PIN will not matter for that. For OTSM you will still want a voltage sense pin to detect power on. 
+
+It is no longer required to match ADMUX values and such to the pins. This is done automatically at the bottom of the file.
+
+<u>VI.2 Customizing the firmware configuration:</u>
+ 
+Configurations exist in the configs directory. You can start with one similar to what you need, rename it, and edit it. 
+
+There's already a config-custom.h and it's built by the Makefile already so it's easiest to use that. But start by copying one you like to overwrite config-custom.h.  The config-default.h is meant to always have all the latest config options (either commented or un-commented). Other configs were made for a purpose and may not be updated with all newest options available.
+
+If you want to use a different name, the naming should remain like config_your_config_name, and you can add it to the compile list configuring bistro.c directly, or if using the Makefile, add your config name to one of the FIRMWARES variables (the lowest chip it should work with,ex:FIRMWARES25). Alternatively just add: ONE_BUILD :=bistro-your_config_name.hex to build only that firmware and its battcheck build.
+
+A note about config options: Many options are useful for an all purpose build to give users options, but for custom builds, might not make any sense and waste space. For example if you always like your modes high to low, just reprogram your mode orders and leave off the USE_REVERSE_MODES feature, making room for something else.  Moon, and muggle are likely similar. Why have a moon toggle if you always like moon?  Just define the first ramp position as a moon level and use it in the modegroups.
+
+Configuration file options documentation will likely become obsolete and I only document selected options here. See comments in the file for the rest. 
+
+<b>Layout</b>: Here is where you choose your layout. Un-comment an existing one or add your own new one. 
+
+<b>Modegroups</b>: Select a modegroup header file. These define the mode configurations and the files are found in the modegroups subdirectory. Again obviously you can start with one as a template. 
+
+<b>VOLTAGE_CAL</b>: produces a voltage calibration-only build. Voltage read options apply. 
+
+ Off time Configs:
+
+<b>SAFE_PRESSES</b>: Only useful without OTC or OTSM. ToyKeeper famously made the noinit method to detect click length and count clicks with no capacitor by keeping the click count in memory and detecting memory decay. However it's very unreliable. Using multiple bytes for the noinit variable adds redundancy that reduces the odds of problems from maybe 1 in 20 to 1 in thousands. If you have room and aren't using OTC or OTSM, enable this and set N_SAFE_PRESSES according to comments.
+
+<b>OFFTIM3</b>: Enables middle length clicks (not just short long) used to go backwards and enter hidden modes. Requires OTC or OTSM, but not both.  Enable this and one of those.
+
+<b>OTC</b>: Off time capacitor. Measure charge on a capacitor too see how long the light has been off. It's great, but very sensitive to hardware design and temperature. 
+
+<b>OTSM</b>: Uses a large CAP to run the MCU for a couple of seconds, counting time. Timing is more stable, but it presently doesn't seem to work well (or at all?) with 7135s :(
+
+<b>POWERSAVE</b>: Replaces delay functions with idle sleeps,actually can be used without OTSM to lower power use in moon mode(probably from about 4mA to about 2mA which is very significant in moon mode). Original purpose was to aid in power saving during OTSM shutdown.
+
+<b>SLEEP_TIME_EXPONENT</b>: only used for OTSM and ESWITCH, set's click timing resolution (at expense OTSM shutdown time) normally don't edit this. wake_time_short/med, sets timing thresholds for OTSM or ESWITCH presses. Set in actual floating point seconds!
+
+<b>USE_ESWITCH</b>: Self explanatory, thees witch. Make sure it's defined on your layout. 
+
+<b>USE_INDICATOR</b>: Lights up the indicator LED. Requires INDICATOR_PIN define in layout.
+
+
+
+	Dual-switch options
+
+The options under this are all for dual switch lights. None of them are tested.
+
+<b>USE_ESWITCH_LOCKOUT_TOGGLE</b>: Enables menu option 9 that disables the Eswitch. Not really sure how useful this is. Probably need a more general lockout mechanism anyway.
+
+<b>DUAL_SWITCH_NOINIT</b>: The clicking switch (power switch) uses the noinit click time. OTC and off-time caps should not be used. No medium clicks will be recognized on the power switch.
+
+<b>DUMB_CLICK</b>:  The power switch does not change the mode. Just turns the light off and on.
+
+<b>TURBO_CLICK</b>: The power switch always brings the light on to the first hidden mode (the last one defined in hidden modes, since we enter hidden modes backwards). This is usually turbo. ***End of Dual-switch options***
+
+<b>READ_VOLTAGE_FROM_VCC</b>: Reads the voltage from the Vcc pin instead of voltage divider pin. This works well for 1S drivers with not voltage regulator (LDO) on the mcu,and doesn't require adjustment for resistor selection.
+
+<b>REFERENCE_VOLTAGE_READS_TO_VCC</b>: Still reads from the voltage divider but uses Vcc as the reference (and max) voltage instead of the 1.1 internal voltage. This is required for 2S or greater OTSM.See details below.
+
+<b>USE_TURBO_TIMEOUT</b>: This re-implements BLFA6 style turbo timeout for attiny13 builds, especially HD-biscotti (thanks to much space savings). It needed some changes to work in bistro, but here it is. (un-tested actually). If you un-comment the whole preprocessor conditional you will get TURBO_TIMEOUT on attiny13 builds and thermal monitoring on attiny25/45/85 builds. 
+
+<b>TURBO_STEP DOWN</b>: Possibly hidden control for USE_TURBO_TIMEOUT and TEMP_STEP_DOWN You can define this to a ramp level to step down to in your modegroups.h, but default is RAMP_SIZE/2.
+
+<b>TEMPERATURE_MON</b>: Allows temperature regulation (various options)By default this uses classic bsitro temperature regulation,which attempts to regulate the output at the max defined temperature. See note and end of section about this.
+
+<b>TEMP_STEP_DOWN</b>: Requires TEMPERATURE_MON is defined, uses a hybrid of TURBO timeout and bistro temp moon. After hitting a max temp, it just jumps back to TURBO_STEPDOWN level,and a short click bumps it back up. Note that the first line of defense is your thumb. If the light is too hot, you turn it off. The second, not first,line of protection is this. So if this cuts in too soon,raise the temp threshold with the calibration mode. Then you shouldn't really need to use the tap-up feature until after the light has cooled some. However, if you tap up while it's still hot you'll get a default of 10s minimum in turbo before the temp will be checked again. You can adjust this with the MINIMUM_TURBO_TIME option.
+
+<b>USE_STAR3</b> uses BLFA6 star 3 sensing code, you probably don't need it. 
+
+<b>USE_MUGGLE/REVERSE/MOON</b>: Can now disable the lights menu options for these.
+
+<b>USE_FIRSTBOOT</b> enables the reset menu option.
+
+<b>INIT_BLAH</b> defines the initial and reset value of BLAH(modegroup, etc..) Un comment the strobes you need. You don't need to worry about the numbers, so long as they are all different and all below MINIMUM_OVERRIDE_MODE as instructed in the comments. Generally you just need to un-comment or comment them. These should match the modes defined in the modegroups and the hidden modes group in the selected modegroup.h file.
+
+<u>VI.3Customizing Modegroups</u> 
+
+Edit your chosen modegroup file(see Customizing the Configuration), found in the modegroups subdirectory. Ramps define the setting for each PWM at each available level. Make sure RAMP_SIZE matches the total number of ramp modes. Define a RAMP for every PWM channel (see Customizing the Layout). Define your hidden modes, and modegroups, following available examples and comments. That's it.
+
+<p></p>
+
+<u>VI.4 Selecting your Configuration</u>
+ 
+You can either add your main configuration file to the Makefile if building that way(or if using config-custom, it's already there) or you can edit bistro-HD.c and define the ATTINY version and config file near the top. Then you should compile using the normal Atmel Studio compilation. See compiling instructions above.
+
+
+
+
+<center><b>VII <a name="Calibration">Calibration</a></b></center>
+ 
+<u>VII.1 Voltage calibration with battcheck</u>
+ 
+HD includes new voltage readout and calibration methods. See fr-calibration.h and Appendix A for details. The calibrations no longer require taking measurements at a long list of voltages. For divider reads one measurement should be enough and since it can be changed with one variable, guess and check (or educated adjustment) may also get close fairly easily. You must check your firmwares config file to see what type of voltage read the firmware is using.
+
+The issue with calibration is that the voltage references on these chips have a big tolerance,so the reference voltage must be determined.
+
+<u>VII1.1.a Divider read calibration</u>
+ 
+Generally, just run the battcheck build corresponding to your firmware,using a full 4.2V battery. It will flash an ADC value as three number s such as 1 9 2. Pauses indicate a zero. Enter this value into the ADC_full scale define for either non-LDO or LDO as appropriate in fr-calibration.h The LDO value is used if REFERENCE_DIVIDER_READS_TO_VCC is defined.
+
+FOR LDO builds it is possible that the ADC will be pegged (255) at 4.2V. You could then use a lower battery voltage. For example if battcheck produces 250 at 4.0V, you would scale this value as250*4.2/4.0=262.5 You would enter 262.5. It's OK if the value is above 255. Your readings will peg, but the calibration will be correct below the limit.
+
+<u>VII.1.b Inverted "internal" read calibration</u> 
+
+To calibrate the inverted ("internal") READ_VOLTAGE_FROM_VCC method used on 1S OTSM builds, you can run the battcheck build corresponding to your firmware. Run it with a full battery and it will flash out an ac reading, let's call it R. Example: 
+
+            strobe..  7  ... pause strobe :       R=70        
+            strobe   7 ...  2    strobe:       R  = 72 
+
+To find the internal reference voltage us:
+
+               V_ref= (Vbatt-0.2)*R/255
+
+R is the ADC readout and the 0.2 is a correction for the diode and may depend on your diode.So that's it, get R from battcheck on a full battery and use 4.2 for Vbatt, plug into your calculator and you have Vref. Place the Vref value in fr-calibration.h (#define reference_V) , and recompile. 
+
+So for example if you had a 4.2V battery and battcheck flashes 75 you get:
+
+        V_ref = (4.2-0.2)*75/255&amp; =  4.0*75/255 =1.176 V 
+
+
+<u>VII.2 OTC CAP timing Adjustments</u>
+OTC timing is done the same as in bistro. Modify thresholds in calibration.h. See bistro documentation for more details. This feature should be obsolete on everything but the tiny 15 mm build.              
+
+                     
+
+
+
+
+<center><b><a name="Flashing"></a>VIII Flashing and Fuses</b></center>
+  
+VIII.1Flashing
+
+To flash a hex first associate the included flashanyXX.bat for your chip as the default application for opening hex files. 
+
+To do this right click on the flashanyXX.bat file for your chip and select "run as administrator". You will get a "UAC" prompt to run the script as administrator. Click OK. This should do it.
+
+Next right click flashanyXX.bat and edit it in notepad or similar. Edit the fuses and the mcu to your needs at the top. Save it.
+
+Now you can double click any hex file to flash it. However, you can only flash to the associated chip.
+To flash to a different chip, follow the procedures again to associate hexes for that chip.
+
+The file association is only tested for windows 10.  If for any reason it doesn't work, you may need to perform manual association in other versions using the right click "open with" dialogue and selecting the bat file as the default.
+Like almost anything that sets up defaults in windows, the association does edit your registry and comes with no warranties.
+
+Of course you can also flash from the command prompt without association, by for example
+
+<pre>flashany25.bat myfirmware.hex
+</pre>
+
+
+VIII.2 fuses
+
+To flash the software you will need fuse settings. This is at your risk. The wrong fuses can make your chip useless and un-flashable.
+You can edit the fuse settings in the top of the flashanyXX.bat files.
+
+Fuses (for attin25/45/85):
+
+Some options for the high fuse are:
+
+<p style="margin-left: 0.5in;">
+DD=&gt; BOD disable 
+Early revision chips may not work with BOD and OTSM. Disabling BOD might get it working, but risks corruption.
+
+DE=&gt; BOD set to 1.8V 
+Non-V-version chips are still not specced for this and may corrupt. late model V chips with this setting is best.
+
+DF=&gt; BOD set to 2.7V 
+Safe on all chips, but may not work well with OTSM, without huge caps. You can try. 
+And for the low fuse: 
+
+C2=&gt; 0ms startup time. 
+Probably won't work with BODS capable late model chips, but should improve OTSM a little if not using one anyway. 
+
+D2=&gt; 4ms 
+Testing finds this seems to work well on
+attiny25 BODS capable chip, data sheet maybe implies 64 is safer (not
+clear and hardware dependent), but 64 seems to eat power. 
+
+E2=&gt; 64ms startup. 
+Will consume more power during off clicks and will probably break click timing.
+
+Ext fuse should be: 0xff 
+
+</p>
+
+Also tested with high:DE , low:D2,Ext 0xff
+Worked on both attiny25 non-V and attiny25V although the non-V is not spec compliant with these fuses, and reports of resulting corruption do exist.
+
+attiny13: To be written, try documentation for biscotti for now.
+
+For more details on these settings <a href="http://www.engbedded.com/cgi-bin/fcx.cgi">http://www.engbedded.com/cgi-bin/fcx.cgi</a>?
+
+<p></p>
+
+
+
+
+<center><b>IX <a name="OTSMBuild">OTSM Build Instructions</a></b></center>
+
+<u> IX.1 Short Version</u>
+ 
+Making OTSM work required a combination of software work and the best parts. It may be possible now to use cheaper or lesser parts since OTSM performs a little better than needed with these, but these are tested and work.
+
+All builds use standard TA components except as specified here.
+
+All builds: It's required to have BODS support for the mcu (see theory below). From page 36 of the manual this requires:
+
+•<b>ATtiny25V-10SSU(R), revision E, and newer</b> (all known recent attiny25V's) or
+
+•<b>ATtiny45V-10SU(R), revision D, and newer</b> (all known recent attiny45V's) or
+
+•ATtiny85V-10SU(R), revision C, and newer 
+
+         (none have ever been seen, <b>skip the attiny85</b>)
+
+Note the attiny25V-10SSU(R) is the small footprint that fits 17mm and 25mm boards without bending pins.
+
+<b>D1</b>: Schottky Diode part number:RB751V40T1G
+<a href="http://www.onsemi.com/pub/Collateral/RB751V40T1-D.PDF">http://www.onsemi.com/pub/Collateral/RB751V40T1-D.PDF</a>
+For alternatives, leakage should be below about 1 or 2 uA when hot. 
+
+<b>C2</b>: Powers MCU during off time,quality counts here.
+Cap part number:298D476X0010P2T <a href="http://www.vishay.com/docs/40065/298d298w.pdf">http://www.vishay.com/docs/40065/298d298w.pdf</a>
+For alternatives,compare leakage and temp derating. Beware DC of performance of ceramic. 
+
+<b>OTC</b>: None, unpopulated.
+
+<b>C1</b>: 1uF 
+
+1S builds
+
+Voltage divider:  <b>R1 of 1K and R2 of 3.3K (1%)</b>, Any similar values with R1&lt; 1/3 of R2 will work.
+Lower values, or adding 500ohm bleeder can improve OTSM performance, at the expense of higher moon mode drain. 
+
+2S, 3S, 4S builds: 
+
+The <b>diode above goes on the R7 resistor pad</b> with the anode (+ side) pointing away from C2.       
+
+<pre>          R1         R2           
+ 
+  2S:   1780       2210          
+  3S:   2550       1500          
+  4S:   2870       1100      
+</pre>
+
+Note these only work with a 5.0 V LDO.No bleeder. That's it.  See the section below on tailcap led if using one.
+
+
+<u> IX.1 Long Version</u>
+
+For 2S or more build, the attiny must be fed power by some form of voltage regulation such an LDO. This means that Vcc(input voltage) cannot be used to measure the battery voltage. The divider must be used. Furthermore because the divider pin must stay logic high to indicate power on, the 1.1V reference cannot be used. The REFERENCE_DIVIDER_READS_TO_VCC option must be used (It's compiled into the LDO firmware) This reads pin voltage as a fraction of Vcc with Vcc being the max, allowing the highest possible divider voltages.
+
+There's some difficulty here because a low battery, 2.5V/cell is 0.6 the voltage of a full battery: 4.2V/cell. 0.6Vcc is also the maximum trigger level for a pin change interrupt, which indicates a click and puts the light into sleep. In reality the trigger level should be below this, but by spec it can be this high. So we need the divider voltage to really stay as high as possible. Furthermore Vcc is reduced from the LDO voltage by the diode voltage. This fluctuates slightly with temperature and current, so we need to estimate this max voltage as well as possible. From the diode spec sheet a maximum diode voltage of about 0.4V at 2 to 4mA is seen, but more typical is0.35V and this should be correct within 0.1V even when hot. 
+
+Parts:
+
+Using a TA generation 1 (v1) LDO board, a diode must be added, the same one as for the 1Configuration above. The diode can be added in place of the R7 0-ohm resistor. The same caps are used. 
+
+The only other difference is the correct resistor values should be chosen. We want a total resistance R2+R1= about 4kOhms. We need the voltage on pin 7 to be equal to the LDO voltage minus the diode voltage, ie Vcc, when the batteries are at max voltage, Vbm.
+
+So the divider should be R2/(R1+R2) = Vcc/Vbm. Following the TA build specs and the diode used here, Vcc is 5.0-0.35 = 4.65V
+
+This gives R2 = Vcc/Vbm *4 kOhm, and R1 = 4 kOhm-R2
+
+here is the calculated table for various voltage levels: 
+
+<pre>          R1         R2          Vcc/Vbm_ideal 
+   2S:    1786       2214          0.5536   
+   3S:    2524       1476          0.3690   
+   4s:    2892       1107          0.2768 
+</pre>
+   
+Of course these resistors don't exist, so we need to look for something close, with the ratio being the most important thing. 
+
+<pre>      R1      R2      Divider Error % 
+  2S: 1780    2210      0.06 
+  3S: 2550    1500      0.36 
+  4S: 2870    1100      0.1 
+
+
+</pre>
+
+These should be in 1% tolerance or better. Any inaccuracy here pushes the measurable voltage range up against the spec limits.
+
+<u><a name="TailcapLED">IX.3 tailcap LED and resistor selection</a></u>
+
+<b>short version:</b>
+Use a 1Kohm BR and tune the LED resistor for brightness.  The LED resistor should be &gt; 1Kohm, and probably around 4.7kohm is good.
+
+
+<b>long version:</b>
+As with OTC, a tailcap LED can impact voltage on the OTSM cap.  See <a href="#TAcircuit">Ta Circuit</a> for circuit details. When the light is off current flows through the bleeder and in parallel through the R1/R2 divider, forming a single effective resistance Reff from Batt+ to the case.  Reff is in series with the LED resistor RLed and the LED itself.  For a green LED there is a roughly 2.1V drop across the LED, leaving 2.0V left across the resistors for a full battery.  The effecitve cirucit looks like this
+
+  +2.0V   ----Reff------Rled---- Gnd
+
+
+If the voltage drop across R2, and thus Reff, remains too high, the mcu cannot detect poweroff, or not quickly enough and OTSM doesn't work. In order to keep the drop across R2 low, we need to make sure the drop across the LED resitor is high compared to the drop from batt+ to case, ie Reff should not be too high compared to Rled.  In practice if Reff &lt; Rled that's probably good enough, but being a factor of two more less adds a safety margin.
+
+A 1kOhm BR and a 4.7Kohm Rled provide a total series resitance of 5.5 kOhm and a suitable ratio for OTSM operation. The BR can be tuned for brightness.
+
+
+<center><b>X <a name="Eswitch_devel">E-switch &amp; Dual-Wwitch Hardware Development Notes</a></b></center>
+  
+An eswitch works very similarly to OTSM, checking for voltage rises and falls and timing on a pin. So it was natural to add e-switch support.
+
+The eswitch would normally operate on the OTC pin just as before. However a clicky switch cycle is just a power cut-off and restore, and every firmware must have some behavior when power is restored. In that sense every e-switch build is a two-switch build. But the behavior and click timing for clicky presses can be customized using OTSM, OTC, the noinint method,and several other options.
+
+For OTC both a switch and cap would need to be wired to the OTC pin, with a small series resistor in the switch line. 
+
+The eswitch and OTSM should also be able to work on the same pin, the voltage pin, if so defined in the layout. Presently, even then, it is possible to tell which switch was pressed for long presses. A long press on the clicky switch will always create a full reset(the cap is actively run down as soon as the long press threshold is reached) and the eswitch won't. This is detectable by initialization values. 
+
+A significant problem with running OTSM on an e-switch light is that an e-switch light would normally have a very high resistance from C1 to ground to avoid parasitic drain. This conflicts with the OTSM need to have a fast voltage drop on C1 after power off.  Without hardware changes, the main solution is to find a compromise and live with it. You have a power-off switch, so use it when shelving the light. Other options are just to not use that combination. Use OTC or noinit for the clicky. Noinit is probably not yet supported in this combination.
+
+It's also possible to run the e-switch on the reset pin. The reset voltage threshold is very low (maybe 0.1V I think). So the switch would need a resistor network such as to pull the voltage down only to about0.5V. A capacitor may be required in that case to prevent noise from triggering the reset.
+
+
+
+
+<center><b>Appendix A. <a name="Vread">Voltage Readout Methods</a></b></center>
+ 
+<b>Method 1,Classic divider</b> (Non-OTSM, 1S or series): 
+
+Config options: READ_VOLTAGE_FROM_DIVIDER
+
+Traditionally voltage is read across a voltage divider made from the R1 and R2resistors. The ADC readout is made relative to the internal1.1V reference. In other words the ADC result is V_divider/1.1V* 255. This method does not work for OTSM, because the voltage pin detects power off when voltage is below about 1.5V. For this method, all divider voltages must be below 1.1, which won't work for OTSM.
+
+When to use: For any build without OTSM 
+
+Advantages: Works in 1S and 2S, 1 point calibration possible. 
+
+Disadvantages: Doesn't work with OTSM, requires a divider.
+
+<b>Method 2,inverted (aka "internal") reads</b> (1S OTSM): 
+
+Config options: READ_VOLTAGE_FROM_VCC 
+
+This has been become known as "internal" voltage reading. It effectively just reads Vcc, the voltage on the supply pin of the mcu. However it does this by actually reading the internal 1.1V reference, but reading it referenced to Vcc,essentially inverting the result. The ADC value produced is1.1V/Vcc * 255. And Vcc= 1.1*255/ADC.It works well when Vcc represents the battery voltage, ie in 1S, but doesn't work with LDO's and zeners.
+
+When to use: Can use for any 1S build, but useful for 1S OTSM 
+
+Advantages: Easy to adjust a little. Can be used on small boards with no voltage divider. 
+
+Disadvantages: 1Sonly, Calibration theoretically more difficult to get exact.
+
+<b>Method 3 Vcc-referenced divider reads (LDO OTSM method)</b> 
+
+Config options: READ_VOLTAGE_FROM_Vcc reference_DIVIDER_READS_TO_VCC Like method1, but references the divider read to Vcc. ADC result is V_divider/Vcc *255.
+
+When to use it: This works for any LDO build, ie builds where Vcc is regulated and can be used as reference. It is only required though for OTSM LDO builds,but is likely to be better than Method 1 for any LDO build, due to the more stable voltage reference. Calibration may not be required.
+
+Advantages: Most stable voltage reference can mean calibration-free. Disadvantages: Requires regulated mcu input voltage (won't work in1S)
+
+Note: this may work on zener builds in theory, but depends on the stability of the zener (for OTSM it also requires a quality Schottkey protection diode, and depends on the leakage of the zener).
+
+<b>Summary</b>: For non-OTSM builds with a divider the classic divider method is fine. For 1S-OTSM or 1S with no divider or 1S to avoid worrying about R values, use inverted reads (Meth 2).
+
+For LDO-OTSM builds, use Vcc-referenced divider reads. (Meth 3)
+
+Any OTSM build must have separate builds for 1S and LDO. 
+
+
+
+
+<center><b>Appendix B. <a name="TAmodegroups">TAv1.3+ modegroups </a></b></center>
+ 
+(augmented with a couple of extra,courtesy of extra space in HD)
+<pre id="text">
+           TURBO, 0,                                             // 1: 1 mode group
+           ONE7135, TURBO, 0,                                    // 2: 2 mode Group
+           ONE7135, ALL7135s, TURBO, 0,                          //3: You should get the idea by now....
+           4,  ONE7135,  ALL7135s,  TURBO, 0,                    // 4: 4 mode group that has turbo in the main modes instead of just in the hidden modes.
+           3,  5,  ONE7135,  ALL7135s, TURBO, 0,                //5: Wild guess on # of modes?
+           4,  ONE7135,  11,  ALL7135s,  17,TURBO, 0,           // 6: If you guessed right before, you should be able to figure this one out
+           3,  5,  ONE7135,  11, ALL7135s,  16,  TURBO, 0,      // 7: 7 modes for triple builds, the high modes are too close to get heron single emitter builds
+           3,  5,  ONE7135,  11, ALL7135s,  16,  18,  TURBO,0,   // 8: 8 modes for triple builds, the high modes are too close together on single emitter builds
+           ONE7135, 0,                                           //9: Basic Non-PWM ~150 lumen low regulated mode
+           ALL7135s, 0,                                          // 10: Basic non-PWM ~800 lumen regulated mode
+           ONE7135,  ALL7135s, 0,                                // 11: Only non-PWM modes
+           4,  ONE7135,  ALL7135s, 0,                            // 12: Default mode group 3 mode regulated, Recommended mode group for single emitter lights, 
+                                                                                        you can accesss turbo via the hidden modes
+           3,  5,  ONE7135,  ALL7135s, 0,                        // 13: 4 mode regulated
+           4,  ONE7135,  ALL7135s,  17,0,                        // 14: I kinda think you get it by now
+           ONE7135,  ALL7135s,  17,0,                            // 15: I kinda think you get it by now
+           BIKING_STROBE,BATTCHECK,4,ONE7135,ALL7135s,16,18,TURBO,0,      // 16: Biking group
+           ONE7135,  10,  12,  ALL7135s, 15,  16,  18,  TURBO, 0,       // 17: Lots of steady modes biking group for fine tuning heat management. 
+                                                                         //Adjust number of 7135's for finer current control.
+           ONE7135, ALL7135s, STROBE_16HZ, TURBO,0,              // 18: Tactical group
+           2,  3,  4,  5, 0,                                     // 19: Super sneaker low modes, .5 - 24 lumens
+           4,  TURBO, 0,                                         // 20: Security guard special, highly requested modegroup for guards
+           4,  ALL7135s,  TURBO, 0,                              // 21: 3 mode group setup without a 1x 7135 mode, jumps from low ~13lumens, to the bank of 7135's. 
+                                                                       //It is recommended you only install2-4 7135's on the bank so that the mode is a good mid range between low and turbo.
+           4,  ONE7135,  16,  TURBO, 0,                          // 22: 4 mode group setup for using the driver as a normal FET+1 with no 7135'son the bottom
+           4,  ONE7135,  15,  17, TURBO, 0,                     // 23: 5 mode group setup for using the driver as a normal FET+1 with no 7135'son the bottom
+           3,  5, ONE7135,  11,  ALL7135s,0,                     // 24: original mode 14.
+           4, ONE7135, 11, ALL7135s,0,                            // 25: Added by Flintrock in HD version. 
+           STROBE_10HZ,STROBE_16HZ,STROBE_OLD_MOVIE,STROBE_CREEPY,TURBO,ALL7135s,ONE7135,4,0,   // 26: Disco party mode! Lots o fun for the whole party 
+                                                                    //with all sorts of strobe modes to play with!
+           //2,  5, ONE7135,  11,  ALL7135s, 16,  18,  TURBO, 0,    //: Custom mode group so the rest of the groups can stay the same for easy reference later
+           4, ONE7135, ALL7135s, 0                              // muggle mode, 
+
+</pre>
+
+
+<center><b>Appendix C. <a name="TAcircuit">TA circuit</a> (well, not really just TA)</b></center>
+ 
+<pre><span>                  
+ LED high-current circuit not shown.
+             Batt+  Batt-
+             |--|  |-----|
+             |           |--------*&lt;-----|  (tail cap LED,shorted by switch)
+             |           |---------/ ----|  (tail cap switch)     
+             |                           |
+             |                           |
+             |---------BR----------------|  (case ground plane, not equal to 
+             |                           |       batt- when tail cap led is on)
+             R5                          |
+             |              C1           |
+             |---------------||----------|
+             |                           |
+             |-------R1----------R2------|
+             |             |             |
+             |          Vsense pin       |
+            LDO----                      | 
+                  |                      |
+      (Schottky)  V                      | 
+                  |                      |
+                  |                      |
+                  |----------mcu---------|
+                  |--------&lt;(zener)------|
+             Vcc  |----------||----------|       
+                             C2
+</span>
+</pre>
+
+
+Here it is again in a different rotation, makes the voltage levels more clear.
+
+
+<pre>
+<span>
+Batt+ ---------R5------------------------------------------------------------
+          |         |         |            |                                |
+          |         |         |           LDO                               |
+          |         |         |            |                                |
+          |         |         |          Schottky                           |
+          |         |         R1           V                               LED                                                          
+          |         |         |            ------------------------ Vcc     |       
+          |         |         |                  |      |       |           |
+          |         |         |     mcu          |      ^       |           |
+          BR        C1        |---- pin7        mcu    zener    C2          |        
+          |         |         |                  |      |       |           |
+          |         |         |                  |      |       |           |
+          |         |         |                  |      |       |           |    
+          |         |         R2                 |      |       |        FET/7135s    
+          |         |         |                  |      |       |           |
+          |         |         |                  |      |       |           |      
+          |         |         |                  |      |       |           |    
+   case   -------------------------------------------------------------------                         
+                |                 |                                             
+                |                 |                                             
+                |                 |                                             
+                |              Rtailcap                                             
+                \ switch          |                                                    
+                |             tailcapLed                                             
+                |                 V                                             
+                |                 |                                             
+Batt-  --------------------------------            
+</span>                                                       
+</pre>
+
+Generally either the LDO or the zener or neither will exist but not both at once. An LDO build may or may not have a Schottky. For OTSM either a high quality Schottky is needed with the LDO, or a sufficiently low leakage LDO must be found. The LDO also has a case-reference connection not shown.
+
+
+
+
+<center><b>Appendix D. <a name="OTSM_theory">OTSM Theory and technicalities</a></b></center>
+ 
+            See "Features" for basic explanation. Mike C and Flashy Mike tested early OTSM concepts. OTSM must power the mcu off a CAP and detect power-off so that it can enter a low power sleep state until power returns. The first important step is fast power-off detection. DEL recommends a 1uF C1 for stability. C1 must discharge to some threshold voltage to trigger a power-off detection. C2 must remain high. This means a diode or LDO/diode combination must exist between C2 and C1 and it should have low leakage current even when hot (&lt;1 or2 uA preferably). This limits diode selection. If C1 takes too long to drain, Charge on C2 will also be consumed by the mcu power. This means the resistance from C1 to ground should not be too big. Starting with a divider voltage close to the maximum threshold helped minimize the C1fall time. Bistro-HD uses pin-change detection. The maximum threshold for logic level detection is 0.6*Vcc so the sense voltage can be reduced safely to 0.75*Vcc or a little more, so R22:R1 of about 3:1, not much less. The measured mcu current for an attiny25 is about 4mA in full power, but by enabling OTC_POWERSAVE, is reduced to about 2.1mA. This measurably improves OTSM time.
+
+The charge used during off-detection depends strongly on the resistors selected and is easy to calculate. For the first bistro-HD OTSM light, 4.3k total resistance1uF C1 gave an RC time of 4.3ms. A more precise worst-case time to drain to minimum pin change threshold (0.3Vcc) ends up at about 4.0ms. With 2.1mA of idle current draw (in OTSM_POWERSAVE mode), that's 8.5uAs of drain. Assuming a 1V drop before the mcu turns off, the 47uF cap can provide47uAs of charge before shut-off, so that's already about 18% of the available charge, or about 10uF worth, or about 1s worth of off-time. If lower quality caps are used this starts to matter. If you've only got25uF of real capacitance, that first 10 is important. For lower quality caps,using a bleeder resistor or a divider in the hundreds of ohms range is a good idea, at the expense of moon-mode consumption.
+
+The next issue is the sleep power. Sleep power can be as low as about 4uA(measured) but only if BOD (Brown out detection) is disabled. Unfortunately brown out detection is maybe pretty important for preventing corruption when operating at low voltages (testing by Mike C). Furthermore a low voltage BOD with a compatible chip, ie the V version 10MHz chip, is important. Fortunately BOD can be disabled during sleep and enabled during running to protect corruption. This feature is called BODS, but it's only supported on late revision chips, see datasheet page 36 (and parts section above) for details. All known attempts to find compatible chips in attiny85 have failed. However recent purchases of attiny25V and attiny45 V have worked. Without BODS about 200uF of capacitance is required. With BODS 47uF is enough.
+
+Sleep power is not the whole picture. When the mcu is asleep there is no clock running that can simply tell the time when it wakes. Instead there is a watchdog timer that can wake it up periodically. By counting wakes and checking power state we know the time. But these wakes consume power. The more frequent the wakes, the more the average current rises above 4uA. For 0.25s wakes, the average current is about 8uA (with a good diode). In comparison, without BODS it's about 25 to30uA (all give or take depending on voltage). 0.25s is very unresponsive. To solve this the mcu wakes on the timer or a pin change interrupt. In this way turn on is immediate, but timing resolution is limited to 0.25s, which is good enough.
+
+Using the power-off consumption and the average sleep current it's relatively simple to calculate the total sleep time possible and with FET only this agrees reasonably with observations. Some difficulties were presented with the 7135s resulting in very low sleep times. This was never fully understood, but what is clear is that sleep time depends strongly on pin states and currents sourced from them.Aside from current through pins the manual states that pins left floating at intermediate values result in high current drain. All pins except the PWM pins and OTC (if used, possible in dual switch light) pin are set input high, a high impedance state documented to be pretty good for this. The voltage pin itself must be input low, low really means floating as the attiny has no pull-down resistors, only pull-up. To get the 7135s to work though, after detecting the power-drop, they had to beset to input low. Any other configuration resulted in very low off-times.
+
+It's worth pointing out that there is another way to detect power-down. The ADC can be used to detect pin voltage. This has the advantage of allowing more flexibility in voltage levels used for power-off detection and probably more precise control (logic level tolerance is large). The biggest downside is just software complication. The ADC needs to run asynchronously, and combining temperature monitoring, this is change from the usual bistro ADC methods. There was discussion about power use of the ADC, but this is not a serious issue. The ADC can run fine with very low pre-scale factors,probably 4 or 8 for the precision we need. At pre-scale 8t hat's about 1us per ADC cycle and 13 cycles per readout, so about 13us per ADC read, probably times two for the software commands themselves, so let's say 30us. The ADC consumes about 150uA of current but that's irrelevant for the short time it needs to run. What matters is it keeps the mcu awake and the mcu is consuming about 4mA of current for 30us so about 0.12uAs of charge. That's compared to about 0.25s *10uA=2.5uAs for a total sleep cycle. So the ADC adds about 5%. Why so low if the wake time is doubling the current draw and we're at least doubling the wake time. Probably because the time actually waking up is very significant. The chip takes 4ms to wake up and is presumably in some intermediate power state then. Compared to that the 30us extra probably isn't that much. 
+
+Some of the details are missing there, but the average current measurements are there  , and I have run tests with ADC reads during wakes on bisro-HD with no significant impact on off-time. The ability to detect pin fall faster could actually save power.
+
+Voltage pin,resistor selection, and OTSM:
+
+OTSM detects power-off on the voltage pin. So how can voltage be detected for battcheck and LVP? The logic level threshold has a tolerance range between 0.3*Vcc and 0.6*Vcc. For a 1S light with no regulator or zener, this just means we need the R2:R3 3:1 or greater to have a little safety margin. Making this work well with voltage divider reading is trickier. This is possible with included options but for this setup it's simpler to just read voltage off the Vcc anyway, also an included option.
+
+For a multi-cell(ex: 2S) light, Vcc will be powered by a regulator and cannot be used to read battery voltage. If a 3.0V LDO is used, then the highest shutdown trigger level on the voltage pin is 1.8V or0.6*3.0. If we reference voltage reads to Vcc the max we can read is is 3.0V. Conveniently 2.5V is 0.6* 4.2V so a typical battery operating range just barely fits in the available headroom. Resistors must be selected in 1% tolerance so that max voltage corresponds exactly to 3.0V or maybe 1 or 2 %less. The voltage should be read from the divider and the option to reference divider-reads to Vcc should be set, since these voltages are necessarily above the 1.1V internal reference.
+
+
+
+
+<center><b>XI <a name="Under_the_Hood">Under the Hood</a></b></center>
+ 
+<u>E.1 Space savings</u>
+ 
+Looping configs: Bistro uses several EEPROM saved variables, most o fthem representing selections in the main menu, or "toggles" that get turned on and off. Each variable was saved, loaded, and toggled with a separate command in each case. By placing the variables in an array and using loop operations many instructions are saved in each step. Some overhead is required,but it breaks even even for small biscotti builds.
+
+Variable length mode groups: For complex modegroup definitions like the TA triple bistro, many short mode groups waste many bytes with0's at the end. By adding zero termination detection to countmodes,many bytes were saved with limited overhead. Even in biscotti, this at least breaks even.
+
+Other countmodes savings: A bunch of space was saved by optimizing the countmodes operations. Especially finding the start of the modegroup,the end and copying the modegroup are now done in one read loop for non-reverse modes. For reverse modes it's done in two.
+
+In the new OTSM and eswitch code, much space was conserved (not gained) by using naked or OS_task interrupt handlers.Details in the comments.
+
+<u>E.2OTSM/ESWITCH</u> 
+
+An always-one-switch light could start up in some mode and sit in loop doing basically nothing while interrupts control ADC reads and switch detection. If an interrupt condition is met the main loop would catch a flag and do something. Bistro works very differently. Every time the switch is clicked the whole program restarts. Information must be saved periodically to record what was happening when the power went off. For example if we were in a selection pulse, and power went off, the user selected an option. Also the click length is determined on startup by various means to determine what to do. ADC's are read in the main process loop, not interrupts. 
+
+For OTSM we need to detect a power off condition and go to sleep. After detecting power restart,we need to determine the click length and do something. Since normally this is done in bistro at restart, we need to set some variable,specifically sleep time, and restart. Falling back through the main code loop would be very tricky. Furthermore it is very useful to be able to cleanly tell the difference between a restart and a cold start. So we want the variable initialized on a cold start, but remembered on restart. 
+
+Basically we need to treat main as a subroutine that we can call and we need other things done before main. That sounds simple, just rename main right? No.This restart processes is an unlimited loop on a device with a very limited memory.Every function adds a return pointer tot the stack and the stack retains the memory of the function before it. This will produce a stack overflow.
+
+Instead what is done is an init section of the code is used. These sections are not subroutines. They have no return. They are one-way. They simply run, and then code execution carries on to main.This is useful only because it prevents moving main to a normal subroutine and thus saves a few bytes associated with that. For the overflow problem what we need is to simply reset the stack pointer, and then jump to main. And that's what's done at the end of PCINT0_vect, the pin change interrupt handler.
+
+The attiny only has one interrupt handler for rising and falling pins. To keep the size small everything is handled in the one function. Since we will restart the program at the end of the handler, we don't need the usual interrupt overhead of saving and restoring all registers. This is a big overhead especially for a complex interrupt (this one is) because there is noway to set aside specific registers that the calling program doesn't touch, since the interrupt can happen anywhere. Every register used must be saved and restored. But we're not ever going to return. We're going to blow up the world and start over anyway. For this reason the usual overhead is avoided by declaring the function with the OS_task attribute. However since the same interrupt is used for the rising pin, we interrupt the interrupt on pin rise, and THEN we do return, to the first instance of the interrupt. That seems to pose a problem. By carefully controlling what registers are touched in the re-entry, we sneak in and out without damage. The whole process saves about 30bytes.
+
+The interrupt triggers on the voltage pin fall. A watchdog sleep is enabled. We wake every 1/4 s (configurable) to count wake times. We also wake on a pin change. Every time we check if the pin is high. If it is,break out of the loop, reset the stack, and jump to main. 
+
+Eswitch uses the same loop but adds a more complex sequence, with status bits, cycling back to sleep even after a pin rise in some conditions (long press to power off) and requiring another pair of pin changes to come back on.
+
+
+
+</pre>
+</div>
+
+
+
+
+</body>

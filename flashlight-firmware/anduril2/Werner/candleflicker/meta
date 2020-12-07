@@ -1,0 +1,7 @@
+Description: Candlelight flashlight with a nanjg
+Authors: Werner
+MCU: attiny13
+Button-Type:
+Memory:
+Modes: candle flicker
+Extras: special effect demo

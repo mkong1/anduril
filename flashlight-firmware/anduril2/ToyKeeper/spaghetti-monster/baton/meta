@@ -1,0 +1,8 @@
+Description: Baton, an Olight Baton clone UI for FSM.
+Authors: ToyKeeper
+MCU: attiny45, attiny85
+Button-Type: momentary
+Memory: yes
+Modes: discrete ramp, soft lock, party strobe
+Extras: thermal regulation, LVP, dual PWM
+

@@ -1,0 +1,146 @@
+? Skip to Main Content
+
+  * Contact
+
+J Cap Solutions
+
+  * Home
+  * Flashlights
+  * Wrenching
+  * Tool Rental
+  * Coding
+
+Home ? Flashlights ? Firmware
+
+Firmware
+
+These are programs that I have developed in my spare time to get my flashlights
+working the way I want them to, and to provide an easy way for other flashlight
+enthusiasts to customize their UI?s.  While a lot of it is original, 99% of the
+credit goes to Tido and DrJones for providing open-source programs to use as
+reference (and some code), and to the great members of BLF.  Feel free to use
+the programs however you wish.
+
+Here?s a link to the discussion about the firmware, with more detail about what
+it does provided by RMM - http://budgetlightforum.com/node/29150
+
+STAR ? On-time Memory
+
+Download Link v1.1
+
+Used for:  NANJG 105C in forward or reverse clicky lights without a secondary
+momentary switch
+
+Features:
+
+  * 18 kHz PWM with 9.4 kHz optional (used for custom FET driver versions)
+  * Define up to 10 constant-output modes
+  * Turbo mode (full output) with turbo timer that steps down to next lowest
+    mode in 15 to 120 seconds (definable)
+  * Mode lock time (on-time until mode is memorized):  between 0.5 and
+    5 seconds.
+  * Low-voltage monitoring with output level step-down (cuts level in half with
+    visual notification until voltage stabilized)
+
+Ability to solder stars
+
+ 1. DUMMY STAR
+ 2. Moonlight (not soldered = no, soldered = yes)
+ 3. Mode Order (not soldered = low to high, soldered = high to low)
+ 4. Mode Memory (not soldered = on, soldered = off)
+
+ 
+
+STAR ? Off-time Memory
+
+Download Link v1.3
+
+Used for:  NANJG 105C in forward or reverse clicky lights without a secondary
+momentary switch. REQUIRES additional capacitor.
+
+Features:
+
+  * 18 kHz PWM with 9.4 kHz optional (used for custom FET driver versions)
+  * Define up to 10 constant-output modes
+  * Define mode memory on or off
+  * Turbo mode (full output) with turbo timer that steps down to next lowest
+    mode in 15 to 120 seconds (definable)
+  * Mode lock time (time after light is off when mode is memorized):
+     completely depends on uF of the capacitor used
+  * Low-voltage monitoring with output level step-down (cuts level in half with
+    visual notification until voltage stabilized)
+
+Ability to solder stars
+
+ 1. DUMMY STAR
+ 2. Moonlight (not soldered = no, soldered = yes)
+ 3. Mode Order (not soldered = low to high, soldered = high to low)
+ 4. Capacitor
+
+ 
+
+SRK ? No Ramp (aka Werner?s UI)
+
+Download Link v1.0
+
+Used for:  NANJG 105C in always-on lights with a single momentary switch, like
+the Skyray King
+
+Features:
+
+  * 18 kHz PWM with 9.4 kHz optional (used for custom FET driver versions)
+  * Define multiple constant-output modes
+  * Turbo mode (full output) with turbo timer that steps down to next lowest
+    mode in 1 to 1,000 seconds (definable)
+  * Low-voltage monitoring with output level step-down (steps down to next
+    lower mode without visual notification)
+  * Light starts in an ?off? mode.  Short press from there or any mode to move
+    forward in L-H sequence, long press to move backwards.  Will loop around.
+     Cycle back to first mode to turn off.
+
+ 
+
+SRK ? With Ramp
+
+Download Link
+
+Used for:  NANJG 105C in always-on lights with a single momentary switch, like
+the Skyray King
+
+Features:
+
+  * Possibly coming soon
+
+ 
+
+Dual Switch
+
+Download Link v1.0
+
+Used for:  NANJG 105C in lights with a power switch (usually a rear clicky) and
+secondary momentary switch
+
+Features:
+
+  * 18 kHz PWM with 9.4 kHz optional (used for custom FET driver versions)
+  * Define multiple constant-output modes
+  * Turbo mode (full output) with turbo timer that steps down to next lowest
+    mode in 1 to 1,000 seconds (definable)
+  * Low-voltage monitoring with output level step-down (steps down to next
+    lower mode without visual notification)
+  * Light starts in first defined mode or last mode if memory enabled.  Short
+    press from there to move forward in mode sequence, long press to move
+    backwards.  Will loop around.  Turn off using rear clicky.
+
+Ability to solder stars
+
+ 1. DUMMY STAR
+ 2. Mode Order (not soldered = low to high, soldered = high to low)
+ 3. Mode Memory (not soldered = on, soldered = off)
+ 4. Connect secondary momentary switch here
+
+ 
+
+? 2014 J Cap Solutions
+?
+Responsive Theme powered by WordPress

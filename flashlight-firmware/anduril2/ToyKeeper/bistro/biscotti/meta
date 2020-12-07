@@ -1,0 +1,14 @@
+Description: "Biscotti" firmware for Convoy S-series and C8 lights
+  General-purpose clicky-switch light firmware with many runtime config options
+  to customize the interface to individual preferences:
+  - many different mode groups
+  - mode memory, or not
+  Default config fits on an attiny13.
+  Single power channel only.
+Button-Type: clicky
+Memory: offtime, mem decay, configurable
+MCU: attiny13, attiny25, attiny45, attiny85
+Authors: ToyKeeper
+Modes: battcheck, tactical strobe, bike flasher, config, SOS
+Extras: mode groups, LVP
+License: GPLv3

@@ -1,0 +1,9 @@
+Description: RMM/CWF "Dragon" firmware for 2-color clicky-switch lights
+  Similar to TK's Bistro, but designed for two independent sets of LEDs.
+Button-Type: clicky
+Memory: offtime, OTC, configurable
+MCU: attiny25, attiny45, attiny85
+Authors: RMM, ToyKeeper
+Modes: battcheck, voltage readout, tactical strobe, random strobe, police strobe, bike flasher, config, muggle
+Extras: dual PWM, offtime-3, hidden modes, mode groups, thermal regulation, LVP, soft start
+License: GPLv3

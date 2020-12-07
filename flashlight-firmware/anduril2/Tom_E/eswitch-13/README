@@ -1,0 +1,25 @@
+From http://budgetlightforum.com/node/29150?page=7#comment-576382
+
+On Sun, 05/04/2014 - 07:50, Tom E wrote:
+
+I added strobe mode to my custom version of JC's STAR momentary driver, link to source code here:
+
+Google doc - eswitch.c
+https://drive.google.com/file/d/0B1IxYZuk4DjcbzI2S1UyYVpjbGs/edit?usp=sharing
+
+Basically what I did was added an extra long hold feature to access strobe. I use more aggressive delays, so mode switching stays very responsive, and my priority (as previous versions) is for one click OFF.
+
+ - quick click for + mode (std)
+
+ - long click/hold of 1/3 sec for - mode (std)
+
+ - one click to turn the light OFF, after 1.2 sec in any mode (custom)
+
+ - extra long click/hold of 3/4 sec for strobe mode (any click will return you to original mode) (custom)
+
+So for example:
+
+the light is OFF - hold for 3/4 sec - strobe, click or hold turns the light OFF
+the light is in Hi mode - hold for 3/4 sec - strobe, click to go back to Hi
+the light is in moonlight mode - hold for 3/4 sec - strobe, click to go back to moonlight
+For entering strobe, the long duration next mode will briefly engage (between the 1/3 to 3/4 sec times) but I don't find it much of a distraction, as long as it returns to the original mode you were in. 

@@ -1,0 +1,74 @@
+Firmware for a Sinner Cypreus Tri-EDC with a FET+1 driver with 
+triple XP-L emitters and a capacitor to enable off-time memory.
+
+Interface:
+
+  See the state change diagram for details, but here is a quick 
+  overview:
+
+  - A short press (0.5s or less) moves the mode forward by one.
+  - A medium press (~0.5s to 1.5s) moves the mode backward by one.
+  - A long press (more than 1.5s) resets to the first mode.  So, after 
+    being off for a while it always starts at the first mode.
+  - Going "backward" from the first mode will take you to hidden 
+    modes.
+  - A short press from any hidden mode has various effects.
+
+Solid modes:
+
+   1. Moon.
+   2. Low.
+   3. Medium.
+   4. High.
+   5. Turbo. (will step down after ~15s)
+   6. Max Turbo. (will step down after ~15s)
+
+Primary / intermediate hidden modes:
+
+   -1. Max Turbo.
+       Short press -> Moon.
+   -2. Bike flasher (bright).
+       Short press -> Dim bike flasher.
+   -3. 24 Hz strobe.
+       Short press -> 12 Hz strobe.
+   -4. Battcheck mode.
+       Short press -> Heartbeat beacon.
+
+Full / secondary hidden modes:
+
+   7. Dim bike flasher.
+   8. Medium bike flasher.
+   9. Bright bike flasher.
+  10. Battery check mode.  Measures, blinks 0 to 5 times, waits, repeats:
+      - 0 blinks: < 3.0V
+      - 1 blink : 3.0-3.5V
+      - 2 blinks: 3.5-3.8V
+      - 3 blinks: 3.8-4.0V
+      - 4 blinks: 4.0-4.2V
+      - 5 blinks: > 4.2V
+  11. 1Hz Heartbeat beacon.  Blinks twice, waits, repeats.
+  12. 12Hz motion-freezing strobe.  (not tactical, more like a party strobe)
+  13. 24Hz motion-freezing strobe.
+  14. 60Hz motion-freezing strobe.
+  15. Self-ramping 7Hz to 18Hz motion-freezing strobe.  Point it 
+      at a ceiling fan or something, it looks neat.
+  12. Self-ramping 16Hz to 100Hz motion-freezing strobe.
+
+Mode changes:
+
+  See the state change diagram for a visual summary.
+
+  There are basically three mode groups: Normal, primary hidden, and 
+  full hidden.  Normal modes loop both directions except that a 
+  medium press from moon enters the primary hidden group.  The 
+  primary hidden group is reversed and loops back to moon at the 
+  end, with each forward action going to various other places.  The 
+  full hidden group loops on both ends and can only be exited by 
+  doing a long press.
+
+When the battery voltage gets low, the light will step down and 
+eventually turn off.  If on a blinky mode, it'll "step down" to the 
+"Med" mode first, then low, then off.  If on a regular/solid mode, 
+it will step down one level each time until it's at "moon", then 
+turn off.
+

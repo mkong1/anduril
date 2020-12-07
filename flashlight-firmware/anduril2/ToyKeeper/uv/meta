@@ -1,0 +1,11 @@
+Description: S7-like code intended for use on a UV blacklight
+ Has four solid modes, heartbeat beacon, four strobe modes, and battcheck.
+ Strobes have longer duty cycles than party strobes, but not as long as
+ tactical strobes.  This should help it make UV-sensitive objects blink
+ without using as much power as a tactical strobe.
+Button-Type: clicky
+Memory: offtime, mem decay, none
+MCU: attiny13
+Authors: ToyKeeper
+Modes: battcheck, party strobe, beacon
+Extras:

@@ -1,0 +1,7 @@
+Description: 1-mode version of STAR (100% only with turbo and LVP step-down)
+Authors: ToyKeeper, JonnyC
+MCU: attiny13
+Button-Type: clicky
+Memory: none
+Modes: 100% only
+Extras: dual PWM, turbo timer

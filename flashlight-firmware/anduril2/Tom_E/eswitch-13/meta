@@ -1,0 +1,7 @@
+Description: STAR-momentary plus strobe and 1-click off
+Authors: Tom E, JonnyC
+MCU: attiny13
+Button-Type: momentary
+Memory: none
+Modes: tactical strobe
+Extras:

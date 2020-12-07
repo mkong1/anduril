@@ -1,0 +1,57 @@
+Open Issues
+-----------
+- ADDED 2018-08-11: TA pointed out the low pass filter used for non V1.1ref LVP is not in the R1/R2 setup. Should
+   be added there as well
+
+
+
+- ADDED on 2017/10/15: 2017/10/15: (from MAD777, maybe others) if strobes are disabled, a 2X click from 2X turbo
+    should restore the previous level you were at
+- FIXED on 2017/10/15: 2017/10/12 BUG: 4X clicks in modes operation engages lockout - not supposed to
+- ADDED on 2017/10/15: 2017/10/08: operation change: make click&hold in MODES or STROBES wrap from 1st mode to last
+
+- FIXED on 2017/10/15: 2017/10/04 BUG: in LVP switch LED control: the LED sometimes is left
+  on after an LVP drop, and is not blinking the way it should be. The "bug" is that I'm trying
+  to control the switch LEDs from multiple places so it's getting turned off quickly after turned
+  on, and left on when it should be left off. It's a timing thing, so has sort of a random
+  pattern - sometimes left on, sometimes left off.
+  The 8 sec LVP blink need to be qualified better, and should not be calling Setlevel() as is
+  because it wants to control the LED
+
+- FIXED on 2017/10/15: 2017/10/01 temp stepdown should not happen right away from turn ON.
+  Delay it, least by 15 seconds! (yes - delayed 15 secs from turnong ON)
+
+- FIXED on 2017/10/15: 2017/09/29 BUG: for temperature stepdown, in moon mode, a temp stepdown
+  is actually done because moon mode is marked as special level 255, which is considerred as a
+  high level of output instead of very low. The stepdown results in the light switching much
+  brighter. This should only happen id the temperature threshold is set to a low temp, or the
+  light is still hot and not cooled down when moon mode is chosen. It can also result in an
+  immediate jump to the stepdown level as soon as the light is turned on in moon mode. Might
+  appear as a bright flash when ramping first starts.
+
+- re-work triple channel ramping tables: add more to the FET range, check/test for different
+  # of 7135's in the bank (5/27: not sure this is necessary now with new 3 chan ramping table)
+
+- (from JasonWWW) triple channel mode sets are not completely defined, and are different than 2
+  chans - need to, at a minimum, document it this way
+- (from JasonWWW) possible problem with mode memory in 3 chan config - must check it out
+  
+Possible New Features
+---------------------
+- besides supporting turbo/max on power up, add support if powered up with the button pressed,
+  come up in moon (lowest) mode
+- joechina recommended to do a quick ramp to max, maybe even quick fade to OFF to ease tension to
+  the eyes. The Olight A1R does this.
+- enhancing tailswitch support: full mode sets w/memory (Lexel)
+- add ability to have timed and temp step down simultaneously (Lexel)
+- research "bump protection" - tolerate a short loss of power
+- build in a method to show the current config settings
+- more blinky modes, like lightning, campfire, etc.
+
+Done Issues/Features
+- FIXED: Tom E: in mode sets, step down settings wasn't working correctly
+- FIXED: 1 Lexel/BLF spotted: Blinkies unable to turn off in ramping
+- FIXED: delay processing of fast click operations to avoid max/turbo flash and allow more fast
+  click options (over 4 doesn't work)
+- DONE: add in buck driver support cleanly (BLF GT)
+- DONE: add momentary/tactical mode
