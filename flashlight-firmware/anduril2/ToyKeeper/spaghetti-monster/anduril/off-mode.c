@@ -176,15 +176,17 @@ uint8_t off_state(Event event, uint16_t arg) {
         return MISCHIEF_MANAGED;
     }
     #ifdef USE_BATTCHECK
+    // 4 clicks
     // 3 clicks: battcheck mode / blinky mode group 1
-    else if (event == EV_3clicks) {
+    else if (event == EV_4clicks) {
         set_state(battcheck_state, 0);
         return MISCHIEF_MANAGED;
     }
     #endif
     #ifdef USE_LOCKOUT_MODE
+    // MK: 3 clicks
     // 4 clicks: soft lockout
-    else if (event == EV_4clicks) {
+    else if (event == EV_3clicks) {
         blink_once();
         set_state(lockout_state, 0);
         return MISCHIEF_MANAGED;
@@ -245,12 +247,13 @@ uint8_t off_state(Event event, uint16_t arg) {
     }
     #endif
     #ifdef USE_MOMENTARY_MODE
+    // MK: disable momentary mode
     // 5 clicks: momentary mode
-    else if (event == EV_5clicks) {
-        blink_once();
-        set_state(momentary_state, 0);
-        return MISCHIEF_MANAGED;
-    }
+    //else if (event == EV_5clicks) {
+    //    blink_once();
+    //   set_state(momentary_state, 0);
+    //    return MISCHIEF_MANAGED;
+    //}
     #endif
     #ifdef USE_INDICATOR_LED
     // 7 clicks: change indicator LED mode

@@ -134,8 +134,9 @@ uint8_t steady_state(Event event, uint16_t arg) {
     }
 
     #ifdef USE_LOCKOUT_MODE
+    // MK: 3 clicks
     // 4 clicks: shortcut to lockout mode
-    else if (event == EV_4clicks) {
+    else if (event == EV_3clicks) {
         set_level(0);
         set_state(lockout_state, 0);
         return MISCHIEF_MANAGED;
@@ -342,8 +343,9 @@ uint8_t steady_state(Event event, uint16_t arg) {
     }
     #endif
 
+    // MK: 4 clicks
     // 3 clicks: toggle smooth vs discrete ramping
-    else if (event == EV_3clicks) {
+    else if (event == EV_4clicks) {
         ramp_style = !ramp_style;
         save_config();
         #ifdef START_AT_MEMORIZED_LEVEL
@@ -373,12 +375,13 @@ uint8_t steady_state(Event event, uint16_t arg) {
     #endif  // ifndef USE_TINT_RAMPING
 
     #ifdef USE_MOMENTARY_MODE
+    // MK: disable momentary mode
     // 5 clicks: shortcut to momentary mode
-    else if (event == EV_5clicks) {
-        set_level(0);
-        set_state(momentary_state, 0);
-        return MISCHIEF_MANAGED;
-    }
+    //else if (event == EV_5clicks) {
+    //    set_level(0);
+    //    set_state(momentary_state, 0);
+    //    return MISCHIEF_MANAGED;
+   // }
     #endif
 
     #ifdef USE_RAMP_CONFIG
