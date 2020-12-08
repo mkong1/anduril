@@ -109,8 +109,9 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         set_state(steady_state, 1);
         return MISCHIEF_MANAGED;
     }
+    // MK: 3 clicks instead
     // 5 clicks: exit and turn on at ceiling level
-    else if (event == EV_5clicks) {
+    else if (event == EV_3clicks) {
         set_state(steady_state, MAX_LEVEL);
         return MISCHIEF_MANAGED;
     }
