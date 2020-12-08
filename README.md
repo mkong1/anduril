@@ -7,7 +7,10 @@
   4. from off and ramp mode, 3 clicks to lock.
   5. from off, 4 clicks to do battery check.
   6. from ramp mode, 4 clicks to change ramp setting (smooth vs stepped).
-  7. momentary mode is disabled.
+  7. from ramp, 2 clicks goes to turbo.
+  8. blinks in ramp disabled.
+  9. momentary mode is disabled.
+  10. tactical strobe disabled.
 
 ## Flash your light with an existing hex file:
 I've put the hex files and basic scripts for AVRDude for the easily-flashed lights I own in the `hex_files_2020_12_07` directory.
