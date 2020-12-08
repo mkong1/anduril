@@ -9,6 +9,9 @@
   6. from ramp mode, 4 clicks to change ramp setting (smooth vs stepped).
   7. momentary mode is disabled.
 
+## Just flash my version to your light:
+I've put the hex files and basic scripts for AVRDude for the easily-flashed lights I have in the hex_files_2020_12_07 directory.
+
 ## Creating a build yourself:
 all the code lives in `/flashlight-firmware/anduril2/ToyKeeper/spaghetti-monster/anduril`
 
@@ -18,7 +21,7 @@ using your flash kit, while holding the pogo-pins to the head of your light:
   1. run `flash_test.sh` to verify communication with the light.
   2. run `flash_go.sh <filename>` to flash a specific firmware version to your light.
   
-### caveats:
+### Caveats:
   1. use `noctigon-kr4-nofet.hex` for KR1, anything with a E21A LEDs.
   2. use `noctigon-kr4.hex` for a D4V2 using a KR4 driver.
 
