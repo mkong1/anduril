@@ -12,7 +12,7 @@ usage="\nUsage: `basename $0` -fhl
     3. KR1
     4. D4V2/KR4 with E21A led
     5. D4SV2
-  -f hex filename (hard-coded with `-p t1634`, might not work with your light!)"
+  -f hex filename (hard-coded with -p t1634, might not work with your light!)"
 
 while getopts ':hlf:' option; do
   case "$option" in
