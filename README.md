@@ -20,7 +20,7 @@ If you're on a Mac or Linux and use Homebrew:
 
 using your flash kit, while holding the pogo-pins to the head of your light: 
   1. run `flash_test.sh` to verify communication with the light.
-  2. run `flash_go.sh <filename>` to flash a specific firmware version to your light.
+  2. run `flash_light.sh -h` to see specific lights with shortcuts to use with `-l`, or `-f` to point to a specific file.
 
 ## Making your own changes:
 
@@ -33,6 +33,7 @@ make your changes in `/flashlight-firmware/anduril2/ToyKeeper/spaghetti-monster/
 run `build-all.sh`.  This will generate `.hex` files for you, which you can then flash to your light.
   
 ### Caveats:
+  (using `flash_light.sh -l` with the appropriate light will select the right hex file for you)
   1. use `noctigon-kr4-nofet.hex` for KR1, anything with a E21A LEDs.
   2. use `noctigon-kr4.hex` for a D4V2 using a KR4 driver.
 
