@@ -247,13 +247,12 @@ uint8_t off_state(Event event, uint16_t arg) {
     }
     #endif
     #ifdef USE_MOMENTARY_MODE
-    // MK: disable momentary mode
     // 5 clicks: momentary mode
-    //else if (event == EV_5clicks) {
-    //    blink_once();
-    //   set_state(momentary_state, 0);
-    //    return MISCHIEF_MANAGED;
-    //}
+    else if (event == EV_5clicks) {
+        blink_once();
+       set_state(momentary_state, 0);
+        return MISCHIEF_MANAGED;
+    }
     #endif
     #ifdef USE_INDICATOR_LED
     // 7 clicks: change indicator LED mode
