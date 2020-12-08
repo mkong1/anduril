@@ -9,21 +9,25 @@
   6. from ramp mode, 4 clicks to change ramp setting (smooth vs stepped).
   7. momentary mode is disabled.
 
-## Just flash my version to your light:
-I've put the hex files and basic scripts for AVRDude for the easily-flashed lights I have in the hex_files_2020_12_07 directory.
+## Flash your light with an existing hex file:
+I've put the hex files and basic scripts for AVRDude for the easily-flashed lights I own in the `hex_files_2020_12_07` directory.
 
 If you're on a Mac or Linux and use Homebrew:
   1. `brew install avrdude`
-  2. `brew install avr-gcc` (only if you plan to make your own changes)
 
 using your flash kit, while holding the pogo-pins to the head of your light: 
   1. run `flash_test.sh` to verify communication with the light.
   2. run `flash_go.sh <filename>` to flash a specific firmware version to your light.
 
 ## Making your own changes:
-all the code lives in `/flashlight-firmware/anduril2/ToyKeeper/spaghetti-monster/anduril`
 
-run `build-all.sh` in that directory to generate `.hex` files.  This will generate `.hex` files for you, which you can then flash.
+If you're on a Mac or Linux and use Homebrew:
+  1. `brew tap osx-cross/avr`
+  2. `brew install avr-gcc` (only if you plan to make your own changes)
+  
+make your changes in `/flashlight-firmware/anduril2/ToyKeeper/spaghetti-monster/anduril`
+
+run `build-all.sh`.  This will generate `.hex` files for you, which you can then flash to your light.
   
 ### Caveats:
   1. use `noctigon-kr4-nofet.hex` for KR1, anything with a E21A LEDs.
