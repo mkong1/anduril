@@ -6,3 +6,6 @@ from off and ramp mode, 3 clicks to lock.
 from off, 4 clicks to do battery check.
 from ramp mode, 4 clicks to change ramp setting (smooth vs stepped).
 momentary mode is disabled.
+blinks in ramp disabled.
+tactical strobe disabled.
+2c from ramp goes to turbo.
