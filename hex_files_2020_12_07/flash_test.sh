@@ -1,3 +1,1 @@
-#!/bin/sh
-
-avrdude -p t1634 -c usbasp -n
+../flashlight-firmware/anduril2/ToyKeeper/spaghetti-monster/anduril/flash_test.sh
