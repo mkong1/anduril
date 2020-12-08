@@ -3,7 +3,7 @@
 ## Differences from OS:
   1. from lockout, 2 clicks to unlock the light.
   2. from lockout, 2 click-hold to unlock at ramp floor.
-  3. from lockout, 3 click-hold to unlock at ramp ceiling.
+  3. from lockout, 3 clicks to unlock at ramp ceiling.
   4. from off and ramp mode, 3 clicks to lock.
   5. from off, 4 clicks to do battery check.
   6. from ramp mode, 4 clicks to change ramp setting (smooth vs stepped).
