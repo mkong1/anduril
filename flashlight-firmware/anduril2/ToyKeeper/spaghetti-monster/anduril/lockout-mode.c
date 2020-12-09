@@ -116,6 +116,17 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         return MISCHIEF_MANAGED;
     }
 
+    //MK: 3 click-hold for momentary turbo
+    // click, hold: momentary at ceiling or turbo
+    else if (event == EV_click3_hold) {
+        if (simple_ui_active) {
+            set_level(nearest_level(MAX_LEVEL));
+        } else {
+            set_level(MAX_LEVEL);
+        }
+        return MISCHIEF_MANAGED;
+    }
+
     ////////// Every action below here is blocked in the simple UI //////////
     #ifdef USE_SIMPLE_UI
     if (simple_ui_active) {
