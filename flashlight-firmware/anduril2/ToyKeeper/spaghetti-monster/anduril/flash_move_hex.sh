@@ -4,5 +4,5 @@
 
 rm -f *.hex
 mv ../code/*.hex .
-rm -f anduril.o code/
-rm -f anduril.elf code/
+rm -f code/anduril.o
+rm -f code/anduril.elf

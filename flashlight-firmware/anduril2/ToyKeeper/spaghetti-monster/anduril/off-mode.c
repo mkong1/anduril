@@ -41,7 +41,7 @@ uint8_t off_state(Event event, uint16_t arg) {
         #elif defined(USE_AUX_RGB_LEDS)
         rgb_led_update(rgb_led_off_mode, 0);
         #ifdef USE_BUTTON_LED
-        button_led_update(button_led_lockout_mode, 0);
+        button_led_update(button_led_off_mode, 0);
         #endif
         #endif
         #ifdef USE_SUNSET_TIMER
@@ -61,7 +61,7 @@ uint8_t off_state(Event event, uint16_t arg) {
             #elif defined(USE_AUX_RGB_LEDS)
             rgb_led_update(rgb_led_off_mode, arg);
             #ifdef USE_BUTTON_LED
-            button_led_update(button_led_lockout_mode, arg);
+            button_led_update(button_led_off_mode, arg);
             #endif
             #endif
         }
@@ -80,7 +80,7 @@ uint8_t off_state(Event event, uint16_t arg) {
         #elif defined(USE_AUX_RGB_LEDS)
         rgb_led_update(rgb_led_off_mode, arg);
         #ifdef USE_BUTTON_LED
-        button_led_update(button_led_lockout_mode, arg);
+        button_led_update(button_led_off_mode, arg);
         #endif
         #endif
 
