@@ -1,17 +1,7 @@
 # MK's Anduril 2 fork
 
 ## Differences from OS:
-  1. from lockout, 2 clicks to unlock the light.
-  2. from lockout, 2 click-hold to unlock at ramp floor.
-  3. from lockout, 3 clicks to unlock at ramp ceiling.
-  4. from lockout, 3 click-hold is momentary turbo.
-  5. from off and ramp mode, 3 clicks to lock.
-  6. from off, 4 clicks to do battery check.
-  7. from ramp mode, 4 clicks to change ramp setting (smooth vs stepped).
-  8. from ramp, 2 clicks goes to turbo.
-  9. blinks in ramp disabled.
-  10. momentary mode is disabled.
-  11. tactical strobe disabled.
+Running feature changes available in CHANGELOG
 
 ## Flash your light with an existing hex file:
 I've put the hex files and basic scripts for AVRDude for the easily-flashed lights I own in the `hex_files_2020_12_07` directory.
