@@ -1,8 +1,14 @@
-Differences from OS:
+2020-12-09
+from off/lockout, 8 clicks to configure button led.
+
+2020-12-08
+from lockout, 3 click-hold is momentary-turbo.
+CLI with help for loading hex files.
+
+2020-12-07
 from lockout, 2 clicks to unlock the light.
 from lockout, 2 click-hold to unlock at ramp floor.
 from lockout, 3 clicks to unlock at ramp ceiling.
-from lockout, 3 click-hold is momentary-turbo.
 from off and ramp mode, 3 clicks to lock.
 from off, 4 clicks to do battery check.
 from ramp mode, 4 clicks to change ramp setting (smooth vs stepped).
