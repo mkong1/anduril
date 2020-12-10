@@ -74,8 +74,8 @@ void load_config() {
         rgb_led_lockout_mode = eeprom[rgb_led_lockout_mode_e];
         #endif
         #ifdef USE_BUTTON_LED
-        button_led_off_mode_e,
-        button_led_lockout_mode_e,
+        button_led_off_mode = eeprom[button_led_off_mode_e];
+        button_led_lockout_mode = eeprom[button_led_lockout_mode_e];
         #endif
         #ifdef USE_AUTOLOCK
         autolock_time = eeprom[autolock_time_e];
