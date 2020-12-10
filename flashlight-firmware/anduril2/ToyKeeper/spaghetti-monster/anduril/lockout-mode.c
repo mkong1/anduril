@@ -179,7 +179,6 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         rgb_led_lockout_mode = (mode << 4) | (rgb_led_lockout_mode & 0x0f);
         rgb_led_update(rgb_led_lockout_mode, 0);
         save_config();
-        blink_once();
         return MISCHIEF_MANAGED;
     }
     // 7H: change RGB aux LED color

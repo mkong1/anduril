@@ -293,12 +293,11 @@ uint8_t off_state(Event event, uint16_t arg) {
     }
     #ifdef USE_BUTTON_LED
     else if (event == EV_8clicks) {
-        uint8_t mode = (button_led_lockout_mode >> 4) + 1;
+        uint8_t mode = (button_led_off_mode >> 4) + 1;
         mode = mode % RGB_LED_NUM_PATTERNS;
-        button_led_lockout_mode = (mode << 4) | (button_led_lockout_mode & 0x0f);
-        button_led_update(button_led_lockout_mode, 0);
+        button_led_off_mode = (mode << 4) | (button_led_off_mode & 0x0f);
+        button_led_update(button_led_off_mode, 0);
         save_config();
-        blink_once();
         return MISCHIEF_MANAGED;
     }
     #endif
