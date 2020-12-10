@@ -181,6 +181,16 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         save_config();
         return MISCHIEF_MANAGED;
     }
+    #ifdef USE_BUTTON_LED
+    else if (event == EV_8clicks) {
+        uint8_t mode = (button_led_lockout_mode >> 4) + 1;
+        mode = mode % RGB_LED_NUM_PATTERNS;
+        button_led_lockout_mode = (mode << 4) | (button_led_lockout_mode & 0x0f);
+        button_led_update(button_led_lockout_mode, arg);
+        save_config();
+        return MISCHIEF_MANAGED;
+    }
+    #endif
     // 7H: change RGB aux LED color
     else if (event == EV_click7_hold) {
         setting_rgb_mode_now = 1;
