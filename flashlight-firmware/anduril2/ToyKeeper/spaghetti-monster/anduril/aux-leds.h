@@ -81,5 +81,10 @@ uint8_t rgb_led_lockout_mode = RGB_LED_LOCKOUT_DEFAULT;
     #endif
 #endif
 
+#if defined(USE_BUTTON_LED) && defined(TICK_DURING_STANDBY)
+void button_led_update(uint8_t mode, uint8_t arg);
+uint8_t button_led_off_mode = RGB_LED_OFF_DEFAULT;
+uint8_t button_led_lockout_mode = RGB_LED_LOCKOUT_DEFAULT;
+#endif
 
 #endif

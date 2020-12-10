@@ -173,6 +173,47 @@ void rgb_led_voltage_readout(uint8_t bright) {
 }
 #endif
 
+#if defined(USE_BUTTON_LED) && defined(TICK_DURING_STANDBY)
+
+void button_led_update(uint8_t mode, uint8_t arg) {
+    static uint8_t frame = 0;  // track state of animation mode
+
+    // turn off aux LEDs when battery is empty
+    // (but if voltage==0, that means we just booted and don't know yet)
+    uint8_t volts = voltage;  // save a few bytes by caching volatile value
+    if ((volts) && (volts < VOLTAGE_LOW)) {
+        button_led_set(0);
+        return;
+    }
+
+    uint8_t pattern = (mode>>4);  // off, low, high, blinking, ... more?
+
+    // preview in blinking mode is awkward... use high instead
+    if ((! go_to_standby) && (pattern > 2)) { pattern = 2; }
+    // pick a brightness from the animation sequence
+    if (pattern == 3) {
+        // uses an odd length to avoid lining up with rainbow loop
+        uint8_t animation[] = {2, 1, 0, 0,  0, 0, 0, 0,  0,
+            1, 0, 0, 0,  0, 0, 0, 0,  0, 1};
+        frame = (frame + 1) % sizeof(animation);
+        pattern = animation[frame];
+    }
+    uint8_t button_led_result;
+    switch (pattern) {
+        case 0:  // off
+        button_led_result = 0;
+        break;
+        case 1:  // low
+        button_led_result = 1;
+        break;
+        default:  // high
+        button_led_result = 2;
+        break;
+    }
+    button_led_set(button_led_result);
+}
+
+#endif
 
 #endif
 
