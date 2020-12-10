@@ -62,6 +62,9 @@ uint8_t lockout_state(Event event, uint16_t arg) {
     #elif defined(USE_AUX_RGB_LEDS)
     if (event == EV_enter_state) {
         rgb_led_update(rgb_led_lockout_mode, 0);
+    #ifdef USE_BUTTON_LED
+    button_led_update(button_led_lockout_mode, 0);
+    #endif
     } else
     #endif
     if (event == EV_tick) {
@@ -71,6 +74,9 @@ uint8_t lockout_state(Event event, uint16_t arg) {
             indicator_led(indicator_led_mode >> 2);
             #elif defined(USE_AUX_RGB_LEDS)
             rgb_led_update(rgb_led_lockout_mode, arg);
+            #ifdef USE_BUTTON_LED
+            button_led_update(button_led_lockout_mode, arg);
+            #endif
             #endif
         }
         return MISCHIEF_MANAGED;
@@ -83,6 +89,9 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         }
         #elif defined(USE_AUX_RGB_LEDS)
         rgb_led_update(rgb_led_lockout_mode, arg);
+        #ifdef USE_BUTTON_LED
+        button_led_update(button_led_lockout_mode, arg);
+        #endif
         #endif
         return MISCHIEF_MANAGED;
     }
