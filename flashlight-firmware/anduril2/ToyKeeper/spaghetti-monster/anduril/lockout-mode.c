@@ -111,7 +111,6 @@ uint8_t lockout_state(Event event, uint16_t arg) {
     // MK: 2 clicks instead
     // 4 clicks, but hold last: exit and start at floor
     else if (event == EV_click2_hold) {
-        blink_once();
         // reset button sequence to avoid activating anything in ramp mode
         current_event = 0;
         // ... and back to ramp mode
