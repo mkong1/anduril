@@ -50,7 +50,9 @@
 // B_RELEASE_T: activate when user lets go of button
 // B_TIMEOUT_T: activate when we're sure the user won't double-click
 // defaults are release on, timeout off
-#define B_TIMING_ON B_RELEASE_T
+// #define B_TIMING_ON B_RELEASE_T
+// MK: change it so timeout for on, lock from off doesn't not flash on
+#define B_TIMING_ON B_TIMEOUT_T
 #define B_TIMING_OFF B_TIMEOUT_T
 
 // default ramp style: 0 = smooth, 1 = stepped
