@@ -100,6 +100,10 @@ uint8_t lockout_state(Event event, uint16_t arg) {
     // MK: 2 clicks
     // 4 clicks: exit and turn on
     else if (event == EV_2clicks) {
+        #ifdef USE_UNLOCK_TO_OFF
+        set_state(off_state, 0);
+        return MISCHIEF_MANAGED;
+        #endif
         #ifdef USE_MANUAL_MEMORY
         if (manual_memory)
             set_state(steady_state, manual_memory);
