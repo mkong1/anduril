@@ -151,6 +151,8 @@
 // enable momentary mode
 // #define USE_MOMENTARY_MODE
 
+// enable unlock to off mode (default Anduril 1 behavior), instead of turning on
+// #define USE_UNLOCK_TO_OFF
 
 // cut clock speed at very low modes for better efficiency
 // (defined here so config files can override it)

@@ -1,3 +1,6 @@
+2020-12-21
+config USE_UNLOCK_FROM_OFF, use Anduril 1 behavior to unlock to off state.
+
 2020-12-11
 from lockout, 2 click-hold removes blink.
 
