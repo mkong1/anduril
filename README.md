@@ -4,7 +4,8 @@
 Running feature changes available in CHANGELOG
 
 ## Flash your light with an existing hex file:
-I've put the hex files and basic scripts for AVRDude for the easily-flashed lights I own in the `hex_files_2020_12_07` directory.
+I've put the hex files and basic scripts for AVRDude for this Anduril 2 fork in the `hex_files` directory.
+If you're looking for the open source Anduril 2 hex files, they're in the `open_source_hex_files` directory.
 
 If you're on a Mac or Linux and use Homebrew:
   1. `brew install avrdude`
