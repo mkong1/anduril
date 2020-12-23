@@ -1,3 +1,6 @@
+2020-12-22
+default start in advanced UI, not simple UI
+
 2020-12-21
 config USE_UNLOCK_FROM_OFF, use Anduril 1 behavior to unlock to off state.
 
