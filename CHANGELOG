@@ -1,3 +1,7 @@
+2021-01-05
+KR4 ramps slower at the bottom like D4V2.
+default autolock to 10 min.
+
 2020-12-28
 default floor 2 for smooth and stepped ramp for kr4 and kr4-no-fet.
 default aux for off to high-voltage, lockout to low-voltage.
