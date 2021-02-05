@@ -24,7 +24,7 @@
 uint8_t lockout_state(Event event, uint16_t arg);
 
 #ifdef USE_AUTOLOCK
-uint8_t autolock_time = 10;
+uint8_t autolock_time = 0;
 uint8_t autolock_config_state(Event event, uint16_t arg);
 #endif
 
