@@ -35,9 +35,15 @@ void rgb_led_voltage_readout(uint8_t bright);
  * 4:   B
  * 5: R B
  * 6: RGB
- * 7: rainbow
- * 8: voltage
+ * 7: disco
+ * 8: rainbow
+ * 9: voltage
  */
+
+// format for RGB_LED_*_DEFAULTS below: 0x<mode><color>
+// mode: 0-> off, 1 -> low, 2-> high, 3->blinking
+// color: comment above
+
 const PROGMEM uint8_t rgb_led_colors[] = {
     0b00000001,  // 0: red
     0b00000101,  // 1: yellow
