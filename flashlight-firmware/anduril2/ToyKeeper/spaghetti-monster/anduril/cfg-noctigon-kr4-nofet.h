@@ -29,11 +29,11 @@
 #undef RAMP_DISCRETE_STEPS
 
 #define RAMP_SMOOTH_FLOOR 3  // level 1 is unreliable
-#define RAMP_SMOOTH_CEIL  130
+#define RAMP_SMOOTH_CEIL  100
 // 10, 30, [50], 70, 90, 110, 130  (plus [150] on turbo)
 #define RAMP_DISCRETE_FLOOR 3
 #define RAMP_DISCRETE_CEIL  RAMP_SMOOTH_CEIL
-#define RAMP_DISCRETE_STEPS 7
+#define RAMP_DISCRETE_STEPS 6
 
 // safe limit ~67% power / ~1200 lm (can sustain 900 lm)
 #undef SIMPLE_UI_FLOOR
