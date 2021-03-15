@@ -31,6 +31,9 @@ while getopts ':hlf:' option; do
          4) echo "D4SV2"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.emisar-d4sv2.hex
            exit;;
+         5) echo "MF01S"
+           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.mateminco-mf01s.hex
+           exit;;
        esac
        exit;;
     f) echo "flashing ${2} now"
