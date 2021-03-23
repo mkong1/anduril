@@ -153,7 +153,7 @@ uint8_t off_state(Event event, uint16_t arg) {
     }
     #endif  // if (B_TIMING_ON != B_TIMEOUT_T)
     // 1 click: regular mode
-    else if (event == EV_1click) {
+    else if (event == EV_click3_hold) {
         #if (B_TIMING_ON != B_TIMEOUT_T)
         // brightness was already set; reuse previous value
         set_state(steady_state, actual_level);
@@ -248,7 +248,7 @@ uint8_t off_state(Event event, uint16_t arg) {
 
     // click, click, long-click: strobe mode
     #ifdef USE_STROBE_STATE
-    else if (event == EV_click3_hold) {
+    else if (event == EV_1click) {
         set_state(strobe_state, 0);
         return MISCHIEF_MANAGED;
     }
