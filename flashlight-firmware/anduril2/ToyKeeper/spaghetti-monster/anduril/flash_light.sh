@@ -11,6 +11,7 @@ usage="\nUsage: `basename $0` -fhl
     2. KR4 and D4V2 with KR4 driver
     3. KR1 and D4V2/KR4 with E21A LEDs
     4. D4SV2
+    5. MF01S
   -f hex filename (hard-coded with -p t1634, might not work with your light!)"
 
 while getopts ':hlf:' option; do
