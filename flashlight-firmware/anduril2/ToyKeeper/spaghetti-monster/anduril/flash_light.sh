@@ -12,6 +12,7 @@ usage="\nUsage: `basename $0` -fhl
     3. KR1 and D4V2/KR4 with E21A LEDs
     4. D4SV2
     5. MF01S
+    6. BLF LT1
   -f hex filename (hard-coded with -p t1634, might not work with your light!)"
 
 while getopts ':hlf:' option; do
@@ -35,6 +36,8 @@ while getopts ':hlf:' option; do
          5) echo "MF01S"
            avrdude -c usbasp -p t85 -u -Uflash:w:anduril.mateminco-mf01s.hex
            exit;;
+         6) echo "BLF LT1"
+           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.blf-lantern.hex
        esac
        exit;;
     f) echo "flashing ${2} now"
