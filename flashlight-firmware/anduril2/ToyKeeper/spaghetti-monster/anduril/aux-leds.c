@@ -201,10 +201,21 @@ void button_led_update(uint8_t mode, uint8_t arg) {
     // turn off aux LEDs when battery is empty
     // (but if voltage==0, that means we just booted and don't know yet)
     uint8_t volts = voltage;  // save a few bytes by caching volatile value
+    #ifdef USE_VOLTAGE_LOW_BLINKING_INDICATOR
+    // slow blink aux LEDs when battery is nearly empty
     if ((volts) && (volts < VOLTAGE_LOW)) {
         button_led_set(0);
         return;
+    } else if (volts < (uint8_t) (1.1*VOLTAGE_LOW)) {
+        button_led_set(! (arg & 3)); // 1/4th duty cycle
+        return;
     }
+    #else
+    if ((volts) && (volts < VOLTAGE_LOW)) {
+    button_led_set(0);
+    return;
+    }
+    #endif
 
     uint8_t pattern = (mode>>4);  // off, low, high, blinking, ... more?
 
