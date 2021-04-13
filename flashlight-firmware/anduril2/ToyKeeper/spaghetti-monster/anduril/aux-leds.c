@@ -26,8 +26,6 @@
 #if defined(USE_INDICATOR_LED) && defined(TICK_DURING_STANDBY)
 // beacon-like mode for the indicator LED
 void indicator_blink(uint8_t arg) {
-    
-
     #ifdef USE_VOLTAGE_LOW_BLINKING_INDICATOR
     // slow blink aux LEDs when battery is empty
     if (voltage < VOLTAGE_LOW) { indicator_led(arg & 1); return; }
