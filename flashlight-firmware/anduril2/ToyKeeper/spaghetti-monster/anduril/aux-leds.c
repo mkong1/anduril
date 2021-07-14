@@ -26,8 +26,19 @@
 #if defined(USE_INDICATOR_LED) && defined(TICK_DURING_STANDBY)
 // beacon-like mode for the indicator LED
 void indicator_blink(uint8_t arg) {
+    #ifdef USE_VOLTAGE_LOW_BLINKING_INDICATOR
+    // slow blink aux LEDs when battery is nearly empty
+    if (voltage < VOLTAGE_LOW) {
+        indicator_led(0);
+        return;
+    } else if (voltage < (uint8_t) (1.1*VOLTAGE_LOW)) {
+        indicator_led(! (arg & 3)); // 1/4th duty cycle
+        return;
+    }
+    #else
     // turn off aux LEDs when battery is empty
     if (voltage < VOLTAGE_LOW) { indicator_led(0); return; }
+    #endif
 
     #ifdef USE_FANCIER_BLINKING_INDICATOR
 
@@ -190,10 +201,21 @@ void button_led_update(uint8_t mode, uint8_t arg) {
     // turn off aux LEDs when battery is empty
     // (but if voltage==0, that means we just booted and don't know yet)
     uint8_t volts = voltage;  // save a few bytes by caching volatile value
+    #ifdef USE_VOLTAGE_LOW_BLINKING_INDICATOR
+    // slow blink aux LEDs when battery is nearly empty
     if ((volts) && (volts < VOLTAGE_LOW)) {
         button_led_set(0);
         return;
+    } else if (volts < (uint8_t) (1.1*VOLTAGE_LOW)) {
+        button_led_set(! (arg & 3)); // 1/4th duty cycle
+        return;
     }
+    #else
+    if ((volts) && (volts < VOLTAGE_LOW)) {
+    button_led_set(0);
+    return;
+    }
+    #endif
 
     uint8_t pattern = (mode>>4);  // off, low, high, blinking, ... more?
 
