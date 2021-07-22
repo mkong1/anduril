@@ -691,7 +691,7 @@ Ramp		Simple	2C	Go to/from ceiling
 Ramp		Full	2C	Go to/from turbo
 Ramp		Any	3C	Lockout mode
 Ramp		Any	3H	Tint ramping (on some lights)
-Ramp		Any	3H	Momentary turbo (on lights without tint ramping)
+Ramp		Full	3H	Momentary turbo (on lights without tint ramping)
 Ramp		Full	4C	Change ramp style (smooth / stepped)
 Ramp		Full	5H	Sunset timer on, and add 5 minutes
 Ramp		Full	7H	Ramp config menu (1: floor, 2: ceiling, [3: steps])
