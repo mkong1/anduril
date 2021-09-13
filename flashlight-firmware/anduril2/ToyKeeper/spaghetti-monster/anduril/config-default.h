@@ -37,7 +37,19 @@
 // overheat protection
 #define USE_THERMAL_REGULATION
 #define DEFAULT_THERM_CEIL 45  // try not to get hotter than this (in C)
-
+// Comment out to disable automatic calibration on factory reset
+//   - If so, be sure to set THERM_CAL_OFFSET to the correct calibration offset
+//   - Calibration can still be overridden in temperature check mode
+// Or uncomment to use the default auto-calibrate on factory reset
+//
+// To determine THERM_CAL_OFFSET, comment out USE_THERM_AUTOCALIBRATE to
+// disable auto-calibration, compile and flash, let flashlight rest at a known
+// temperature, then enter temp check mode (do NOT enter calibration mode).
+//
+// THERM_CAL_OFFSET = known_temperature - temp_check_blinks + THERM_CAL_OFFSET
+//
+// (include THERM_CAL_OFFSET in sum as it might already be a non-zero number)
+#define USE_THERM_AUTOCALIBRATE
 
 // Include a simplified UI for non-enthusiasts?
 #define USE_SIMPLE_UI
@@ -56,6 +68,15 @@
 // default ramp style: 0 = smooth, 1 = stepped
 #define RAMP_STYLE 0
 
+// smooth ramp speed: 1, 2, 3, 4, ...  for 1X speed, 1/2, 1/3rd, 1/4th, ...
+#define USE_RAMP_SPEED_CONFIG
+
+// after ramping, how long until the direction resets to "up"?
+#define AUTO_REVERSE_TIME (TICKS_PER_SECOND * 2 / 3)
+
+// add runtime option for whether hold-from-off should ramp or stay at moon
+#define USE_RAMP_AFTER_MOON_CONFIG
+
 // short blip when crossing from "click" to "hold" from off
 // (helps the user hit moon mode exactly, instead of holding too long
 //  or too short)
@@ -71,7 +92,16 @@
 // Or comment out to use Anduril2 behavior instead:
 //   - Ramp 2C goes to ceiling, unless already at ceiling or in simple UI.
 //     (Advanced UI ceiling 2C goes to turbo)
-#define USE_2C_MAX_TURBO
+//#define USE_2C_MAX_TURBO
+// Or uncomment to let the user decide which style they want:
+#define USE_2C_STYLE_CONFIG
+// 0 = no turbo
+// 1 = A1 style: Off 2C = ceil, On 2C = turbo
+// 2 = A2 style: Off 2C = ceil, On 2C = ceil, Ramped ceil 2C = turbo
+// All styles allow momentary turbo in advanced UI
+#define DEFAULT_2C_STYLE 1
+//#define DEFAULT_2C_STYLE 2  // default to Anduril 2 style
+//#define DEFAULT_2C_STYLE_SIMPLE 0  // no turbo at all
 
 // make the ramps configurable by the user
 #define USE_RAMP_CONFIG
@@ -149,10 +179,8 @@
 #define USE_AUTOLOCK
 
 // enable momentary mode
-// #define USE_MOMENTARY_MODE
+//#define USE_MOMENTARY_MODE
 
-// enable unlock to off mode (default Anduril 1 behavior), instead of turning on
-// #define USE_UNLOCK_TO_OFF
 
 // cut clock speed at very low modes for better efficiency
 // (defined here so config files can override it)

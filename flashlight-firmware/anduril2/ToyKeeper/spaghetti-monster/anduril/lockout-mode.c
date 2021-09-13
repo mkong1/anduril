@@ -115,6 +115,7 @@ uint8_t lockout_state(Event event, uint16_t arg) {
     // MK: 2 clicks instead
     // 4 clicks, but hold last: exit and start at floor
     else if (event == EV_click2_hold) {
+        blink_once();
         // reset button sequence to avoid activating anything in ramp mode
         current_event = 0;
         // ... and back to ramp mode
@@ -182,18 +183,9 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         rgb_led_lockout_mode = (mode << 4) | (rgb_led_lockout_mode & 0x0f);
         rgb_led_update(rgb_led_lockout_mode, 0);
         save_config();
+        blink_once();
         return MISCHIEF_MANAGED;
     }
-    #ifdef USE_BUTTON_LED
-    else if (event == EV_8clicks) {
-        uint8_t mode = (button_led_lockout_mode >> 4) + 1;
-        mode = mode % RGB_LED_NUM_PATTERNS;
-        button_led_lockout_mode = (mode << 4) | (button_led_lockout_mode & 0x0f);
-        button_led_update(button_led_lockout_mode, arg);
-        save_config();
-        return MISCHIEF_MANAGED;
-    }
-    #endif
     // 7H: change RGB aux LED color
     else if (event == EV_click7_hold) {
         setting_rgb_mode_now = 1;
@@ -206,6 +198,16 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         rgb_led_update(rgb_led_lockout_mode, arg);
         return MISCHIEF_MANAGED;
     }
+    #ifdef USE_BUTTON_LED
+    else if (event == EV_8clicks) {
+        uint8_t mode = (button_led_lockout_mode >> 4) + 1;
+        mode = mode % RGB_LED_NUM_PATTERNS;
+        button_led_lockout_mode = (mode << 4) | (button_led_lockout_mode & 0x0f);
+        button_led_update(button_led_lockout_mode, arg);
+        save_config();
+        return MISCHIEF_MANAGED;
+    }
+    #endif
     // 7H, release: save new color
     else if (event == EV_click7_hold_release) {
         setting_rgb_mode_now = 0;
