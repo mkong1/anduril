@@ -97,8 +97,7 @@ uint8_t lockout_state(Event event, uint16_t arg) {
     }
     #endif
 
-    // MK: 2 clicks
-    // 4 clicks: exit and turn on
+    // 2 clicks: exit and turn on
     else if (event == EV_2clicks) {
         #ifdef USE_UNLOCK_TO_OFF
         set_state(off_state, 0);
@@ -112,7 +111,6 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         set_state(steady_state, memorized_level);
         return MISCHIEF_MANAGED;
     }
-    // MK: 2 clicks instead
     // 4 clicks, but hold last: exit and start at floor
     else if (event == EV_click2_hold) {
         // reset button sequence to avoid activating anything in ramp mode
@@ -121,7 +119,6 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         set_state(steady_state, 1);
         return MISCHIEF_MANAGED;
     }
-    // MK: 3 clicks instead
     // 5 clicks: exit and turn on at ceiling level
     else if (event == EV_3clicks) {
         set_state(steady_state, MAX_LEVEL);
@@ -182,6 +179,7 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         rgb_led_lockout_mode = (mode << 4) | (rgb_led_lockout_mode & 0x0f);
         rgb_led_update(rgb_led_lockout_mode, 0);
         save_config();
+        blink_once();
         return MISCHIEF_MANAGED;
     }
     #ifdef USE_BUTTON_LED

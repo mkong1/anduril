@@ -9,13 +9,13 @@
 #ifdef RGB_LED_OFF_DEFAULT
 #undef RGB_LED_OFF_DEFAULT
 #endif
-#define RGB_LED_OFF_DEFAULT 0x18  // low, rainbow
+#define RGB_LED_OFF_DEFAULT 0x29 // low, rainbow
 
 // half a second per color in rainbow mode
 //#define RGB_RAINBOW_SPEED 0x03
 
 
 // double click while on goes to full-power turbo, not ramp ceiling
-#define USE_2C_MAX_TURBO
+#define DEFAULT_2C_STYLE 1
 
 #endif  // ifndef HANK_CFG

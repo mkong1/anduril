@@ -39,11 +39,6 @@ void rgb_led_voltage_readout(uint8_t bright);
  * 8: rainbow
  * 9: voltage
  */
-
-// format for RGB_LED_*_DEFAULTS below: 0x<mode><color>
-// mode: 0-> off, 1 -> low, 2-> high, 3->blinking
-// color: comment above
-
 const PROGMEM uint8_t rgb_led_colors[] = {
     0b00000001,  // 0: red
     0b00000101,  // 1: yellow
@@ -72,7 +67,7 @@ uint8_t rgb_led_off_mode = RGB_LED_OFF_DEFAULT;
 uint8_t rgb_led_lockout_mode = RGB_LED_LOCKOUT_DEFAULT;
 #endif
 
-//#define  USE_OLD_BLINKING_INDICATOR
+//#define USE_OLD_BLINKING_INDICATOR
 //#define USE_FANCIER_BLINKING_INDICATOR
 #ifdef USE_INDICATOR_LED
     // bits 2-3 control lockout mode
