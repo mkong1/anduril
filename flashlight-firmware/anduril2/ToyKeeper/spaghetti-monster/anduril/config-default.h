@@ -82,9 +82,9 @@
 //  or too short)
 #define MOON_TIMING_HINT  // only applies if B_TIMING_ON == B_PRESS_T
 // short blips while ramping
-#define BLINK_AT_RAMP_MIDDLE
+//#define BLINK_AT_RAMP_MIDDLE
 //#define BLINK_AT_RAMP_FLOOR
-#define BLINK_AT_RAMP_CEIL
+//#define BLINK_AT_RAMP_CEIL
 //#define BLINK_AT_STEPS  // whenever a discrete ramp mode is passed in smooth mode
 
 // Uncomment for Anduril1 "Ramp 2C" behavior:
@@ -100,6 +100,7 @@
 // 2 = A2 style: Off 2C = ceil, On 2C = ceil, Ramped ceil 2C = turbo
 // All styles allow momentary turbo in advanced UI
 //#define DEFAULT_2C_STYLE 2  // default to Anduril 2 style
+#define DEFAULT_2C_STYLE 1
 //#define DEFAULT_2C_STYLE_SIMPLE 0  // no turbo at all
 
 // make the ramps configurable by the user
@@ -156,9 +157,9 @@
 #define USE_BEACON_MODE
 
 // enable/disable various strobe modes
-#define USE_BIKE_FLASHER_MODE
-#define USE_PARTY_STROBE_MODE
-#define USE_TACTICAL_STROBE_MODE
+//#define USE_BIKE_FLASHER_MODE
+//#define USE_PARTY_STROBE_MODE
+//#define USE_TACTICAL_STROBE_MODE
 #define USE_LIGHTNING_MODE
 #define USE_CANDLE_MODE
 
@@ -178,7 +179,7 @@
 #define USE_AUTOLOCK
 
 // enable momentary mode
-#define USE_MOMENTARY_MODE
+//#define USE_MOMENTARY_MODE
 
 
 // enable a shortcut for +10 in number entry mode

@@ -35,8 +35,9 @@ void rgb_led_voltage_readout(uint8_t bright);
  * 4:   B
  * 5: R B
  * 6: RGB
- * 7: rainbow
- * 8: voltage
+ * 7: disco
+ * 8: rainbow
+ * 9: voltage
  */
 const PROGMEM uint8_t rgb_led_colors[] = {
     0b00000001,  // 0: red
@@ -52,11 +53,12 @@ const PROGMEM uint8_t rgb_led_colors[] = {
 #define RGB_LED_NUM_COLORS 11
 #define RGB_LED_NUM_PATTERNS 4
 #ifndef RGB_LED_OFF_DEFAULT
-#define RGB_LED_OFF_DEFAULT 0x19  // low, voltage
+#define RGB_LED_OFF_DEFAULT 0x29  // high, voltage
 //#define RGB_LED_OFF_DEFAULT 0x18  // low, rainbow
 #endif
 #ifndef RGB_LED_LOCKOUT_DEFAULT
-#define RGB_LED_LOCKOUT_DEFAULT 0x37  // blinking, disco
+#define RGB_LED_LOCKOUT_DEFAULT 0x19  // low, voltage
+//#define RGB_LED_LOCKOUT_DEFAULT 0x37  // blinking, disco
 #endif
 #ifndef RGB_RAINBOW_SPEED
 #define RGB_RAINBOW_SPEED 0x0f  // change color every 16 frames
@@ -83,5 +85,10 @@ uint8_t rgb_led_lockout_mode = RGB_LED_LOCKOUT_DEFAULT;
     #endif
 #endif
 
+#if defined(USE_BUTTON_LED) && defined(TICK_DURING_STANDBY)
+void button_led_update(uint8_t mode, uint8_t arg);
+uint8_t button_led_off_mode = RGB_LED_OFF_DEFAULT;
+uint8_t button_led_lockout_mode = RGB_LED_LOCKOUT_DEFAULT;
+#endif
 
 #endif

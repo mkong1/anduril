@@ -62,6 +62,9 @@ uint8_t lockout_state(Event event, uint16_t arg) {
     #elif defined(USE_AUX_RGB_LEDS)
     if (event == EV_enter_state) {
         rgb_led_update(rgb_led_lockout_mode, 0);
+    #ifdef USE_BUTTON_LED
+    button_led_update(button_led_lockout_mode, 0);
+    #endif
     } else
     #endif
     if (event == EV_tick) {
@@ -71,6 +74,9 @@ uint8_t lockout_state(Event event, uint16_t arg) {
             indicator_led(indicator_led_mode >> 2);
             #elif defined(USE_AUX_RGB_LEDS)
             rgb_led_update(rgb_led_lockout_mode, arg);
+            #ifdef USE_BUTTON_LED
+            button_led_update(button_led_lockout_mode, arg);
+            #endif
             #endif
         }
         return MISCHIEF_MANAGED;
@@ -83,13 +89,20 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         }
         #elif defined(USE_AUX_RGB_LEDS)
         rgb_led_update(rgb_led_lockout_mode, arg);
+        #ifdef USE_BUTTON_LED
+        button_led_update(button_led_lockout_mode, arg);
+        #endif
         #endif
         return MISCHIEF_MANAGED;
     }
     #endif
 
-    // 4 clicks: exit and turn on
-    else if (event == EV_4clicks) {
+    // 2 clicks: exit and turn on
+    else if (event == EV_2clicks) {
+        #ifdef USE_UNLOCK_TO_OFF
+        set_state(off_state, 0);
+        return MISCHIEF_MANAGED;
+        #endif
         #ifdef USE_MANUAL_MEMORY
         if (manual_memory)
             set_state(steady_state, manual_memory);
@@ -99,7 +112,7 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         return MISCHIEF_MANAGED;
     }
     // 4 clicks, but hold last: exit and start at floor
-    else if (event == EV_click4_hold) {
+    else if (event == EV_click2_hold) {
         blink_once();
         // reset button sequence to avoid activating anything in ramp mode
         current_event = 0;
@@ -108,8 +121,19 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         return MISCHIEF_MANAGED;
     }
     // 5 clicks: exit and turn on at ceiling level
-    else if (event == EV_5clicks) {
+    else if (event == EV_3clicks) {
         set_state(steady_state, MAX_LEVEL);
+        return MISCHIEF_MANAGED;
+    }
+
+    //MK: 3 click-hold for momentary turbo
+    // click, hold: momentary at ceiling or turbo
+    else if (event == EV_click3_hold) {
+        if (simple_ui_active) {
+            set_level(nearest_level(MAX_LEVEL));
+        } else {
+            set_level(MAX_LEVEL);
+        }
         return MISCHIEF_MANAGED;
     }
 
@@ -159,6 +183,16 @@ uint8_t lockout_state(Event event, uint16_t arg) {
         blink_once();
         return MISCHIEF_MANAGED;
     }
+    #ifdef USE_BUTTON_LED
+    else if (event == EV_8clicks) {
+        uint8_t mode = (button_led_lockout_mode >> 4) + 1;
+        mode = mode % RGB_LED_NUM_PATTERNS;
+        button_led_lockout_mode = (mode << 4) | (button_led_lockout_mode & 0x0f);
+        button_led_update(button_led_lockout_mode, arg);
+        save_config();
+        return MISCHIEF_MANAGED;
+    }
+    #endif
     // 7H: change RGB aux LED color
     else if (event == EV_click7_hold) {
         setting_rgb_mode_now = 1;

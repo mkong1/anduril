@@ -31,8 +31,8 @@
 #undef RAMP_DISCRETE_CEIL
 #undef RAMP_DISCRETE_STEPS
 
-#define RAMP_SMOOTH_FLOOR 11  // low levels may be unreliable
-#define RAMP_SMOOTH_CEIL  130
+#define RAMP_SMOOTH_FLOOR 3  // low levels may be unreliable
+#define RAMP_SMOOTH_CEIL  100
 // 11, 30, [50], 70, 90, 110, 130  (plus [150] on turbo)
 #define RAMP_DISCRETE_FLOOR 11
 #define RAMP_DISCRETE_CEIL  RAMP_SMOOTH_CEIL
