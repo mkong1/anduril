@@ -40,7 +40,7 @@
 // TODO: Move these settings to config-default.h?
 // start in the simple UI after each factory reset?
 #ifndef SIMPLE_UI_ACTIVE
-#define SIMPLE_UI_ACTIVE 0
+#define SIMPLE_UI_ACTIVE 1
 #endif
 #ifndef SIMPLE_UI_FLOOR
 #define SIMPLE_UI_FLOOR (RAMP_SIZE*2/15)
@@ -74,6 +74,9 @@
 // default ramp options if not overridden earlier per-driver
 #ifndef RAMP_STYLE
 #define RAMP_STYLE 0  // smooth default
+#endif
+#ifndef DEFAULT_RAMP_SPEED
+#define DEFAULT_RAMP_SPEED 1  // WDT ticks per "frame", must be 1 or more
 #endif
 #ifndef RAMP_SMOOTH_FLOOR
   #define RAMP_SMOOTH_FLOOR 1
@@ -124,8 +127,11 @@ uint8_t simple_ui_config_state(Event event, uint16_t arg);
 #endif
 #endif
 
-#if defined(USE_MANUAL_MEMORY) && defined(USE_MANUAL_MEMORY_TIMER)
-uint8_t manual_memory_timer_config_state(Event event, uint16_t arg);
+#if defined(USE_MANUAL_MEMORY_TIMER) || defined(USE_RAMP_AFTER_MOON_CONFIG) || defined(USE_2C_STYLE_CONFIG) || defined(USE_AUTO_SUNSET)
+#define USE_RAMP_EXTRAS_CONFIG
+#endif
+#ifdef USE_RAMP_EXTRAS_CONFIG
+uint8_t ramp_extras_config_state(Event event, uint16_t arg);
 #endif
 
 // calculate the nearest ramp level which would be valid at the moment
@@ -160,11 +166,36 @@ uint8_t manual_memory_timer = DEFAULT_MANUAL_MEMORY_TIMER;
 #endif
 #endif
 #ifdef USE_SIMPLE_UI
-// whether to enable the simplified interface or not
-uint8_t simple_ui_active = SIMPLE_UI_ACTIVE;
+    // whether to enable the simplified interface or not
+    uint8_t simple_ui_active = SIMPLE_UI_ACTIVE;
+    #ifdef USE_2C_STYLE_CONFIG
+        #ifndef DEFAULT_2C_STYLE_SIMPLE
+        #define DEFAULT_2C_STYLE_SIMPLE 0
+        #endif
+        uint8_t ramp_2c_style_simple = DEFAULT_2C_STYLE_SIMPLE;  // 0 = no turbo, 1 = A1 style, 2 = A2 style
+    #endif
 #endif
 // smooth vs discrete ramping
 uint8_t ramp_style = RAMP_STYLE;  // 0 = smooth, 1 = discrete
+#ifdef USE_2C_STYLE_CONFIG
+#ifndef DEFAULT_2C_STYLE
+#define DEFAULT_2C_STYLE 2
+#endif
+uint8_t ramp_2c_style = DEFAULT_2C_STYLE;  // 1 = A1 style, 2 = A2 style
+#ifdef USE_2C_MAX_TURBO
+#error Cannot use USE_2C_MAX_TURBO and USE_2C_STYLE_CONFIG at the same time.
+#endif
+#endif
+
+#ifdef USE_RAMP_SPEED_CONFIG
+#define ramp_speed (ramp_stepss[0])
+#endif
+#ifdef USE_RAMP_AFTER_MOON_CONFIG
+#ifndef DEFAULT_DONT_RAMP_AFTER_MOON
+#define DEFAULT_DONT_RAMP_AFTER_MOON 0
+#endif
+uint8_t dont_ramp_after_moon = DEFAULT_DONT_RAMP_AFTER_MOON;
+#endif
 // current values, regardless of style
 uint8_t ramp_floor = RAMP_SMOOTH_FLOOR;
 uint8_t ramp_ceil = RAMP_SMOOTH_CEIL;
@@ -184,13 +215,18 @@ uint8_t ramp_ceils[] = {
     #endif
     };
 uint8_t ramp_stepss[] = {
-    0,
+    DEFAULT_RAMP_SPEED,
     RAMP_DISCRETE_STEPS,
     #ifdef USE_SIMPLE_UI
     SIMPLE_UI_STEPS,
     #endif
     };
 uint8_t ramp_discrete_step_size;  // don't set this
+
+#ifdef USE_GLOBALS_CONFIG
+void globals_config_save(uint8_t step, uint8_t value);
+uint8_t globals_config_state(Event event, uint16_t arg);
+#endif
 
 
 #endif

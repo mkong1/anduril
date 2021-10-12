@@ -35,15 +35,9 @@ void rgb_led_voltage_readout(uint8_t bright);
  * 4:   B
  * 5: R B
  * 6: RGB
- * 7: disco
- * 8: rainbow
- * 9: voltage
+ * 7: rainbow
+ * 8: voltage
  */
-
-// format for RGB_LED_*_DEFAULTS below: 0x<mode><color>
-// mode: 0-> off, 1 -> low, 2-> high, 3->blinking
-// color: comment above
-
 const PROGMEM uint8_t rgb_led_colors[] = {
     0b00000001,  // 0: red
     0b00000101,  // 1: yellow
@@ -58,12 +52,11 @@ const PROGMEM uint8_t rgb_led_colors[] = {
 #define RGB_LED_NUM_COLORS 11
 #define RGB_LED_NUM_PATTERNS 4
 #ifndef RGB_LED_OFF_DEFAULT
-#define RGB_LED_OFF_DEFAULT 0x29  // high, voltage
+#define RGB_LED_OFF_DEFAULT 0x19  // low, voltage
 //#define RGB_LED_OFF_DEFAULT 0x18  // low, rainbow
 #endif
 #ifndef RGB_LED_LOCKOUT_DEFAULT
-#define RGB_LED_LOCKOUT_DEFAULT 0x19  // low, voltage
-//#define RGB_LED_LOCKOUT_DEFAULT 0x37  // blinking, disco
+#define RGB_LED_LOCKOUT_DEFAULT 0x37  // blinking, disco
 #endif
 #ifndef RGB_RAINBOW_SPEED
 #define RGB_RAINBOW_SPEED 0x0f  // change color every 16 frames
@@ -72,7 +65,7 @@ uint8_t rgb_led_off_mode = RGB_LED_OFF_DEFAULT;
 uint8_t rgb_led_lockout_mode = RGB_LED_LOCKOUT_DEFAULT;
 #endif
 
-//#define  USE_OLD_BLINKING_INDICATOR
+//#define USE_OLD_BLINKING_INDICATOR
 //#define USE_FANCIER_BLINKING_INDICATOR
 #ifdef USE_INDICATOR_LED
     // bits 2-3 control lockout mode
@@ -90,10 +83,5 @@ uint8_t rgb_led_lockout_mode = RGB_LED_LOCKOUT_DEFAULT;
     #endif
 #endif
 
-#if defined(USE_BUTTON_LED) && defined(TICK_DURING_STANDBY)
-void button_led_update(uint8_t mode, uint8_t arg);
-uint8_t button_led_off_mode = RGB_LED_OFF_DEFAULT;
-uint8_t button_led_lockout_mode = RGB_LED_LOCKOUT_DEFAULT;
-#endif
 
 #endif

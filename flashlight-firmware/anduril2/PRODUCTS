@@ -201,6 +201,11 @@ Emisar:  (a brand by Intl-Outdoor)
     Firmware: Anduril / cfg-emisar-d4sv2.h
     Year: 2019
 
+  - Emisar DT8
+    Firmware: Anduril / cfg-noctigon-kr4.h
+    Firmware: Anduril / cfg-noctigon-kr4-219.h (219C)
+    Year: 2021
+
 
 Fireflies:
 

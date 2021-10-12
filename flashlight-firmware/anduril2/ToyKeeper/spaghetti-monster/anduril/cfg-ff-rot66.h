@@ -9,7 +9,6 @@
 
 // off mode: high (2)
 // lockout: blinking (3)
-
 #define INDICATOR_LED_DEFAULT_MODE ((3<<2) + 2)
 
 
@@ -42,3 +41,7 @@
 #undef BLINK_AT_RAMP_MIDDLE
 #undef BLINK_AT_RAMP_CEIL
 
+// too big, remove stuff to make room
+#undef USE_RAMP_AFTER_MOON_CONFIG
+#undef USE_RAMP_SPEED_CONFIG
+//#undef USE_2C_STYLE_CONFIG
