@@ -14,6 +14,9 @@ usage="\nUsage: `basename $0` -fhl
     5. MF01S
     6. BLF LT1
     7. D4V2 with 219b LEDs
+    8. FW3A nofet
+    9. FW3A with 219b/c LEDs
+    10. FW3A with full FET
   -f hex filename (hard-coded with -p t1634, might not work with your light!)"
 
 while getopts ':hlf:' option; do
@@ -42,6 +45,16 @@ while getopts ':hlf:' option; do
            exit;;
          7) echo "D4V2 and KR4 with 219b"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.noctigon-kr4-219b.hex
+           exit;;
+         8) echo "FW3A nofet"
+           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3a-nofet.hex
+           exit;;
+         9) echo "FW3A 219"
+           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3a-219.hex
+           exit;;
+         10) echo "FW3A FET"
+           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3a.hex
+           exit;;
        esac
        exit;;
     f) echo "flashing ${2} now"
