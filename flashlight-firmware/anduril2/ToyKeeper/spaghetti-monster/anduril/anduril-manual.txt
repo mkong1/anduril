@@ -173,8 +173,9 @@ There are four ways to access ramping mode when the light is off:
 While the light is on, a few actions are available:
 
   - 1C: Turn off.
-  - 2C: Go to or from the ceiling level.
-        (or if already at ceiling, and not in Simple UI, go to/from turbo)
+  - 2C: Go to or from the turbo level.
+        (or if it has regulated down, 'bump' back up to turbo)
+        (turbo level / behavior is configurable)
   - 1H: Change brightness (up).  If the button was released less than a 
     second ago, or if it's already at the ceiling, it goes down instead.
   - 2H: Change brightness (down).
@@ -761,8 +762,7 @@ Off		Any	15+C	Version check
 Ramp		Any	1C	Off
 Ramp		Any	1H	Ramp (up, with reversing)
 Ramp		Any	2H	Ramp (down)
-Ramp		Simple	2C	Go to/from ceiling
-Ramp		Full	2C	Go to/from ceiling (or turbo if at ceil already)
+Ramp		Any	2C	Go to/from ceiling or turbo (configurable)
 Ramp»·»·Any»3C»·Lockout mode
 Ramp		Any	3H	Tint ramping (on some lights)
 Ramp		Full	3H	Momentary turbo (on lights without tint ramping)
@@ -821,3 +821,4 @@ Config menus	Full	Hold	Skip current item with no changes
 Config menus	Full	Release	Configure current item
 
 Number entry	Full	Click	Add 1 to value for current item
+Number entry    Full    Hold    Add 10 to value for current item
