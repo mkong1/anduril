@@ -10,14 +10,15 @@ usage="\nUsage: `basename $0` -fhl
     1. D4V2
     2. KR4 and D4V2 with KR4 driver
     3. KR1 and D4V2/KR4 with E21A LEDs
-    4. D4SV2
-    5. D4SV2 with tintramp
-    6. MF01S
-    7. BLF LT1
-    8. D4V2 with 219b LEDs
-    9. FW3A nofet
-    10. FW3A with 219b/c LEDs
-    11. FW3A with full FET
+    4. D4V2 with 219b LEDs
+    5. KR5 tintramp
+    6. D4SV2
+    7. D4SV2 with tintramp
+    8. MF01S
+    9. BLF LT1
+    10. FW3A nofet
+    11. FW3A with 219b/c LEDs
+    12. FW3A with full FET
   -f hex filename (hard-coded with -p t1634, might not work with your light!)"
 
 while getopts ':hlf:' option; do
@@ -35,28 +36,31 @@ while getopts ':hlf:' option; do
          3) echo "KR1 and D4V2/KR4 with E21A LEDs"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.noctigon-kr4-nofet.hex
            exit;;
-         4) echo "D4SV2"
-           avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.emisar-d4sv2.hex
-           exit;;
-         5) echo "D4SV2 tintramp"
-           avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.emisar-d4sv2-tintramp.hex
-           exit;;
-         6) echo "MF01S"
-           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.mateminco-mf01s.hex
-           exit;;
-         7) echo "BLF LT1"
-           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.blf-lantern.hex
-           exit;;
-         8) echo "D4V2 and KR4 with 219b"
+         4) echo "D4V2 and KR4 with 219b"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.noctigon-kr4-219b.hex
            exit;;
-         9) echo "FW3A nofet"
+         5) echo "KR4 tintramp"
+           avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.noctigon-kr4-tintramp.hex
+           exit;;
+         6) echo "D4SV2"
+           avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.emisar-d4sv2.hex
+           exit;;
+         7) echo "D4SV2 tintramp"
+           avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.emisar-d4sv2-tintramp.hex
+           exit;;
+         8) echo "MF01S"
+           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.mateminco-mf01s.hex
+           exit;;
+         9) echo "BLF LT1"
+           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.blf-lantern.hex
+           exit;;
+         10) echo "FW3A nofet"
            avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3a-nofet.hex
            exit;;
-         10) echo "FW3A 219"
+         11) echo "FW3A 219"
            avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3a-219.hex
            exit;;
-         11) echo "FW3A FET"
+         12) echo "FW3A FET"
            avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3a.hex
            exit;;
        esac
