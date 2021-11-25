@@ -41,10 +41,16 @@ uint8_t tint_ramping_state(Event event, uint16_t arg) {
             // only respond on first frame
             if (arg) return EVENT_NOT_HANDLED;
 
-            // force tint to be 1 or 254
-            if (tint != 254) { tint = 1; }
-            // invert between 1 and 254
-            tint = tint ^ 0xFF;
+            // MK: add step in middle of tint
+            if (tint == 1) {
+              tint = 128;
+            }
+            else if (tint == 128) {
+              tint = 254;
+            }
+            else if (tint == 254) {
+              tint = 1;
+            }
             set_level(actual_level);
             return EVENT_HANDLED;
         }
