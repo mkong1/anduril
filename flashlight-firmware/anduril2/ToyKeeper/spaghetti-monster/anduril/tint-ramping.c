@@ -41,16 +41,10 @@ uint8_t tint_ramping_state(Event event, uint16_t arg) {
             // only respond on first frame
             if (arg) return EVENT_NOT_HANDLED;
 
-            // MK: add step in middle of tint
-            if (tint == 1) {
-              tint = 128;
-            }
-            else if (tint == 128) {
-              tint = 254;
-            }
-            else if (tint == 254) {
-              tint = 1;
-            }
+            // force tint to be 1 or 254
+            if (tint != 254) { tint = 1; }
+            // invert between 1 and 254
+            tint = tint ^ 0xFF;
             set_level(actual_level);
             return EVENT_HANDLED;
         }
@@ -98,6 +92,13 @@ uint8_t tint_ramping_state(Event event, uint16_t arg) {
         // remember tint after battery change
         save_config();
         return EVENT_HANDLED;
+    }
+
+    // click, click, click, hold: go to middle of tint ramp
+    else if (event == EV_click4_hold) {
+      tint = 127;
+      set_level(actual_level);
+      return EVENT_HANDLED;
     }
 
     return EVENT_NOT_HANDLED;
