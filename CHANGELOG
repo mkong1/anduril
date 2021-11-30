@@ -1,19 +1,16 @@
+2021-11-25
+in tint ramp, 4H to go to middle of tint ramp.
+
 2021-10-12
 catch up to open source Anduril 2, rev 624
 
-2021-02-08
-default floor 3 for smooth and stepped ramp for kr4 and kr4-nofet.
-
 2021-02-05
-default autolock off.
 add Noctigon K9.3.
 
 2021-01-05
 KR4 ramps slower at the bottom like D4V2.
-default autolock to 10 min.
 
 2020-12-28
-default floor 2 for smooth and stepped ramp for kr4 and kr4-no-fet.
 default aux for off to high-voltage, lockout to low-voltage.
 
 2020-12-27
