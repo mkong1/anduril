@@ -1,0 +1,23 @@
+http://budgetlightforum.com/node/5411?page=7#comment-745878
+Wed, 04/08/2015 - 15:01 #239
+guardior
+
+  As the source for luxdrv-0.30b already is published on the net could you
+  consider to release it to the public domain? Please!  It's hands down the
+  best starting point for writing your own avr drivers.
+
+
+
+http://budgetlightforum.com/node/5411?page=7#comment-745897
+Wed, 04/08/2015 - 16:00 #240
+DrJones
+
+Location: Frankfurt, Germany
+
+  You can use it as you want for free - unless you want to make money with it.
+
+  To make things a bit clearer I changed the license to CC-BY-NC-SA (NC:
+  non-commercial use only, SA: share-alike).
+
+  I'm reluctant to remove the NC, since I don't like the idea of someone else
+  earning money with my work (yes, there's some egoism involved).

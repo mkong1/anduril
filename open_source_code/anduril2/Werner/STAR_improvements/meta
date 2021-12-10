@@ -1,0 +1,15 @@
+Description: STAR improved by Werner
+ starfirmwarecapmemory:
+   just added some small things to reduce the mcu current a bit, but I also
+   customized things(Star defaults like modeorder) which might confuse other
+   people.
+ starmomentfirmw: PB4 for switch, battlevel down to 124, adcoff in sleep,
+   sleep in idle, turbotimeout modified to 240 seconds, longpressduration
+   shorter, after turbotimeout ramp down and this in 2 highest modes,
+   removed config stars
+Authors: Werner, JonnyC
+MCU: attiny13
+Button-Type: momentary, clicky
+Memory: offtime, OTC, none
+Modes:
+Extras: turbo timer

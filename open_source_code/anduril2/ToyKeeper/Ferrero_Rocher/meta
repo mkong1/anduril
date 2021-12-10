@@ -1,0 +1,11 @@
+Description: E-switch firmwares designed for Helios' "Ferrero Rocher" driver:
+ - Baton: Similar to the Olight Baton UI
+ - Ferrero_Rocher: Similar to STAR_momentary, but improved
+ - Ramping_UI_table: Smooth ramping UI
+ All of these firmwares support red+green indicator LEDs for battery status.
+Button-Type: momentary
+Memory: none, yes
+MCU: attiny13
+Authors: ToyKeeper
+Modes: battcheck, soft lock, ramp
+Extras: battery indicator LEDs, Baton UI, ramping UI, turbo timer

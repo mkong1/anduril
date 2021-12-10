@@ -1,0 +1,37 @@
+
+
+/* Standard FET+1 pinouts:
+ *              ---
+ *   Reset  1 -|   |- 8  VCC
+ *  switch  2 -|   |- 7  Voltage ADC or spare
+ * Ind.LED  3 -|   |- 6  FET PWM
+ *     GND  4 -|   |- 5  7135 PWM
+ *              ---
+ */
+ 
+/* Standard triple channel pinouts:
+ *              ---
+ *   Reset  1 -|   |- 8  VCC
+ *  switch  2 -|   |- 7  Voltage ADC, Indicator LED, or spare
+ * FET PWM  3 -|   |- 6  bank of 7135s PWM
+ *     GND  4 -|   |- 5  one 7135 PWM
+ *              ---
+ */
+ 
+/* Single channel, FET or 7135's:
+ *              ---
+ *   Reset  1 -|   |- 8  VCC
+ *  switch  2 -|   |- 7  Voltage ADC, or spare
+ * Ind.LED  3 -|   |- 6  single FET or bank of 7135s PWM
+ *     GND  4 -|   |- 5  spare
+ *              ---
+ */
+
+/* S42 pinouts:
+ *                  ---
+ *    Reset PB5 1 -|   |- 8  VCC
+ *   switch PB3 2 -|   |- 7  PB2 Ind.LED
+ * 7135 PWM PB4 3 -|   |- 6  PB1 Not Used
+ *      GND     4 -|   |- 5  PB0 FET PWM
+ *                  ---
+ */

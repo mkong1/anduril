@@ -1,0 +1,3 @@
+http://budgetlightforum.com/node/30556?page=1#comment-574783
+
+Hi Matt, pastebin is blocked for me so I can't check your code, but here's an adaptation for the 10F322 that I've tested to work. only uses 33% of the code space as is. I also added in the voltage monitor to demonstrate that; it will force the mode from high to medium if battery goes below 3.0V. You can't use the input-only pin for ADC on this part, but the internal fixed voltage reference makes it possible to monitor supply voltage without using the pin.

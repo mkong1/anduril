@@ -1,0 +1,12 @@
+Description: "Crescendo" firmware; ramping UI for clicky-switch lights
+  Uses a smooth ramp instead of discrete modes and mode groups.
+  Can run on almost any clicky-switch driver.
+  Optional memory.
+  Has a bunch of optional blinkies / special modes.
+Button-Type: clicky
+Memory: offtime, mem decay, short-cycle
+MCU: attiny13, attiny25, attiny45, attiny85
+Authors: ToyKeeper
+Modes: ramp, battcheck, tactical strobe, police strobe, bike flasher, SOS, heart beacon, sunset, config
+Extras: ramping UI, LVP, thermal regulation, dual PWM
+License: GPLv3

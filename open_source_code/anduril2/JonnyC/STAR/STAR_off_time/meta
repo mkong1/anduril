@@ -1,0 +1,7 @@
+Description: STAR off-time
+Button-Type: clicky
+Memory: offtime, OTC, star-configurable
+MCU: attiny13
+Authors: JonnyC
+Modes:
+Extras: dual PWM, star-configurable moon, star-configurable mode order

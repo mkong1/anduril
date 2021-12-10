@@ -1,0 +1,7 @@
+Description: STAR for momentary e-switches
+Authors: JonnyC
+MCU: attiny13
+Button-Type: momentary
+Memory: none
+Modes: momentary
+Extras: dual PWM, star-configurable mode order, hidden modes, turbo timer

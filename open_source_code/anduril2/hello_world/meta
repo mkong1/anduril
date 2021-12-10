@@ -1,0 +1,8 @@
+Description: quick example to help test if flashing hardware works
+ (you should probably use NLITE instead though)
+Authors:
+MCU:
+Button-Type:
+Memory:
+Modes:
+Extras:

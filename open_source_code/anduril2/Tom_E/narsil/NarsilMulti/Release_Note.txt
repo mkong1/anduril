@@ -1,0 +1,14 @@
+For Vers 1.2 2017-10-16:
+
+ADDED : (from MAD777, maybe others) if strobes are disabled, a 2X click from 2X turbo should restore the previous level you were at
+FIXED: 4X clicks in modes operation engages lockout - not supposed to
+ADDED: operation change: make click&hold in MODES or STROBES wrap from 1st mode to last
+FIXED: in LVP switch LED control: the LED sometimes is left on after an LVP drop, and is not blinking the way it should be. The "bug" is that I'm trying to control the switch LEDs from multiple places so it's getting turned off quickly after turned on, and left on when it should be left off. It's a timing thing, so has sort of a random pattern - sometimes left on, sometimes left off. The 8 sec LVP blink need to be qualified better, and should not be calling Setlevel() as is because it wants to control the LED
+FIXED: temp stepdown should not happen right away from turn ON. Delay it by 15 seconds
+FIXED: for temperature stepdown, in moon mode, a temp stepdown is actually done because moon mode is marked as special level 255, which is considered as a high level of output instead of very low. The stepdown results in the light switching much brighter. This should only happen id the temperature threshold is set to a low temp, or the light is still hot and not cooled down when moon mode is chosen. It can also result in an immediate jump to the stepdown level as soon as the light is turned on in moon mode. Might appear as a bright flash when ramping first starts.
+
+There's more previously implemented:
+- added momentary/tactical mode via 5X clicks in ramping mode - only active til a power reset (full turbo only when switch is held down) - It's only accessible from ramping mode, not Mode Set operation
+- full BLF GT buck driver support
+- capability of setting max ramping to less than full max FET (Hi mode), while the 2X click still goes to full FET turbo. This is being used for the GT buck driver configuration.
+- added more compile switches, little better custom configuration of the source in header files

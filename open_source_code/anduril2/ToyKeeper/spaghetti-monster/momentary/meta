@@ -1,0 +1,11 @@
+Description: Momentary, a simple example UI for FSM.
+    Press button: light on.
+    Release button: light off.
+    That's all.
+Authors: ToyKeeper
+MCU: attiny25, attiny45, attiny85
+Button-Type: momentary
+Memory: none
+Modes: momentary
+Extras: LVP, dual PWM, triple PWM
+

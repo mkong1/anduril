@@ -1,0 +1,20 @@
+Description: Fireflies UI, a custom UI for Fireflies-brand lights.
+  - smooth ramping like Anduril
+  - stepped ramping, but limited to about 1%, 5%, 25%, 50%
+  - ramps not user-configurable, ceiling is at 50% (turbo still available)
+  - muggle mode removed
+  - no aux LEDs
+  - police strobe and SOS instead of Anduril's strobes
+  - 8 clicks from off: temperature check
+  - 10 clicks from off: thermal config
+  - beacon and sunset removed
+  - battcheck, lockout, momentary unchanged
+Authors: ToyKeeper
+MCU: attiny85
+Button-Type: momentary
+Memory: yes
+Modes: ramp, discrete ramp,
+    battcheck, tempcheck,
+    police strobe, SOS,
+    soft lock, momentary
+Extras: ramping UI, thermal regulation, LVP, dual PWM, triple PWM

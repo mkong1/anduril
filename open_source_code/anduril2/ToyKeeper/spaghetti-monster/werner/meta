@@ -1,0 +1,10 @@
+Description: Werner-style UI for FSM.
+  Click for brighter, hold for dimmer, tail switch for on/off.
+  Plus config/utility modes on "hold side-switch while turning on".
+Authors: ToyKeeper
+MCU: attiny85
+Button-Type: momentary + clicky
+Memory: yes
+Modes: discrete ramp, battcheck, tempcheck, config, momentary
+Extras: thermal regulation, LVP, dual PWM, triple PWM
+

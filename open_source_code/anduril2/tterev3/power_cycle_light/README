@@ -1,0 +1,24 @@
+This firmware is described here:
+  http://budgetlightforum.com/node/34167
+  https://www.youtube.com/watch?v=KiGM5zW88IE
+
+This firmware has 3 modes:
+  1. User-configurable brightness.
+  2. Maximum brightness.
+  3. 1Hz beacon.
+It also has a hidden mode:
+  4. Ramping config mode.
+
+The default mode after a reset is mode 1.
+
+To change modes while on:  Double-tap the button to turn it off/on twice.
+To change modes while off:  Click once then quickly tap, to turn it on/off/on.
+
+This firmware uses on-time memory.  In other words, if you leave it on for more
+than half a second, it will not change modes after a power cycle.
+
+To enter ramping mode:  Quickly tap the button until it stops cycling modes.
+
+In ramping mode, the light will ramp brightness up and down.  When it gets to
+the level you want, briefly tap the button to stop it and it will store that
+level in mode 1.

@@ -1,0 +1,937 @@
+
+BLF-VLD.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000003e2  00000000  00000000  000000b4  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  000003e2  00000496  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000010  0080006a  0080006a  000004a0  2**0
+                  ALLOC
+  3 .eeprom       00000040  00810000  00810000  000004a0  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  4 .stab         00001530  00000000  00000000  000004e0  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  5 .stabstr      00000cdc  00000000  00000000  00001a10  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	20 c0       	rjmp	.+64     	; 0x46 <__bad_interrupt>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	57 c1       	rjmp	.+686    	; 0x2c0 <__vector_8>
+  12:	19 c0       	rjmp	.+50     	; 0x46 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_copy_data>:
+  1c:	10 e0       	ldi	r17, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	e2 ee       	ldi	r30, 0xE2	; 226
+  24:	f3 e0       	ldi	r31, 0x03	; 3
+  26:	02 c0       	rjmp	.+4      	; 0x2c <.do_copy_data_start>
+
+00000028 <.do_copy_data_loop>:
+  28:	05 90       	lpm	r0, Z+
+  2a:	0d 92       	st	X+, r0
+
+0000002c <.do_copy_data_start>:
+  2c:	aa 36       	cpi	r26, 0x6A	; 106
+  2e:	b1 07       	cpc	r27, r17
+  30:	d9 f7       	brne	.-10     	; 0x28 <.do_copy_data_loop>
+
+00000032 <__do_clear_bss>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	aa e6       	ldi	r26, 0x6A	; 106
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
+
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
+
+0000003c <.do_clear_bss_start>:
+  3c:	aa 37       	cpi	r26, 0x7A	; 122
+  3e:	b1 07       	cpc	r27, r17
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	58 d0       	rcall	.+176    	; 0xf4 <main>
+  44:	cc c1       	rjmp	.+920    	; 0x3de <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <clock_prescale_set>:
+
+
+void clock_prescale_set(clock_div_t __x)
+{
+    uint8_t __tmp = _BV(CLKPCE);
+    __asm__ __volatile__ (
+  48:	90 e8       	ldi	r25, 0x80	; 128
+  4a:	0f b6       	in	r0, 0x3f	; 63
+  4c:	f8 94       	cli
+  4e:	96 bd       	out	0x26, r25	; 38
+  50:	86 bd       	out	0x26, r24	; 38
+  52:	0f be       	out	0x3f, r0	; 63
+        : /* no outputs */
+        : "d" (__tmp),
+          "I" (_SFR_IO_ADDR(CLKPR)),
+          "d" (__x)
+        : "r0");
+}
+  54:	08 95       	ret
+
+00000056 <nullmode>:
+
+
+void nullmode(uint8_t offset)
+{
+    return;
+}
+  56:	08 95       	ret
+
+00000058 <strobe>:
+ * With this parameters quite a lot of modes can be realised. Permanent
+ * strobing (no pause), police style (strobe group of 1s length, then 1s pause),
+ * and beacons (single strobe in group, long pause)
+ */
+void strobe(uint8_t offset)
+{
+  58:	cf 92       	push	r12
+  5a:	df 92       	push	r13
+  5c:	ef 92       	push	r14
+  5e:	ff 92       	push	r15
+  60:	0f 93       	push	r16
+  62:	1f 93       	push	r17
+    uint8_t pulse, pulse_off, count, pause, i, pwm;
+
+    pulse = eeprom_read_byte((uint8_t *) EE_MODEDATA_BASE + offset + 1);
+  64:	08 2f       	mov	r16, r24
+  66:	10 e0       	ldi	r17, 0x00	; 0
+  68:	c8 01       	movw	r24, r16
+  6a:	41 96       	adiw	r24, 0x11	; 17
+  6c:	9a d1       	rcall	.+820    	; 0x3a2 <__eerd_byte_tn13>
+  6e:	f8 2e       	mov	r15, r24
+    count = eeprom_read_byte((uint8_t *) EE_MODEDATA_BASE + offset + 2);
+  70:	c8 01       	movw	r24, r16
+  72:	42 96       	adiw	r24, 0x12	; 18
+  74:	96 d1       	rcall	.+812    	; 0x3a2 <__eerd_byte_tn13>
+  76:	e8 2e       	mov	r14, r24
+    pause = eeprom_read_byte((uint8_t *) EE_MODEDATA_BASE + offset + 3);
+  78:	c8 01       	movw	r24, r16
+  7a:	43 96       	adiw	r24, 0x13	; 19
+  7c:	92 d1       	rcall	.+804    	; 0x3a2 <__eerd_byte_tn13>
+
+    pulse_off = (uint8_t) pulse << (uint8_t) 2; // pause between pulses,
+  7e:	20 e0       	ldi	r18, 0x00	; 0
+                                                // 2 * pulse length
+    pwm = 255;
+    while(1){
+        // pulse group
+        for(i = 0; i < count; ++i){
+            PWM_LVL = pwm;
+  80:	cc 24       	eor	r12, r12
+  82:	ca 94       	dec	r12
+            sleep_ms(pulse);
+  84:	0f 2d       	mov	r16, r15
+  86:	dd 24       	eor	r13, r13
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  88:	60 eb       	ldi	r22, 0xB0	; 176
+  8a:	74 e0       	ldi	r23, 0x04	; 4
+
+    pulse = eeprom_read_byte((uint8_t *) EE_MODEDATA_BASE + offset + 1);
+    count = eeprom_read_byte((uint8_t *) EE_MODEDATA_BASE + offset + 2);
+    pause = eeprom_read_byte((uint8_t *) EE_MODEDATA_BASE + offset + 3);
+
+    pulse_off = (uint8_t) pulse << (uint8_t) 2; // pause between pulses,
+  8c:	ff 0c       	add	r15, r15
+  8e:	ff 0c       	add	r15, r15
+        // pulse group
+        for(i = 0; i < count; ++i){
+            PWM_LVL = pwm;
+            sleep_ms(pulse);
+            PWM_LVL = 0;
+            sleep_ms(pulse_off);
+  90:	10 e0       	ldi	r17, 0x00	; 0
+        }
+
+        // pause between groups
+        sleep_sec(pause);
+  92:	48 2f       	mov	r20, r24
+  94:	50 e0       	ldi	r21, 0x00	; 0
+  96:	a8 e7       	ldi	r26, 0x78	; 120
+  98:	b0 e0       	ldi	r27, 0x00	; 0
+  9a:	15 c0       	rjmp	.+42     	; 0xc6 <__stack+0x27>
+                                                // 2 * pulse length
+    pwm = 255;
+    while(1){
+        // pulse group
+        for(i = 0; i < count; ++i){
+            PWM_LVL = pwm;
+  9c:	c9 bc       	out	0x29, r12	; 41
+            sleep_ms(pulse);
+  9e:	80 2f       	mov	r24, r16
+  a0:	9d 2d       	mov	r25, r13
+  a2:	04 c0       	rjmp	.+8      	; 0xac <__stack+0xd>
+  a4:	fb 01       	movw	r30, r22
+  a6:	31 97       	sbiw	r30, 0x01	; 1
+  a8:	f1 f7       	brne	.-4      	; 0xa6 <__stack+0x7>
+ */
+static void inline sleep_ms(uint16_t ms)
+{
+    while(ms >= 1){
+        _delay_ms(1);
+        --ms;
+  aa:	01 97       	sbiw	r24, 0x01	; 1
+ * whole floating point handling code and increase flash image size by about
+ * 3.5kB
+ */
+static void inline sleep_ms(uint16_t ms)
+{
+    while(ms >= 1){
+  ac:	00 97       	sbiw	r24, 0x00	; 0
+  ae:	d1 f7       	brne	.-12     	; 0xa4 <__stack+0x5>
+    while(1){
+        // pulse group
+        for(i = 0; i < count; ++i){
+            PWM_LVL = pwm;
+            sleep_ms(pulse);
+            PWM_LVL = 0;
+  b0:	19 bc       	out	0x29, r1	; 41
+            sleep_ms(pulse_off);
+  b2:	8f 2d       	mov	r24, r15
+  b4:	91 2f       	mov	r25, r17
+  b6:	04 c0       	rjmp	.+8      	; 0xc0 <__stack+0x21>
+  b8:	fb 01       	movw	r30, r22
+  ba:	31 97       	sbiw	r30, 0x01	; 1
+  bc:	f1 f7       	brne	.-4      	; 0xba <__stack+0x1b>
+ */
+static void inline sleep_ms(uint16_t ms)
+{
+    while(ms >= 1){
+        _delay_ms(1);
+        --ms;
+  be:	01 97       	sbiw	r24, 0x01	; 1
+ * whole floating point handling code and increase flash image size by about
+ * 3.5kB
+ */
+static void inline sleep_ms(uint16_t ms)
+{
+    while(ms >= 1){
+  c0:	00 97       	sbiw	r24, 0x00	; 0
+  c2:	d1 f7       	brne	.-12     	; 0xb8 <__stack+0x19>
+    pulse_off = (uint8_t) pulse << (uint8_t) 2; // pause between pulses,
+                                                // 2 * pulse length
+    pwm = 255;
+    while(1){
+        // pulse group
+        for(i = 0; i < count; ++i){
+  c4:	2f 5f       	subi	r18, 0xFF	; 255
+  c6:	2e 15       	cp	r18, r14
+  c8:	48 f3       	brcs	.-46     	; 0x9c <strobe+0x44>
+            PWM_LVL = 0;
+            sleep_ms(pulse_off);
+        }
+
+        // pause between groups
+        sleep_sec(pause);
+  ca:	9a 01       	movw	r18, r20
+  cc:	09 c0       	rjmp	.+18     	; 0xe0 <__stack+0x41>
+  ce:	80 e1       	ldi	r24, 0x10	; 16
+  d0:	97 e2       	ldi	r25, 0x27	; 39
+  d2:	fd 01       	movw	r30, r26
+  d4:	31 97       	sbiw	r30, 0x01	; 1
+  d6:	f1 f7       	brne	.-4      	; 0xd4 <__stack+0x35>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  d8:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  da:	d9 f7       	brne	.-10     	; 0xd2 <__stack+0x33>
+ */
+static void inline sleep_sec(uint16_t sec)
+{
+    while(sec >= 1){
+        _delay_ms(1000);
+        --sec;
+  dc:	21 50       	subi	r18, 0x01	; 1
+  de:	30 40       	sbci	r19, 0x00	; 0
+/*
+ * Delay for sec seconds
+ */
+static void inline sleep_sec(uint16_t sec)
+{
+    while(sec >= 1){
+  e0:	21 15       	cp	r18, r1
+  e2:	31 05       	cpc	r19, r1
+  e4:	a1 f7       	brne	.-24     	; 0xce <__stack+0x2f>
+  e6:	20 e0       	ldi	r18, 0x00	; 0
+  e8:	ee cf       	rjmp	.-36     	; 0xc6 <__stack+0x27>
+
+000000ea <const_level>:
+ * Set PWM to the level stored in the mode's first variable.
+ */
+void const_level(const uint8_t offset)
+{
+
+    PWM_LVL = eeprom_read_byte((uint8_t *) EE_MODEDATA_BASE + offset + 1);
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+  ec:	41 96       	adiw	r24, 0x11	; 17
+  ee:	59 d1       	rcall	.+690    	; 0x3a2 <__eerd_byte_tn13>
+  f0:	89 bd       	out	0x29, r24	; 41
+  f2:	ff cf       	rjmp	.-2      	; 0xf2 <const_level+0x8>
+
+000000f4 <main>:
+    return last_click;
+}
+#endif
+
+int main(void)
+{
+  f4:	ff 92       	push	r15
+  f6:	0f 93       	push	r16
+  f8:	1f 93       	push	r17
+#ifdef EXTENDED_MODES
+    uint8_t signal = 0;
+#endif
+
+    // read the state data at the start of the eeprom into a struct
+    eeprom_read_block(&state, 0, sizeof(State_t));
+  fa:	8a e6       	ldi	r24, 0x6A	; 106
+  fc:	90 e0       	ldi	r25, 0x00	; 0
+  fe:	60 e0       	ldi	r22, 0x00	; 0
+ 100:	70 e0       	ldi	r23, 0x00	; 0
+ 102:	4e e0       	ldi	r20, 0x0E	; 14
+ 104:	50 e0       	ldi	r21, 0x00	; 0
+ 106:	3e d1       	rcall	.+636    	; 0x384 <__eerd_block_tn13>
+{
+    uint8_t last_click, next_cell;
+
+    // make sure we cycle through the memory cells in the last_click array
+    // to spread the wear on the eeprom a bit
+    last_click = state.last_click[state.click_cell];
+ 108:	80 91 71 00 	lds	r24, 0x0071
+ 10c:	e8 2f       	mov	r30, r24
+ 10e:	f0 e0       	ldi	r31, 0x00	; 0
+ 110:	e6 59       	subi	r30, 0x96	; 150
+ 112:	ff 4f       	sbci	r31, 0xFF	; 255
+ 114:	00 85       	ldd	r16, Z+8	; 0x08
+
+    // initialise click type for next start up
+    next_cell = state.click_cell;
+    ++next_cell;
+ 116:	8f 5f       	subi	r24, 0xFF	; 255
+    if(next_cell >= CLICK_CELLS)
+ 118:	83 30       	cpi	r24, 0x03	; 3
+ 11a:	08 f0       	brcs	.+2      	; 0x11e <main+0x2a>
+ 11c:	80 e0       	ldi	r24, 0x00	; 0
+        next_cell = 0;
+
+    state.last_click[next_cell] = tap_short;
+ 11e:	e8 2f       	mov	r30, r24
+ 120:	f0 e0       	ldi	r31, 0x00	; 0
+ 122:	e6 59       	subi	r30, 0x96	; 150
+ 124:	ff 4f       	sbci	r31, 0xFF	; 255
+ 126:	91 e0       	ldi	r25, 0x01	; 1
+ 128:	90 87       	std	Z+8, r25	; 0x08
+    state.click_cell = next_cell;
+ 12a:	80 93 71 00 	sts	0x0071, r24
+    last_click = get_last_click();
+
+#ifdef EXTENDED_MODES
+    // if we are in standard mode and got NUM_EXT_CLICKS in a row, change to
+    // extended mode
+    if(!state.extended && state.clicks >= NUM_EXT_CLICKS){
+ 12e:	80 91 6e 00 	lds	r24, 0x006E
+ 132:	88 23       	and	r24, r24
+ 134:	81 f4       	brne	.+32     	; 0x156 <main+0x62>
+ 136:	80 91 70 00 	lds	r24, 0x0070
+ 13a:	86 30       	cpi	r24, 0x06	; 6
+ 13c:	60 f0       	brcs	.+24     	; 0x156 <main+0x62>
+        state.extended = 1;
+ 13e:	90 93 6e 00 	sts	0x006E, r25
+        state.ext_mode = EMPTY_MODE;
+ 142:	8f ef       	ldi	r24, 0xFF	; 255
+ 144:	80 93 6f 00 	sts	0x006F, r24
+        state.prog_stage = prog_undef;
+ 148:	10 92 6d 00 	sts	0x006D, r1
+        state.clicks = 0;
+ 14c:	10 92 70 00 	sts	0x0070, r1
+ 150:	ff 24       	eor	r15, r15
+ 152:	f3 94       	inc	r15
+ 154:	01 c0       	rjmp	.+2      	; 0x158 <main+0x64>
+ 156:	ff 24       	eor	r15, r15
+        // delay signal until state is saved in eeprom
+        signal = 1;
+    }
+
+    // handling of extended mode
+    if(state.extended){
+ 158:	80 91 6e 00 	lds	r24, 0x006E
+ 15c:	88 23       	and	r24, r24
+ 15e:	11 f4       	brne	.+4      	; 0x164 <main+0x70>
+ 160:	10 e0       	ldi	r17, 0x00	; 0
+ 162:	1a c0       	rjmp	.+52     	; 0x198 <main+0xa4>
+
+        // in extended mode, we can cycle through modes indefinitely until
+        // one mode is held for more than two seconds
+        if(last_click != tap_none){
+ 164:	00 23       	and	r16, r16
+ 166:	61 f0       	breq	.+24     	; 0x180 <main+0x8c>
+            ++state.ext_mode;
+ 168:	80 91 6f 00 	lds	r24, 0x006F
+ 16c:	8f 5f       	subi	r24, 0xFF	; 255
+ 16e:	80 93 6f 00 	sts	0x006F, r24
+
+            if(state.ext_mode >= NUM_EXT_MODES)
+ 172:	8c 30       	cpi	r24, 0x0C	; 12
+ 174:	10 f0       	brcs	.+4      	; 0x17a <main+0x86>
+                state.ext_mode = 0;
+ 176:	10 92 6f 00 	sts	0x006F, r1
+
+            mode_idx = state.ext_mode;
+ 17a:	10 91 6f 00 	lds	r17, 0x006F
+ 17e:	0c c0       	rjmp	.+24     	; 0x198 <main+0xa4>
+        } else{
+            // leave extended mode if previous mode was on longer than 2 seconds
+            state.extended = 0;
+ 180:	10 92 6e 00 	sts	0x006E, r1
+            signal = 1; // wait with signal until eeprom is written
+
+#ifdef PROGRAMMABLE
+            // remember last mode and init programming
+            state.chosen_mode = state.ext_mode;
+ 184:	80 91 6f 00 	lds	r24, 0x006F
+ 188:	80 93 6c 00 	sts	0x006C, r24
+            state.prog_stage = prog_init;
+ 18c:	81 e0       	ldi	r24, 0x01	; 1
+ 18e:	80 93 6d 00 	sts	0x006D, r24
+ 192:	10 e0       	ldi	r17, 0x00	; 0
+ 194:	ff 24       	eor	r15, r15
+ 196:	f3 94       	inc	r15
+#endif
+        }
+    }
+
+#ifdef PROGRAMMABLE
+    if(state.prog_stage >= prog_init){
+ 198:	80 91 6d 00 	lds	r24, 0x006D
+ 19c:	88 23       	and	r24, r24
+ 19e:	81 f1       	breq	.+96     	; 0x200 <main+0x10c>
+    /*
+     * mode programming. We have the mode slot to be programmed saved in
+     * state.target_mode, the mode to store in state.chosen_mode. User needs
+     * to acknowledge by following a tapping pattern of short-short-long-short.
+     */
+    switch(state.prog_stage){
+ 1a0:	84 30       	cpi	r24, 0x04	; 4
+ 1a2:	28 f4       	brcc	.+10     	; 0x1ae <main+0xba>
+ 1a4:	82 30       	cpi	r24, 0x02	; 2
+ 1a6:	50 f4       	brcc	.+20     	; 0x1bc <main+0xc8>
+ 1a8:	81 30       	cpi	r24, 0x01	; 1
+ 1aa:	09 f5       	brne	.+66     	; 0x1ee <main+0xfa>
+ 1ac:	05 c0       	rjmp	.+10     	; 0x1b8 <main+0xc4>
+ 1ae:	84 30       	cpi	r24, 0x04	; 4
+ 1b0:	59 f0       	breq	.+22     	; 0x1c8 <main+0xd4>
+ 1b2:	85 30       	cpi	r24, 0x05	; 5
+ 1b4:	e1 f4       	brne	.+56     	; 0x1ee <main+0xfa>
+ 1b6:	0e c0       	rjmp	.+28     	; 0x1d4 <main+0xe0>
+    case prog_init:
+        state.prog_stage = prog_1;
+ 1b8:	82 e0       	ldi	r24, 0x02	; 2
+ 1ba:	03 c0       	rjmp	.+6      	; 0x1c2 <main+0xce>
+        break;
+    case prog_1:
+    case prog_2:
+        if(last_click == tap_short)
+ 1bc:	01 30       	cpi	r16, 0x01	; 1
+ 1be:	41 f4       	brne	.+16     	; 0x1d0 <main+0xdc>
+            ++state.prog_stage;
+ 1c0:	8f 5f       	subi	r24, 0xFF	; 255
+ 1c2:	80 93 6d 00 	sts	0x006D, r24
+ 1c6:	1a c0       	rjmp	.+52     	; 0x1fc <main+0x108>
+        else
+            state.prog_stage = prog_nak;
+        break;
+    case prog_3:
+        if(last_click == tap_long)
+ 1c8:	02 30       	cpi	r16, 0x02	; 2
+ 1ca:	11 f4       	brne	.+4      	; 0x1d0 <main+0xdc>
+            ++state.prog_stage;
+ 1cc:	85 e0       	ldi	r24, 0x05	; 5
+ 1ce:	f9 cf       	rjmp	.-14     	; 0x1c2 <main+0xce>
+        else
+            state.prog_stage = prog_nak;
+ 1d0:	86 e0       	ldi	r24, 0x06	; 6
+ 1d2:	f7 cf       	rjmp	.-18     	; 0x1c2 <main+0xce>
+        break;
+    case prog_4:
+        if(last_click == tap_short){
+ 1d4:	01 30       	cpi	r16, 0x01	; 1
+ 1d6:	59 f4       	brne	.+22     	; 0x1ee <main+0xfa>
+            // sequence completed, update mode_arr and eeprom
+            state.mode_arr[state.target_mode] = state.chosen_mode;
+ 1d8:	80 91 6b 00 	lds	r24, 0x006B
+ 1dc:	60 91 6c 00 	lds	r22, 0x006C
+ 1e0:	90 e0       	ldi	r25, 0x00	; 0
+ 1e2:	fc 01       	movw	r30, r24
+ 1e4:	e6 59       	subi	r30, 0x96	; 150
+ 1e6:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1e8:	63 87       	std	Z+11, r22	; 0x0b
+            eeprom_write_byte((uint8_t *)EE_MODES_BASE + state.target_mode,
+ 1ea:	0b 96       	adiw	r24, 0x0b	; 11
+ 1ec:	ea d0       	rcall	.+468    	; 0x3c2 <__eewr_byte_tn13>
+        }
+        // fall through
+    case prog_nak:
+    default:
+        // clean up when leaving programming mode
+        state.prog_stage = prog_undef;
+ 1ee:	10 92 6d 00 	sts	0x006D, r1
+        state.target_mode = EMPTY_MODE;
+ 1f2:	8f ef       	ldi	r24, 0xFF	; 255
+ 1f4:	80 93 6b 00 	sts	0x006B, r24
+        state.chosen_mode = EMPTY_MODE;
+ 1f8:	80 93 6c 00 	sts	0x006C, r24
+        break;
+    }
+
+    state.clicks = 0;
+ 1fc:	10 92 70 00 	sts	0x0070, r1
+    state.extended = 0; // make sure we don't get stuck in extended modes
+                        // if the EEPROM gets corrupted. (found by sixty545)
+#endif	// EXTENDED_MODES
+
+    // standard mode operation
+    if(!state.extended){
+ 200:	80 91 6e 00 	lds	r24, 0x006E
+ 204:	88 23       	and	r24, r24
+ 206:	11 f5       	brne	.+68     	; 0x24c <main+0x158>
+        if(last_click != tap_none){
+ 208:	00 23       	and	r16, r16
+ 20a:	49 f0       	breq	.+18     	; 0x21e <main+0x12a>
+            // we're coming back from a tap, increment mode
+            ++state.mode;
+ 20c:	80 91 6a 00 	lds	r24, 0x006A
+ 210:	8f 5f       	subi	r24, 0xFF	; 255
+ 212:	80 93 6a 00 	sts	0x006A, r24
+
+#ifdef EXTENDED_MODES
+            // ...and count consecutive clicks
+            ++state.clicks;
+ 216:	80 91 70 00 	lds	r24, 0x0070
+ 21a:	8f 5f       	subi	r24, 0xFF	; 255
+ 21c:	09 c0       	rjmp	.+18     	; 0x230 <main+0x13c>
+        }else{
+            // start up from regular previous use (longer than 2 seconds)
+#ifdef EXTENDED_MODES
+#ifdef PROGRAMMABLE
+            // remember current mode slot in case it is to be programmed
+            if(state.prog_stage == prog_undef)
+ 21e:	80 91 6d 00 	lds	r24, 0x006D
+ 222:	88 23       	and	r24, r24
+ 224:	21 f4       	brne	.+8      	; 0x22e <main+0x13a>
+                state.target_mode = state.mode;
+ 226:	80 91 6a 00 	lds	r24, 0x006A
+ 22a:	80 93 6b 00 	sts	0x006B, r24
+#endif
+            // reset click counter
+            state.clicks = 1;
+ 22e:	81 e0       	ldi	r24, 0x01	; 1
+ 230:	80 93 70 00 	sts	0x0070, r24
+            // reset mode slot
+            state.mode = 0;
+#endif
+        }
+
+        if(state.mode >= NUM_MODES)
+ 234:	80 91 6a 00 	lds	r24, 0x006A
+ 238:	83 30       	cpi	r24, 0x03	; 3
+ 23a:	10 f0       	brcs	.+4      	; 0x240 <main+0x14c>
+            state.mode = 0;
+ 23c:	10 92 6a 00 	sts	0x006A, r1
+
+        // get index of mode stored in the current slot
+        mode_idx = state.mode_arr[state.mode];
+ 240:	e0 91 6a 00 	lds	r30, 0x006A
+ 244:	f0 e0       	ldi	r31, 0x00	; 0
+ 246:	e6 59       	subi	r30, 0x96	; 150
+ 248:	ff 4f       	sbci	r31, 0xFF	; 255
+ 24a:	13 85       	ldd	r17, Z+11	; 0x0b
+    }
+
+    // write back state to eeprom but omit the mode configuration.
+    // Minimises risk of corruption. Everything else will right itself
+    // eventually, but modes will stay broken until reprogrammed.
+    eeprom_write_block(&state, 0, sizeof(State_t) - sizeof(state.mode_arr));
+ 24c:	8a e6       	ldi	r24, 0x6A	; 106
+ 24e:	90 e0       	ldi	r25, 0x00	; 0
+ 250:	60 e0       	ldi	r22, 0x00	; 0
+ 252:	70 e0       	ldi	r23, 0x00	; 0
+ 254:	4b e0       	ldi	r20, 0x0B	; 11
+ 256:	50 e0       	ldi	r21, 0x00	; 0
+ 258:	ac d0       	rcall	.+344    	; 0x3b2 <__eewr_block_tn13>
+
+    // set up PWM
+    // set PWM pin to output
+    DDRB |= _BV(PWM_PIN);
+ 25a:	b9 9a       	sbi	0x17, 1	; 23
+    // PORTB = 0x00; // initialised to 0 anyway
+
+    // Initialise PWM on output pin and set level to zero
+    TCCR0A = PWM_TCR;
+ 25c:	81 e2       	ldi	r24, 0x21	; 33
+ 25e:	8f bd       	out	0x2f, r24	; 47
+    TCCR0B = PWM_SCL;
+ 260:	81 e0       	ldi	r24, 0x01	; 1
+ 262:	83 bf       	out	0x33, r24	; 51
+    // PWM_LVL = 0; // initialised to 0 anyway
+
+
+#ifdef EXTENDED_MODES
+    //give a short blink to indicate entering or leaving extended mode
+    if(signal){
+ 264:	ff 20       	and	r15, r15
+ 266:	81 f0       	breq	.+32     	; 0x288 <main+0x194>
+ 268:	80 e6       	ldi	r24, 0x60	; 96
+ 26a:	9a ee       	ldi	r25, 0xEA	; 234
+ 26c:	fc 01       	movw	r30, r24
+ 26e:	31 97       	sbiw	r30, 0x01	; 1
+ 270:	f1 f7       	brne	.-4      	; 0x26e <main+0x17a>
+        // has settled down
+        _delay_ms(50);
+
+        // blink one time
+        for(uint8_t i = 0; i < 2; ++i){
+            PWM_LVL = ~PWM_LVL;
+ 272:	29 b5       	in	r18, 0x29	; 41
+ 274:	20 95       	com	r18
+ 276:	29 bd       	out	0x29, r18	; 41
+ 278:	fc 01       	movw	r30, r24
+ 27a:	31 97       	sbiw	r30, 0x01	; 1
+ 27c:	f1 f7       	brne	.-4      	; 0x27a <main+0x186>
+ 27e:	29 b5       	in	r18, 0x29	; 41
+ 280:	20 95       	com	r18
+ 282:	29 bd       	out	0x29, r18	; 41
+ 284:	01 97       	sbiw	r24, 0x01	; 1
+ 286:	f1 f7       	brne	.-4      	; 0x284 <main+0x190>
+        }
+    }
+#endif
+
+    // sanity check in case of corrupted eeprom
+    if(mode_idx >= NUM_EXT_MODES)
+ 288:	1c 30       	cpi	r17, 0x0C	; 12
+ 28a:	08 f0       	brcs	.+2      	; 0x28e <main+0x19a>
+ 28c:	10 e0       	ldi	r17, 0x00	; 0
+        mode_idx = 0;
+
+    // fetch pointer to selected mode func from array
+    offset = mode_idx << 2;
+ 28e:	11 0f       	add	r17, r17
+ 290:	11 0f       	add	r17, r17
+    func_idx = eeprom_read_byte((uint8_t *) EE_MODEDATA_BASE + offset);
+ 292:	81 2f       	mov	r24, r17
+ 294:	90 e0       	ldi	r25, 0x00	; 0
+ 296:	40 96       	adiw	r24, 0x10	; 16
+ 298:	84 d0       	rcall	.+264    	; 0x3a2 <__eerd_byte_tn13>
+ 29a:	e8 2f       	mov	r30, r24
+     */
+    wdt_mode = ((uint8_t) _BV(WDTIE)
+                | (uint8_t) (WDTO_250MS & (uint8_t) 0x07)
+                | (uint8_t) ((WDTO_250MS & (uint8_t) 0x08) << 2));
+
+    cli();
+ 29c:	f8 94       	cli
+    wdt_reset();
+ 29e:	a8 95       	wdr
+
+    // unlock register
+    WDTCR = ((uint8_t) _BV(WDCE) | (uint8_t) _BV(WDE));
+ 2a0:	88 e1       	ldi	r24, 0x18	; 24
+ 2a2:	81 bd       	out	0x21, r24	; 33
+
+    // set new mode and prescaler
+    WDTCR = wdt_mode;
+ 2a4:	84 e4       	ldi	r24, 0x44	; 68
+ 2a6:	81 bd       	out	0x21, r24	; 33
+
+    sei();
+ 2a8:	78 94       	sei
+
+    // start watchdog timer
+    start_wdt();
+
+    // call mode func
+    (*mode_func_arr[func_idx])(offset);
+ 2aa:	f0 e0       	ldi	r31, 0x00	; 0
+ 2ac:	ee 0f       	add	r30, r30
+ 2ae:	ff 1f       	adc	r31, r31
+ 2b0:	e0 5a       	subi	r30, 0xA0	; 160
+ 2b2:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2b4:	01 90       	ld	r0, Z+
+ 2b6:	f0 81       	ld	r31, Z
+ 2b8:	e0 2d       	mov	r30, r0
+ 2ba:	81 2f       	mov	r24, r17
+ 2bc:	09 95       	icall
+ 2be:	ff cf       	rjmp	.-2      	; 0x2be <main+0x1ca>
+
+000002c0 <__vector_8>:
+ * way. Strobe functions may be affected, but I guess nobody will notice if
+ * a pulse gets delayed by a millisecond or two.
+ *
+ */
+ISR(WDT_vect)
+{
+ 2c0:	1f 92       	push	r1
+ 2c2:	0f 92       	push	r0
+ 2c4:	0f b6       	in	r0, 0x3f	; 63
+ 2c6:	0f 92       	push	r0
+ 2c8:	11 24       	eor	r1, r1
+ 2ca:	2f 93       	push	r18
+ 2cc:	3f 93       	push	r19
+ 2ce:	4f 93       	push	r20
+ 2d0:	5f 93       	push	r21
+ 2d2:	6f 93       	push	r22
+ 2d4:	7f 93       	push	r23
+ 2d6:	8f 93       	push	r24
+ 2d8:	9f 93       	push	r25
+ 2da:	af 93       	push	r26
+ 2dc:	bf 93       	push	r27
+ 2de:	ef 93       	push	r30
+ 2e0:	ff 93       	push	r31
+#ifdef MONITOR_BAT
+    static uint8_t lbat_cnt = 0;
+#endif
+
+    if(ticks < 8){
+ 2e2:	20 91 78 00 	lds	r18, 0x0078
+ 2e6:	28 30       	cpi	r18, 0x08	; 8
+ 2e8:	08 f0       	brcs	.+2      	; 0x2ec <__vector_8+0x2c>
+ 2ea:	3b c0       	rjmp	.+118    	; 0x362 <__vector_8+0xa2>
+
+#ifndef PINSWITCH
+        uint8_t *click_cell;
+        click_cell = (uint8_t *) EE_LAST_CLICK + state.click_cell;
+ 2ec:	80 91 71 00 	lds	r24, 0x0071
+ 2f0:	90 e0       	ldi	r25, 0x00	; 0
+ 2f2:	08 96       	adiw	r24, 0x08	; 8
+#endif
+
+        ++ticks;
+ 2f4:	2f 5f       	subi	r18, 0xFF	; 255
+ 2f6:	20 93 78 00 	sts	0x0078, r18
+
+        switch(ticks){
+ 2fa:	24 30       	cpi	r18, 0x04	; 4
+ 2fc:	41 f0       	breq	.+16     	; 0x30e <__vector_8+0x4e>
+ 2fe:	28 30       	cpi	r18, 0x08	; 8
+ 300:	19 f0       	breq	.+6      	; 0x308 <__vector_8+0x48>
+ 302:	21 30       	cpi	r18, 0x01	; 1
+ 304:	71 f5       	brne	.+92     	; 0x362 <__vector_8+0xa2>
+ 306:	16 c0       	rjmp	.+44     	; 0x334 <__vector_8+0x74>
+            // abort mode programming if light stays on for more than two seconds
+            if(state.prog_stage != prog_undef)
+                eeprom_write_byte((uint8_t *) EE_PROGSTAGE, prog_undef);
+#else
+            // two seconds elapsed, reset click type to tap_none
+            eeprom_write_byte(click_cell, tap_none);
+ 308:	60 e0       	ldi	r22, 0x00	; 0
+ 30a:	5b d0       	rcall	.+182    	; 0x3c2 <__eewr_byte_tn13>
+ 30c:	2a c0       	rjmp	.+84     	; 0x362 <__vector_8+0xa2>
+#endif
+            break;
+
+#if defined(PROGRAMMABLE) && !defined(PINSWITCH)
+        case 4:
+            eeprom_write_byte(click_cell, tap_long);
+ 30e:	62 e0       	ldi	r22, 0x02	; 2
+ 310:	58 d0       	rcall	.+176    	; 0x3c2 <__eewr_byte_tn13>
+            /* give hints on when to switch off in programming mode. Programming
+             * stages 1,2 and 4 expect a short tap (0s - 1s), so we signal at
+             * 250ms. Stage 3 expects a long tap (1s - 2s), so we signal at
+             * 1s. Signalling is done by toggling the PWM-level's MSB for 100ms.
+             */
+            if(state.prog_stage == prog_3){
+ 312:	80 91 6d 00 	lds	r24, 0x006D
+ 316:	84 30       	cpi	r24, 0x04	; 4
+ 318:	21 f5       	brne	.+72     	; 0x362 <__vector_8+0xa2>
+                PWM_LVL ^= (uint8_t) 0x80;
+ 31a:	89 b5       	in	r24, 0x29	; 41
+ 31c:	80 58       	subi	r24, 0x80	; 128
+ 31e:	89 bd       	out	0x29, r24	; 41
+ 320:	88 ee       	ldi	r24, 0xE8	; 232
+ 322:	93 e0       	ldi	r25, 0x03	; 3
+ 324:	28 e7       	ldi	r18, 0x78	; 120
+ 326:	30 e0       	ldi	r19, 0x00	; 0
+ 328:	f9 01       	movw	r30, r18
+ 32a:	31 97       	sbiw	r30, 0x01	; 1
+ 32c:	f1 f7       	brne	.-4      	; 0x32a <__vector_8+0x6a>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 32e:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 330:	d9 f7       	brne	.-10     	; 0x328 <__vector_8+0x68>
+ 332:	14 c0       	rjmp	.+40     	; 0x35c <__vector_8+0x9c>
+                _delay_ms(100);
+                PWM_LVL ^= (uint8_t) 0x80;
+            }
+            break;
+        case 1:
+            if(state.prog_stage == prog_1
+ 334:	90 91 6d 00 	lds	r25, 0x006D
+ 338:	89 2f       	mov	r24, r25
+ 33a:	82 50       	subi	r24, 0x02	; 2
+ 33c:	82 30       	cpi	r24, 0x02	; 2
+ 33e:	10 f0       	brcs	.+4      	; 0x344 <__vector_8+0x84>
+ 340:	95 30       	cpi	r25, 0x05	; 5
+ 342:	79 f4       	brne	.+30     	; 0x362 <__vector_8+0xa2>
+                    || state.prog_stage == prog_2
+                    || state.prog_stage == prog_4)
+            {
+                PWM_LVL ^= (uint8_t) 0x80;
+ 344:	89 b5       	in	r24, 0x29	; 41
+ 346:	80 58       	subi	r24, 0x80	; 128
+ 348:	89 bd       	out	0x29, r24	; 41
+ 34a:	88 ee       	ldi	r24, 0xE8	; 232
+ 34c:	93 e0       	ldi	r25, 0x03	; 3
+ 34e:	28 e7       	ldi	r18, 0x78	; 120
+ 350:	30 e0       	ldi	r19, 0x00	; 0
+ 352:	f9 01       	movw	r30, r18
+ 354:	31 97       	sbiw	r30, 0x01	; 1
+ 356:	f1 f7       	brne	.-4      	; 0x354 <__vector_8+0x94>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 358:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 35a:	d9 f7       	brne	.-10     	; 0x352 <__vector_8+0x92>
+                _delay_ms(100);
+                PWM_LVL ^= (uint8_t) 0x80;
+ 35c:	89 b5       	in	r24, 0x29	; 41
+ 35e:	80 58       	subi	r24, 0x80	; 128
+ 360:	89 bd       	out	0x29, r24	; 41
+
+        // restart ADC
+        ADCSRA |= _BV(ADSC);
+    }
+#endif
+}
+ 362:	ff 91       	pop	r31
+ 364:	ef 91       	pop	r30
+ 366:	bf 91       	pop	r27
+ 368:	af 91       	pop	r26
+ 36a:	9f 91       	pop	r25
+ 36c:	8f 91       	pop	r24
+ 36e:	7f 91       	pop	r23
+ 370:	6f 91       	pop	r22
+ 372:	5f 91       	pop	r21
+ 374:	4f 91       	pop	r20
+ 376:	3f 91       	pop	r19
+ 378:	2f 91       	pop	r18
+ 37a:	0f 90       	pop	r0
+ 37c:	0f be       	out	0x3f, r0	; 63
+ 37e:	0f 90       	pop	r0
+ 380:	1f 90       	pop	r1
+ 382:	18 95       	reti
+
+00000384 <__eerd_block_tn13>:
+ 384:	a8 2f       	mov	r26, r24
+ 386:	86 2f       	mov	r24, r22
+
+00000388 <__eerd_blraw_tn13>:
+ 388:	e8 2f       	mov	r30, r24
+ 38a:	e1 99       	sbic	0x1c, 1	; 28
+ 38c:	fe cf       	rjmp	.-4      	; 0x38a <__eerd_blraw_tn13+0x2>
+ 38e:	1f ba       	out	0x1f, r1	; 31
+ 390:	05 c0       	rjmp	.+10     	; 0x39c <__eerd_blraw_tn13+0x14>
+ 392:	ee bb       	out	0x1e, r30	; 30
+ 394:	e0 9a       	sbi	0x1c, 0	; 28
+ 396:	e3 95       	inc	r30
+ 398:	0d b2       	in	r0, 0x1d	; 29
+ 39a:	0d 92       	st	X+, r0
+ 39c:	41 50       	subi	r20, 0x01	; 1
+ 39e:	c8 f7       	brcc	.-14     	; 0x392 <__eerd_blraw_tn13+0xa>
+ 3a0:	08 95       	ret
+
+000003a2 <__eerd_byte_tn13>:
+ 3a2:	e1 99       	sbic	0x1c, 1	; 28
+ 3a4:	fe cf       	rjmp	.-4      	; 0x3a2 <__eerd_byte_tn13>
+ 3a6:	1f ba       	out	0x1f, r1	; 31
+ 3a8:	8e bb       	out	0x1e, r24	; 30
+ 3aa:	e0 9a       	sbi	0x1c, 0	; 28
+ 3ac:	99 27       	eor	r25, r25
+ 3ae:	8d b3       	in	r24, 0x1d	; 29
+ 3b0:	08 95       	ret
+
+000003b2 <__eewr_block_tn13>:
+ 3b2:	a8 2f       	mov	r26, r24
+ 3b4:	86 2f       	mov	r24, r22
+ 3b6:	02 c0       	rjmp	.+4      	; 0x3bc <__eewr_block_tn13+0xa>
+ 3b8:	2d 91       	ld	r18, X+
+ 3ba:	04 d0       	rcall	.+8      	; 0x3c4 <__eewr_r18_tn13>
+ 3bc:	41 50       	subi	r20, 0x01	; 1
+ 3be:	e0 f7       	brcc	.-8      	; 0x3b8 <__eewr_block_tn13+0x6>
+ 3c0:	08 95       	ret
+
+000003c2 <__eewr_byte_tn13>:
+ 3c2:	26 2f       	mov	r18, r22
+
+000003c4 <__eewr_r18_tn13>:
+ 3c4:	e1 99       	sbic	0x1c, 1	; 28
+ 3c6:	fe cf       	rjmp	.-4      	; 0x3c4 <__eewr_r18_tn13>
+ 3c8:	1c ba       	out	0x1c, r1	; 28
+ 3ca:	1f ba       	out	0x1f, r1	; 31
+ 3cc:	8e bb       	out	0x1e, r24	; 30
+ 3ce:	2d bb       	out	0x1d, r18	; 29
+ 3d0:	0f b6       	in	r0, 0x3f	; 63
+ 3d2:	f8 94       	cli
+ 3d4:	e2 9a       	sbi	0x1c, 2	; 28
+ 3d6:	e1 9a       	sbi	0x1c, 1	; 28
+ 3d8:	0f be       	out	0x3f, r0	; 63
+ 3da:	01 96       	adiw	r24, 0x01	; 1
+ 3dc:	08 95       	ret
+
+000003de <_exit>:
+ 3de:	f8 94       	cli
+
+000003e0 <__stop_program>:
+ 3e0:	ff cf       	rjmp	.-2      	; 0x3e0 <__stop_program>

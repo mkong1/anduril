@@ -1,0 +1,78 @@
+"Biscotti" firmware for Convoy brand lights
+===========================================
+
+This is designed for the Nanjg 105D drivers used in Convoy lights.
+
+The interface is as follows:
+
+  While off:
+
+    - Fully click and release to turn the light on.  It will go to the 
+      first mode or the last-used mode, depending on whether you enabled 
+      mode memory.
+
+  While on:
+
+    - Short tap: Do a short (less than 0.5s) half-press to go forward to 
+      the next mode.
+
+    - Long tap: Do a long (longer than 0.5s) half-press to reset to the 
+      first mode (if mode memory is turned off).
+
+    - Or fully click and release to turn the light off.
+
+    - Short tap a bunch of times (10+ taps, or until the light stops 
+      turning on) to enter config mode.
+
+  Blinky modes:
+
+    - Some mode groups have blinky modes.  They are not hidden, but if 
+      you leave mode memory off you can skip them with a long press.  
+      Blinky modes include:
+
+      - Tactical police strobe (~8/16 Hz)
+
+      - Biking flasher (2-level stutter beacon, 1 Hz)
+
+      - Battery check / beacon mode
+        Each blink represents about 25% battery charge, so 1 is a low 
+        battery and 4 blinks is full.  5 blinks means it's over-charged.
+
+      - SOS
+
+  Configuration options:
+
+    The config mode has several options.  It will blink out a number to 
+    show which option is active, then "buzz" or "stutter" for a bit.  
+    Click during the "buzz" to select that option.
+
+    Options include:
+
+      1. Mode group.  After clicking, the light should come on in a 
+         special group-select mode.  In this mode, it slowly blinks out 
+         numbers from 1 to N, where N is the number of mode groups, then 
+         repeats.  Turn the light off after N blinks to select mode 
+         group N.  BTW, do not leave the light in this mode for long 
+         periods of time, because it will wear out the driver's memory 
+         faster.
+
+         The mode groups are: (output is approximate)
+
+           1. 0.1%, 1, 10, 35, 100, strobe, biking, battcheck
+           2. 0.1, 1, 10, 35, 100
+           3. 100, 35, 10, 1, 0.1
+           4. 1, 20, 100, strobe, biking, battcheck, SOS
+           5. 1, 20, 100
+           6. 100, 20, 1
+           7. 0.1, 1, 10, 50, strobe, biking, battcheck, SOS
+           8. 0.1, 1, 10, 50
+           9. 50, 10, 1, 0.1
+          10. 1, 10, 35, 100
+          11. 100, 20, strobe
+          12. 100% only
+
+         Example: To select group 5 (low-med-high), let it blink until 
+         it counts out five, then click the button.
+
+      2. Mode memory.  Off or on.
+

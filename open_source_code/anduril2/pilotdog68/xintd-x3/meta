@@ -1,0 +1,32 @@
+Description: XinTD X3 FET+1 firmware supporting both li-ion and 3xAA batteries
+  (LVP and turbo step-down enabled only for li-ion mode group)
+Button-Type: clicky
+Memory: offtime, OTC
+MCU: attiny13
+Authors: pilotdog68, ToyKeeper
+Modes: config
+Extras: dual PWM, mode groups, turbo timer
+
+http://budgetlightforum.com/node/38364?page=9#comment-769459
+
+Fri, 06/05/2015 - 20:40 #275
+pilotdog68
+
+This is my Convoy/XinTD X3 firmware. It's nothing that special or difficult,
+but since TK helped me with it I figured I'd share it here.
+
+blf-A6 was the starting point, but as it sits all the hidden modes and mode
+reversing are commented out.
+
+It still has the two mode groups.
+
+The first group is for li-on use:
+
+  - 4 modes, moon on the 2nd channel, then L>M>H on the main channel
+  - LVP turned on
+
+The second group is for use with the 3*AA carrier:
+
+  - 3 modes, L>M>H all on the 2nd channel (to avoid over-drawing alkalines,
+    ~760ma in my X3)
+  - LVP turned off

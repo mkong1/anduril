@@ -1,0 +1,3 @@
+http://budgetlightforum.com/node/30556?page=1#comment-575958
+
+Hi guys, Here's an adaptation of the same code that uses a momentary switch instead of power cycles to demonstrate debounce and sleep mode. With this framework you could do a lot more with length of switch presses, etc. by adding a press timer and watching the "pressed" flag. currently using 56% of flash memory and 31% of RAM

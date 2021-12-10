@@ -1,0 +1,37 @@
+Candlelight Flashlight with a nanjg
+Werner
+Wed, 10/29/2014 - 11:18
+
+
+The season of candlelights and lanterns is coming, I felt the need of a
+flashlight which has a artificial candle flickering.
+
+A short google search shows a lot of guys already did this so less work for me
+
+This guy used a photodiode to sample a flickering candle and gave some basic
+instructions on how to simulate that:
+
+http://inkofpark.wordpress.com/2013/12/15/candle-flame-flicker/
+
+This guy implemented a very simple version for a tiny13
+
+https://github.com/mokus0/avr-shake/blob/master/examples/flicker/flicker.c
+
+Comparison:
+
+http://inkofpark.wordpress.com/2013/12/23/arduino-flickering-candle/
+
+I stole the project from github and tried it, worked like I wanted it to be so
+I changed it to use the standard nanjg outputpin and flashed it on a nanjg
+ak47.
+
+Here is the code I used:
+https://www.dropbox.com/s/vkdaowql47vdp2s/candleflicker.rar?dl=0
+
+I just flashed it on a standard nanjg with standard fuses FD and 75. It runs on
+9Mz which is probably to fast for the small voltage but it seems to work well I
+will try it out when I find more time. I also have the compiled hex in the
+project folder so you simply can flash it like every other firmware. This has
+no modes or battery protection or anything else it is just a in my eyes good
+working flickering code. For indoor use it is a bit nervous to look at the
+"flame" but in a lantern/box it works like a candle in the wind

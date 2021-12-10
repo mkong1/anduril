@@ -1,0 +1,15 @@
+Description: Example ramping UI for FSM.
+    Also shows how to do a couple other things:
+      - battcheck / tempcheck
+      - simple thermal regulation
+      - adjustable-speed strobe
+    This was sort of an early prototype for Anduril, but has been abandoned
+    and is only here to demonstrate some ideas.
+Authors: ToyKeeper
+MCU: attiny45, attiny85
+Button-Type: momentary
+Memory: yes
+Modes: ramp, discrete ramp,
+    battcheck, tempcheck, party strobe, tactical strobe
+Extras: ramping UI, thermal regulation, LVP, dual PWM, triple PWM
+

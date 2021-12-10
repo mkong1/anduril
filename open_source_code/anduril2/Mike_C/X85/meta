@@ -1,0 +1,9 @@
+Description: "X85" flexible firmware from Mike C
+  http://budgetlightforum.com/node/46225
+Button-Type: momentary, clicky
+Memory: offtime, OTC, configurable
+MCU: attiny85
+Authors: Mike C
+Modes: ?
+Extras: ?
+License: GPLv3

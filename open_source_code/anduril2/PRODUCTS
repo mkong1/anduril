@@ -1,0 +1,537 @@
+This lists known products and which firmware they use, by brand.
+(for products which are related to this repository)
+
+To keep things concise, the following abbreviations will be used:
+
+  - Anduril      -> ToyKeeper/spaghetti-monster/anduril
+  - BLF A6       -> ToyKeeper/blf-a6
+  - Biscotti     -> ToyKeeper/bistro/biscotti
+  - Bistro       -> ToyKeeper/bistro
+  - BistroHD     -> Flintrock/bistro-hd
+  - FSM          -> ToyKeeper/spaghetti-monster
+  - NarsilM      -> Tom_E/narsil
+  - RampingIOS   -> Tom_E/RampingIOS
+  - RampingIOSv3 -> ToyKeeper/spaghetti-monster/rampingios
+
+For most products, the firmware name and build target are specified.
+
+Other abbreviations:
+
+  "AKA"    = "also known as"
+  "OEM"    = "original equipment manufacturer"
+  "TBD"    = "to be determined", still getting the details.
+  "A -> B" = "A is a rebranded version of B, so look up B for details"
+
+If a firmware file ends in "-219", it means that build uses a lower maximum
+power, and is intended for use on Nichia 219 emitters.
+
+
+Astrolux:  (Banggood store rebrands of other manufacturers)
+
+  - Astrolux C8 -> Mateminco C8
+
+  - Astrolux A01 -> Mateminco A01
+
+  - Astrolux EC01 -> sofirn EC01
+
+  - Astrolux EC03 -> sofirn EC03
+
+  - Astrolux FT01 -> Mateminco TK01 (XHP50.2)
+
+  - Astrolux FT02 -> Mateminco T02 (XHP35-HI before, XHP70.2 after)
+
+  - Astrolux FT03 -> Mateminco MT35-Mini (SST40 / XHP50.2)
+
+  - Astrolux FT03-Mini -> Mateminco MT35-Mini-S
+
+  - Astrolux FT03S -> Mateminco MT90-Mini
+
+  - Astrolux HL01 -> Mateminco G01
+
+  - Astrolux K1 -> Mateminco CSF02
+
+  - Astrolux M01 -> Mateminco K01
+
+  - Astrolux M03 -> Mateminco K01 Copper
+
+  - Astrolux MF01 -> Mateminco MT18
+
+  - Astrolux MF01S -> Mateminco MT18S
+
+  - Astrolux MF01-Mini -> Mateminco MT07
+
+  - Astrolux MF02 -> Mateminco MT35
+
+  - Astrolux MF02S -> Mateminco MT70
+
+  - Astrolux MF04 -> Mateminco MT35-Plus
+
+  - Astrolux MF04S -> Mateminco MT70-Plus
+
+  - Astrolux MF05 -> Mateminco MT90-Plus
+
+  - Astrolux S1 -> BLF A6
+
+  - Astrolux S2 / SS -> BLF X6v2
+
+  - Astrolux S3 / SC -> BLF X5
+
+  - Astrolux S41 / S41S -> Mateminco S01
+
+  - Astrolux S42 / S42S -> Mateminco S02
+
+  - Astrolux S43 / S43S -> Mateminco S03
+
+  - Astrolux X6S -> Mateminco X6S
+
+
+BLF:  (not a company, just people on BudgetLightForum doing collaborations with companies)
+
+  - BLF A6 / BLF EE A6
+    Firmware: BLF A6
+    OEM: EagleEyes A6 (cancelled before production)
+    OEM: Manker (at launch)
+    OEM: Mateminco (later)
+    AKA: Astrolux S1
+    AKA: Mateminco T01
+    Year: 2015
+
+  - BLF / TLF FW3A -> Lumintop FW3A
+
+  - BLF GT -> Lumintop GT
+
+  - BLF Lantern LT1
+    Firmware: Anduril / cfg-blf-lantern.h
+    OEM: sofirn
+    AKA: sofirn LT1
+    Year: 2019
+
+  - BLF Q8
+    Firmware: NarsilM / Setups_Q8_2C1S.h? (stock)
+    Firmware: Anduril / cfg-blf-q8.h
+    OEM: ThorFire (sofirn)
+    AKA: sofirn Q8 / ThorFire Q8
+    Year: 2017
+
+  - BLF X5
+    Firmware: Bistro / FET_7135_LAYOUT
+    OEM: Manker / Mateminco
+    AKA: Astrolux S3
+    AKA: Astrolux SC  (copper version)
+    Year: 2016
+
+  - BLF X6v2
+    Firmware: Bistro / FET_7135_LAYOUT
+    OEM: Manker / Mateminco
+    AKA: Astrolux S2
+    AKA: Astrolux SS  (steel+copper version)
+    Year: 2016
+
+
+Convoy:
+
+  - Convoy C8 Biscotti / C8+
+    Firmware: Biscotti (in the "convoy" repo branch)
+    Year: 2018
+
+  - Convoy BD01 Biscotti
+    Firmware: Biscotti (in the "convoy" repo branch)
+    Year: TBD
+
+  ? Convoy M21C
+    Firmware: Biscotti? Convoy's biscotti-clone?
+    Year: TBD
+
+  ? Convoy M26C
+    Firmware: Biscotti? Convoy's biscotti-clone?
+    Year: TBD
+
+  - Convoy S2+ Biscotti
+    Firmware: Biscotti (in the "convoy" repo branch)
+    Year: 2017
+
+
+Emisar:  (a brand by Intl-Outdoor)
+
+  - Emisar D1
+    Firmware: RampingIOS
+    Firmware: RampingIOSv3 / cfg-emisar-d1.h
+    Firmware: Anduril / cfg-emisar-d1.h
+    Firmware: NarsilM / Setups_D1_2C1S.h
+    Year: 2018
+
+  - Emisar D1 (Anduril version, effectively v2)
+    Firmware: Anduril / cfg-emisar-d4v2.h (stock)
+    Firmware: Anduril / cfg-emisar-d1v2.h
+    Year: 2019
+
+  - Emisar D1S
+    Firmware: RampingIOS
+    Firmware: RampingIOSv3 / cfg-emisar-d1s.h
+    Firmware: Anduril / cfg-emisar-d1s.h
+    Year: 2018
+
+  - Emisar D18
+    Firmware: RampingIOSv3 / cfg-emisar-d18.h
+    Firmware: Anduril / cfg-emisar-d18.h
+    Year: 2019
+
+  - Emisar D4
+    Firmware: RampingIOS
+    Firmware: RampingIOSv3 / cfg-emisar-d4.h
+    Firmware: Anduril / cfg-emisar-d4.h
+    Firmware: NarsilM / Setups_D4_2C1S.h
+    Firmware: NarsilM / Setups_D4Ti.h
+    Year: 2017
+
+  - Emisar D4v2
+    Firmware: Anduril / cfg-emisar-d4v2.h
+    Firmware: Anduril / cfg-emisar-d4v2-219.h (219C)
+    Firmware: Anduril / cfg-noctigon-kr4-nofet.h (E21A)
+    Year: 2019
+
+  - Emisar D4v2.5 -> Emisar D4v2 with Noctigon KR4 driver
+
+  - Emisar D4S
+    Firmware: RampingIOSv3 / cfg-emisar-d4s.h
+    Firmware: Anduril / cfg-emisar-d4s.h
+    Year: 2018
+
+  - Emisar D4Sv2
+    Firmware: Anduril / cfg-emisar-d4sv2.h
+    Year: 2019
+
+  - Emisar DT8
+    Firmware: Anduril / cfg-noctigon-kr4.h
+    Firmware: Anduril / cfg-noctigon-kr4-219.h (219C)
+    Year: 2021
+
+
+Fireflies:
+
+  - Fireflies E01
+    Firmware: FSM/fireflies-ui / ff-e01.h (stock)
+    Firmware: Anduril / cfg-ff-e01.h
+    Year: 2019
+
+  - Fireflies E07
+    Firmware: Anduril / cfg-ff-pl47.h
+    Year: 2019
+
+  - Fireflies E07 G2
+    Firmware: FSM/fireflies-ui / ff-e07-2.h (stock)
+    Firmware: Anduril / cfg-ff-pl47.h
+    Year: 2019
+
+  - Fireflies PL47
+    Firmware: Anduril / cfg-ff-pl47.h
+    Firmware: Anduril / cfg-ff-pl47-219.h
+    Year: 2018
+
+  - Fireflies PL47 G2
+    Firmware: Anduril / cfg-ff-pl47g2.h
+    Year: 2019
+
+  - Fireflies ROT66
+    Firmware: NarsilM / TBD  (batch 1)
+    Firmware: Anduril / cfg-ff-rot66.h  (batch 2+)
+    Firmware: Anduril / cfg-ff-rot66-219.h
+    Year: 2018
+
+  - Fireflies ROT66 G2
+    Firmware: Anduril / cfg-ff-rot66g2.h
+    Year: 2019
+
+
+Haikelite:
+
+  ? Haikelite HK04
+    Firmware: Anduril / TBD
+    Year: 2020
+
+  ? Haikelite HT70
+    Firmware: NarsilM / TBD?
+
+  ? Haikelite MT03 / MT03 Brass
+    Firmware: NarsilM / TBD
+    Year: ?
+
+  ? Haikelite MT09R
+    Firmware: NarsilM / TBD
+    Year: ?
+
+
+Lumintop:
+
+  - Lumintop EDC18
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2019
+
+  - Lumintop FW3A, FW3B, FW3C, FW3S, FW3T
+    AKA: BLF / TLF FW3A
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2019
+
+  - Lumintop FW1A
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2019
+
+  - Lumintop FW1A Pro
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2020
+
+  - Lumintop FW4A
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2020
+
+  - Lumintop FW21
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2019
+    Warning: Unprotected cells may not work (too short), and protected cells
+      may not work either (draws too much power)
+
+  - Lumintop FW21 Pro
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2020
+
+  - Lumintop HL3A
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2020
+
+  - Lumintop GT
+    Firmware: NarsilM / Setups_GTBuck.h (stock)
+    Firmware: Anduril / cfg-blf-gt.h
+    AKA: BLF GT
+    Year: 2018
+
+  - Lumintop GT Mini
+    Firmware: NarsilM / Setups_2C1S.h? (stock)
+    Firmware: Anduril / cfg-blf-gt-mini.h
+    AKA: BLF GT-Mini
+    Year: 2018
+
+  ? Lumintop GT Mini Pro: TBD
+    ("Tom E's open-source NarsilM v1.2")
+
+  ? Lumintop GT Micro: TBD (BLF GT-Mini might work?)
+    ("NarsilM v1.3 adapted by Texas_Ace")
+
+  ? Lumintop GT Nano: TBD
+
+  ? Lumintop GT4
+    Firmware: NarsilM / TBD
+
+  ? Lumintop BLF GT70 -> TBD
+    ("NarsilM v1.3 adapted by Texas_Ace")
+
+  ? Lumintop BLF GT90 -> TBD
+    ("NarsilM v1.3 adapted by Texas_Ace")
+
+  - Lumintop LM10
+    Firmware: Anduril / cfg-fw3a.h
+    Year: 2020
+
+
+Manker:
+  OEM: Mateminco (TBD)
+
+  ? CPFi Cometa
+    Firmware: Bistro / TBD
+    Year: 2015
+    Warning: This product is known to destroy itself with some types of 26650
+      batteries, due to errors in the host design.
+
+  - Manker E14 -> Mateminco S01 / Astrolux S41
+
+  ? Manker E14 II
+    Note: Slightly modified clone of Mateminco S02 / Astrolux S42
+
+
+Mateminco:
+
+  ? Mateminco A01
+    AKA: Astrolux A01
+
+  - Mateminco C8
+    AKA: Astrolux C8
+    Firmware: BLF A6
+    Year: 2019
+
+  ? Mateminco CSF02
+    AKA: Astrolux K1
+
+  - Mateminco G01
+    Firmware: Anduril / cfg-mateminco-mt07.h
+    AKA: Astrolux HL01
+    Year: 2020
+
+  ? Mateminco K01
+    AKA: Astrolux M01
+
+  ? Mateminco K01 Copper
+    AKA: Astrolux M03
+
+  - Mateminco MT07
+    Firmware: Anduril / cfg-mateminco-mt07.h
+    AKA: Astrolux MF01-Mini
+    Year: 2019
+
+  ? Mateminco MT18
+    AKA: Astrolux MF01
+
+  - Mateminco MT18S
+    Firmware: Anduril / cfg-mateminco-mt18s.h
+    AKA: Astrolux MF01S
+    Year: 2019
+
+  ? Mateminco MT35
+    Firmware: NarsilM / TBD ("NarsilM v1.3 adapted by Texas_Ace")
+    AKA: Astrolux MF02
+    Year: 2019
+
+  - Mateminco MT35-Mini
+    Firmware: Anduril / cfg-emisar-d4v2.h
+    AKA: Astrolux FT03
+    Year: 2020
+
+  ? Mateminco MT35-Mini-S
+    AKA: Astrolux FT03-Mini
+
+  ? Mateminco MT35-Plus
+    AKA: Astrolux MF04
+
+  ? Mateminco MT70
+    AKA: Astrolux MF02S
+
+  ? Mateminco MT70-Plus
+    AKA: Astrolux MF04S
+
+  - Mateminco MT90-Mini
+    Firmware: Anduril / cfg-mateminco-mt07.h
+    AKA: Astrolux FT03S
+    Year: 2020
+
+  - Mateminco MT90-Plus
+    AKA: Astrolux MF05
+    Firmware: proprietary
+
+  - Mateminco S01 / S01 Stainless Steel
+    AKA: Astrolux S41 / S41S
+    Firmware: BLF A6
+    Note: based on DB Custom's modded BLF X5 quad
+    Year: 2016
+
+  ? Mateminco S02 / S02 Stainless Steel
+    AKA: Astrolux S42 / S42S
+    Firmware: proprietary (as shipped, bad clone of BLF A6)
+    Firmware: NarsilM / Setups_S42_2C1S.h?
+    Year: 2017
+    Warning: Initial batch didn't work with the battery it was designed for,
+      and the UI has been widely regarded as terrible.
+
+  ? Mateminco S03 / S03 Copper
+    AKA: Astrolux S43 / S43S
+    Firmware: NarsilM / TBD ("NarsilM V1.3")
+    Year: 2018
+
+  - Mateminco T01 -> BLF A6
+
+  ? Mateminco T02
+    AKA: Astrolux FT02
+
+  ? Mateminco TK01
+    AKA: Astrolux FT01
+
+  ? Mateminco X6S
+    Firmware: Bistro / TBD
+    Year: 2018
+
+
+MEOTE:
+
+  ? MEOTE FM1
+    Firmware: Anduril / cfg-emisar-d4v2.h
+    Firmware: NarsilM / TBD?
+    OEM: Mateminco
+    Year: 2020
+
+
+Noctigon:  (a brand by Intl-Outdoor)
+
+  - Noctigon K1 (Osram, XPL-HI, SST-20 verions)
+    Firmware: Anduril / cfg-noctigon-k1.h
+    Year: 2019
+
+  - Noctigon K1 (SBT90.2)
+    Firmware: Anduril / cfg-noctigon-k1-sbt90.h
+    Year: 2020
+
+  - Noctigon K1 (XHP35)
+    Firmware: Anduril / cfg-noctigon-k1-12v.h
+    Year: 2020
+
+  - Noctigon KR1 Finca
+    Firmware: Anduril / cfg-noctigon-kr4-nofet.h
+    Year: 2020
+
+  - Noctigon KR4 Quinta
+    Firmware: Anduril / cfg-noctigon-kr4.h
+    Firmware: Anduril / cfg-noctigon-kr4-nofet.h (E21A)
+    Firmware: Anduril / cfg-noctigon-kr4-219.h (219C)
+    Year: 2020
+
+  - Noctigon Meteor M43
+    Firmware: Indigo (v6?) by INFERION of Fonarevka (no source available)
+      (sources available up to v5.2, but M43 has major changes)
+    Year: 2015
+
+
+ReyLight:
+
+  ? Gemini I
+    Firmware: Bistro / TBD
+    Year: 2019
+
+  ? Dawn / Dawn 2.1 / Dawn Mokume
+    Firmware: Bistro / TBD
+    Year: 2018
+
+
+sofirn:  (lowercase because Barry says so)
+
+  - sofirn EC01 (?) (unsure of original name)
+    Firmware: Anduril / cfg-sofirn-sp36.h
+    AKA: Astrolux EC01
+    Year: 2019
+
+  - sofirn EC03 (?) (unsure of original name)
+    Firmware: Anduril / cfg-sofirn-sp36.h
+    AKA: Astrolux EC03
+    Year: 2020
+
+  ? sofirn IF25A
+    Firmware: Anduril / TBD
+    Year: 2020
+
+  - sofirn LT1 -> BLF Lantern
+
+  - sofirn Q8 -> BLF Q8
+
+  - sofirn SP36 / SP36A
+    Firmware: NarsilM / Setups_Q8_2C1S.h?  (SP36)
+    Firmware: Anduril / cfg-sofirn-sp36.h  (SP36A)
+    Year: 2018 / 2019
+
+
+ThorFire:
+  OEM: sofirn
+
+  - Thorfire Q8 -> BLF Q8
+
+
+WildTrail:
+
+  ? WildTrail BLF D80V2
+    Firmware: BistroHD, not sure which build target
+      ("Bistro OTSM", unsure what was modified from BistroHD)
+    Year: 2019

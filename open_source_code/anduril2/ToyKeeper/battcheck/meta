@@ -1,0 +1,7 @@
+Description: Developer tools to help calibrate voltage and offtime ADC values
+Button-Type:
+Memory:
+MCU: attiny13, attiny25
+Authors: ToyKeeper
+Modes: battcheck calibrator, OTC calibrator
+Extras:

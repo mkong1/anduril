@@ -1,0 +1,7 @@
+Description: NLITE replacement for default nanjg firmware
+Authors: DrJones
+MCU: attiny13
+Button-Type: clicky
+Memory: ontime, star-configurable
+Modes:
+Extras: star-configurable mode order, star-configurable moon

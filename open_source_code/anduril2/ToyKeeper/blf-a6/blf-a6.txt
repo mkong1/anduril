@@ -1,0 +1,109 @@
+BLF EE A6 firmware
+==================
+
+The interface is as follows:
+  (see blf-a6-ui.png for a quick start)
+
+  While off:
+
+    - Fully click and release to turn the light on.  It will go to the 
+      first mode or the last-used mode, depending on whether you enabled 
+      mode memory.
+
+  While on:
+
+    - Short tap: Do a short (less than 0.5s) half-press to go forward to 
+      the next mode.
+
+    - Med tap: Do a medium (0.5s to 1.5s) half-press to go backward to 
+      the previous mode.
+
+    - Long tap: Do a long (longer than 1.5s) half-press to reset to the 
+      first mode (if mode memory is turned off).
+
+    - Or fully click and release to turn the light off.
+
+  Hidden modes:
+
+    - Go backward from moon to access the hidden modes.  They are, in 
+      order:
+
+      - Turbo (just like the regular turbo)
+
+      - Tactical strobe (10 Hz)
+
+      - Battery check / beacon mode
+        (each blink represents about 25% of a full charge)
+        0 blinks: < 1% full        (< 3.0V)
+        1 blink : 1% to 25% full   (3.0V to 3.5V)
+        2 blinks: 25% to 50% full  (3.5V to 3.8V)
+        3 blinks: 50% to 75% full  (3.8V to 4.0V)
+        4 blinks: 75% to 100% full (4.0V to 4.2V)
+        5 blinks: > 100% full      (> 4.2V)
+
+      - Biking flasher (2-level stutter beacon, 1 Hz)
+
+  Configuration options:
+
+    - Short tap rapidly a bunch of times (15+ taps, or until the light 
+      stops turning on) to enter soft config mode.
+
+      The way it works is the light will blink twice for each option, 
+      then pause for a bit before moving to the next option.  Turn the 
+      light off between the two blinks to toggle that option.
+
+      The available options are:
+
+      - Mode group: 7 modes or 4 modes:
+        Group 1: moon, low, med1, med2, high1, high2, turbo
+        Group 2:       low,      med,       high,     turbo
+
+      - Mode memory toggle
+
+    - If CONFIG_STARS is defined, you can ground pin 3 of the MCU to 
+      enable mode memory instead of using config mode.  This can often 
+      be done by soldering a star on the spring side of the driver, if 
+      your driver supports that.  Otherwise, it's pretty easy to make a 
+      solder bridge from pin 3 (mode mem toggle) to pin 4 (ground).  Or 
+      even just wedge a piece of metal between the two pins.
+
+  Other details to note:
+
+    - Low-voltage protection will progressively step down the output at 
+      about 2.8V, and the light will shut itself off when even the 
+      lowest level gets below 2.8V.
+
+    - The default turbo step-down is 45 seconds.
+
+    - When turbo steps down to high, a short tap will push it back up to 
+      turbo or a medium tap will step down further, even if you got to 
+      turbo by going backward from moon.  The step-down effectively 
+      moves it from the "hidden" turbo back to the non-hidden turbo.
+
+    - A short tap from any hidden mode will return to the lowest mode.
+
+Compared to other commercially-available lights (especially budget 
+lights), this light is unique or groundbreaking in several ways:
+
+  - First BLF light with our own custom driver.
+  - First BLF light with our own custom firmware.
+  - First special-edition with a direct-drive FET, so it has the 
+    brightest turbo mode you can get.
+  - First special-edition with a regulated lower-power second channel 
+    for stable and efficient low modes.
+  - True moon mode.
+  - Up to 1600 lumens from a single emitter in a small tube light (with 
+    the right battery, and a spring bypass mod).  Closer to 1400 lumens 
+    with no mods and lower-amp batteries.
+  - User-toggle-able mode memory.
+  - User-toggle-able mode groups.
+  - Well-spaced visually-linear output modes.
+  - Includes some hidden modes for those who want them.
+  - Battery check mode!
+  - First clicky-switch stock light with both forward and backward mode 
+    navigation in a single tap (short/medium press).
+  - With mode memory off, the user can access 4 different modes 
+    (including the highest and lowest) within 1 second.
+  - Fast PWM so the pulsing won't be visible.
+  - The firmware and the driver designs are available for anyone who 
+    wants to modify them.

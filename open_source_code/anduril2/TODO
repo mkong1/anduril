@@ -1,0 +1,8 @@
+Tasks to do...
+
+- (DONE) To help people navigate this repository, it would be helpful to either
+  re-organize the firmwares by hardware type (switch type, MCU, OTC,
+  etc) or somehow tag each of them with relevant hardware requirements.
+
+- (DONE) Similarly, it would be helpful to tag each firmware with its overall
+  purpose and/or style.

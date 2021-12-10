@@ -1,0 +1,157 @@
+Crescendo: A ramping UI for reverse-clicky switch lights
+--------------------------------------------------------
+
+Instead of having specific modes and mode groups, this UI works based on 
+a smooth ramp of all possible brightnesses.  It gives direct access to 
+moon and maximum, plus optional memory.  The idea is that you turn it 
+on, it ramps up, and you stop it when it reaches the desired level.
+
+The ramp follows a zigzag pattern with brief pauses at both ends.  When 
+it reaches the highest level, it also blinks very briefly since it can 
+otherwise be hard to tell when it hit maximum.
+
+No eeprom is modified while ramping, so it's safe to leave the light in 
+ramp mode indefinitely.
+
+
+UI terms:
+
+  - Click: Fully press and release the button.  ("long press")
+    Assumes that the light was off for at least a second before 
+    clicking.  Is the same as half-pressing for a second or more.
+
+  - Tap: QUICKLY half-press and release the button.  ("short press")
+    Assumes the light was on before the tap.  Is best if you tap as 
+    quickly as possible.
+
+
+How to use
+----------
+
+From off:
+
+  - Click:
+    - Without memory: Ramp up, starting at moon.
+    - With memory: 0.5s of moon, then the memorized mode and level.
+      (memory is short-cycle, so a short-press will then go back to the 
+      ramp at the beginning of the mode sequence)
+  - Click, tap: Go directly to moon mode.
+  - Click, tap, tap: Go directly to maximum output.
+  - Click, tap, tap, tap: Battery check mode.
+  - Click, tap 15+ times until light stops lighting up: Config mode.
+
+In ramp mode:
+
+  - Tap: Stop ramping and stay steady at the current level.
+
+  - These work too, but likely won't be used much:
+    - Tap, tap: Go to maximum output.
+    - Tap, tap, tap: Go to battery check mode.
+
+From the normal "steady" mode:
+
+  - Tap: Ramp up.
+  - Tap, tap: Ramp down.
+  - Tap, tap, tap: Go to maximum output.
+  - Tap, tap, tap, tap: Go to battery check mode.
+
+From the "turbo" mode:
+
+  - Tap (immediately): Advance to the next mode.
+  - Tap (after 0.5s or longer): Go back to "steady" mode at the 
+    previously-used level.
+
+From any other mode (all blinkies and specials):
+
+  - Tap: Advance to next mode.
+
+In any mode except "off":
+
+  - Click: Turn off.  Will reset to mem or ramp next time it's used.
+
+
+Config mode
+-----------
+
+To enter config mode, quickly tap a bunch of times until the light stops 
+lighting up.  It should be 16+ times.  Then it'll scroll through the 
+options:
+
+  1. Memory toggle.  Tap during the "buzz" to turn memory on or off.
+  2. Thermal calibration.  Tap during the "buzz" to enter thermal 
+     calibration mode.
+     - Light turns on at a low level: Tap now to set default temperature 
+       limit.  Otherwise, wait.
+     - Light goes to full brightness: Tap at any time to set temperature 
+       limit to the current temperature.  Basically, wait until it feels 
+       hot, then tap.
+
+So, to set a temperature limit:
+  - Tap 16+ times.
+  - Wait for the light to blink twice.
+  - Tap during the "buzz".
+  - Wait until the light feels hot, then click to turn it off.
+
+
+Mode list
+---------
+
+  - Memory (if enabled)
+  - Smooth auto-ramp
+  - Steady output at last-used ramp level
+  - Max/Turbo
+  - Battcheck: 4 bars, 8 bars, or volts+tenths (depends how it was compiled)
+  - Other special modes / blinkies; whatever was compiled in
+
+
+Special modes available
+-----------------------
+
+  - Goodnight:  Slowly ramps from low to moon for an hour, then shuts 
+    off.  Useful on a night stand.
+
+  - Biking:  Pulses bright once per second but otherwise stays steady.  
+    Good when you need to both see and be seen.  Comes in both medium 
+    and bright flavors.  Can be compiled for a single pulse or a 
+    stutter.
+
+  - Tactical strobes:  For stunning or disorienting people.
+    - Random: Pseudo-random strobe, variable speed.
+    - Police: Two-speed alternating strobe.
+    - Strobe: One-speed basic strobe.
+
+  - Heart beacon:  Pulses once per second in a 2-flash heartbeat 
+    pattern.  Can run for a long time.  Useful as a long-running beacon.
+
+  - Party strobes:  Designed to freeze motion for fun visual effects.  
+    Point it at moving water or spinning fans or dancing people, or walk 
+    around while using it to make life feel like a bad horror movie.
+    - 12 Hz
+    - 24 Hz
+    - 60 Hz
+    - Variable (slow)
+    - Variable (fast)
+
+  - SOS:  Distress signal.
+
+  - Memtoggle:  Turn memory on or off.  Buzzes quickly as a warning to 
+    the user (and to help identify the mode visually), waits a second to 
+    give people some time to skip to the next mode, then buzzes again 
+    for a longer time.  To change the memory setting, turn the light off 
+    during the longer buzz.
+
+
+Compile-time options
+--------------------
+
+There are many options which can be enabled or disabled.  It should be 
+able to run on virtually any driver, including nanjg drivers, FET+1, and 
+FET+N+1.  It does not need an offtime capacitor.  Can also be compiled 
+for attiny13, attiny25, attiny45, and attiny85 MCUs.  On attiny13 
+though, space is limited and you may not be able to enable many special 
+modes at the same time as memory.
+
+One of the most important parts to configure is the ramp table.  This is 
+very hardware-specific, especially on multi-channel drivers, so you 
+should probably generate your own ramp with bin/level_calc.py .
+

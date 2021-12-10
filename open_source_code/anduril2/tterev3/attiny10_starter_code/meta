@@ -1,0 +1,7 @@
+Description: attiny10 starter example
+Authors: tterev3
+MCU: attiny10
+Button-Type: momentary
+Memory:
+Modes:
+Extras:

@@ -1,0 +1,218 @@
+Release Notes
+=============
+As this is my first micro controller project, please don't expect perfect 
+code. Hints on where I went wrong and how to do things right are always 
+welcome. Please send all constructive criticism, questions, feature 
+requests, patches, fan mail, hate mail, legal threats etc. to tido@4gh.eu
+or join the discussion on the Budget Light Forum: http://budgetlightforum.cz.cc
+
+This is the third alpha release of the BLF-VLD. It can be built in three 
+configurations, namely simple, fixed and programmable modes. In simple mode,
+the user can only use the standard modes configured at compile time. In fixed 
+and  programmable mode, the user can switch from the main mode group to the
+extended group by repeatedly switching modes for a certain count of times
+in a row. 
+
+In extended mode the user can cycle through all mode lines defined
+in EEPROM. After staying in one mode for more than two seconds, the light
+will return to the standard mode group the next time it is switched on. The
+light will give a short visual feed back (two short blinks) upon entering and
+leaving the extended mode group. 
+
+In programmable mode, the user may assign any mode from the extended mode 
+group to any mode slot in the standard mode group. See the instructions below
+on how to perform mode programming
+
+What to do with the source
+==========================
+
+To build the driver, you will need the gcc-avr tool-chain (gcc, binutils, 
+avr-libc) plus other standard development tools. Since this program is
+entirely useless to anyone without the necessary hardware to flash it 
+into the ATtiny and anyone in possession of said hardware can reasonably
+be expected to be knowledgeable enough on where to get and how to use this
+tools, I will not go into details on how to build and install. Just look
+at the source and you will know what to do. I have developed and tested 
+this on an ATtiny13, running off the internal oscillator at 4.8MHz.
+
+The archive contains an Eclipse C/C++ AVR project and can be imported as such.
+
+The driver can also be built from the command line, just cd into one of the 
+configuration dirs ("Default", "Fixed Modes", "Programmable", "Simple") and 
+type 'make'. If your tool chain is set up correctly, this should build, among 
+other things, the files BLF-VLD.hex and BLF-VLD.eep, which are the flash and 
+eeprom images that need to be flashed into the ATtiny. 
+
+The archive contains prepared images in each configuration directory. "Simple"
+is a simple 3-mode driver with just low, medium and high modes.
+
+"Fixed Modes" has the same modes in the standard mode group, but the extended
+mode group can be accessed by switching modes six times in a row.
+
+With the "Programmable" driver, any mode of the extended mode group can be
+assigned to any mode slot in the standard group. See below on how to do this.
+
+
+
+How to program the modes
+========================
+
+To enter programming mode, first choose the mode slot you wish to reassign and
+stay in that mode for more than two seconds. Now change mode NUM_EXT_CLICKS
+times in a row. The light will give a short blink and enter the extended
+mode group. Choose the mode you wish to assign and stay in it for more than 
+two seconds, then switch the light off. When switched on again, the light
+will give a short blink and you will have to lock in the new mode.
+
+To acknowledge the programming, you will have to follow a timed sequence of
+"taps". "Tapping" means turning the light on for only a short period of time. 
+A short tap is less than 1 second, a long tap is between 1 and 2 seconds. To 
+lock in the programming, you will have to tap short-short-long-short. If the 
+driver has been compiled with the proghelper enabled, the light will signal 
+the appropriate moment to switch off by briefly rising or lowering the light
+level, depending on the current light mode.
+
+Setting up battery monitoring
+=============================
+
+Battery voltage monitoring is configured via the following #defines:
+
+MONITOR_BAT:
+If defined, battery monitoring will be compiled into the driver.
+
+LOWBAT_TRIG:
+Battery voltage is monitored via the analog-to-digital converter, which 
+returns a value in the range of 0 to 255. Low battery voltage handling 
+will be activated if the measured value is smaller than the one given here.
+The actual threshold to use here depends on how the monitoring circuitry
+is set up. See below for an explanation on how to calculate this value.
+For most variants of the NANJG-101-AK, a threshold value of 130 will
+trigger at around 3V.
+
+LOWBAT_RAMPDOWN:
+Enable gradual lowering of the light level. If the driver detects a low battery
+level, it starts halving the output level every five seconds until the voltage
+stabilizes or LOWBAT_MIN_LVL is reached. If not defined, light will switch to
+LOWBAT_MIN_LVL immediately.
+
+LOWBAT_MIN_LVL:
+PWM level to fall back to if a low battery situation is detected. If 
+LOWBAT_RAMPDOWN is not defined, LOWBAT_MIN_LVL is compared to the current
+PWM level and the smaller one is set. If LOWBAT_RAMPDOWN is defined, the ramping 
+down will not go below this level.
+
+LOWBAT_MAX_LVL:
+If LOWBAT_RAMPDOWN is defined, the light will lower the PWM level to
+LOWBAT_MAX_LVL (if current PWM level is higher) and start ramping down until
+the battery's voltage stabilizes.
+
+ADC_MUX:
+ADC channel to use, depending on which pin of the ATtiny13 is connected.
+    ADC0 (PB5) => 0x00
+    ADC1 (PB2) => 0x01
+    ADC2 (PB4) => 0x02
+    ADC3 (PB3) => 0x03
+
+ADC_DIDR:
+To make sure the ADC works correctly, the digital input for pin used for
+measuring is explicitly disabled. 
+    ADC0 (PB5) => ADC0D
+    ADC1 (PB2) => ADC1D
+    ADC2 (PB4) => ADC2D
+    ADC3 (PB3) => ADC3D
+
+ADC_PRSCL:
+The ADC has to be clocked between 50kHz and 200kHz. The clock is generated
+from the system clock and needs to be scaled down. For systems running at 
+4.8MHz or 9.6MHz a prescaler value of 64 is adequate, systems running at 
+1.2MHz will need a prescale factor of 32.
+    64 => 0x06
+    32 => 0x05
+
+How to compute the low voltage threshold:
+==========================================
+
+Most driver PCBs sold by DX and KD contain the necessary circuitry to monitor
+the battery's voltage (V_bat). This is done by using the ATtiny13's 
+analog-to-digital converter (ADC) and the internal 1.1V reference (V_ref). 
+To measure the battery's voltage, which is usually in the 3V-4V range, V_cc is 
+connected to the measuring pin via a voltage divider. This is necessary 
+because the ADC can only measure voltages smaller or equal to the reference.
+
+As there usually is a diode in front of the µC to provide reverse polarity 
+protection, V_cc is 200mV to 600mV lower than V_bat. We will call this voltage
+drop V_diode.
+
+The voltage divider consists of two resistors in series, connecting V_cc to
+ground. The voltage between the resistors is measured by the ADC and can be
+expressed by the following formula:
+
+    V_adc = V_cc * (R2 / (R1 + R2))
+
+The ADC is set to measure with 8 bit resolution in the range from 0V to V_ref.
+The value returned by the ADC can be expressed by this formula:
+
+    val = 255 * (V_adc / V_ref);
+
+By subsequently substituting V_adc and V_cc, we get the following formula:
+    
+    val = ((V_bat - V_diode) * R2 * 255) / ((R1 + R2) * V_ref)
+
+Now we can substitute the component values and the desired target voltage
+to get the ADC value at which the battery alert should be triggered.
+
+Example 1 (older NANJG-101-AK):
+    V_diode = 0.6V
+    V_ref = 1.1V
+    V_bat = 3V <= target voltage
+    R1 = 10kOhm
+    R2 = 3kOhm
+    
+    val = ((3.0V - 0.6V) * 3kOhm * 255) / ((10kOhm + 3kOhm) * 1.1V) = 128
+
+Example 2 (newer version):
+    V_diode = 0.2V
+    V_ref = 1.1V
+    V_bat = 3V
+    R1 = 18kOhm
+    R2 = 4.7kOhm
+    
+    val = ((3.0V - 0.2V) * 4.7kOhm * 255) / ((18kOhm + 4.7kOhm) * 1.1V) = 134
+
+In conclusion, a value of 130 is usually a good compromise for PCBs with usable
+components.
+
+
+Mode Switching
+==============
+
+There are two types of mode switching. The standard one uses only the
+resources available in the MCU and works by measuring how long the light
+has been switched on to determine if the mode should be changed on start up.
+If the light is switched off within two seconds after being turned on, it will
+switch mode the next time it is started. As this way does not depend an any 
+external hardware, it will work with every driver PCB.
+
+The second method samples an I/O pin on startup and switches modes if it is
+in a certain state (high or low). Some PCBs connect a capacitor to an I/O pin,
+which will keep it above a certain voltage level for some time after the power
+has been cut. This way, the MCU can read the pin on start up and determine,
+if the power was off for only a short time (usually less than 2 seconds). In
+this case, the light switches to the next mode.
+
+Pin state based mode switching may be enabled and configured via the following
+defines:
+
+PINSWITCH:
+Enable pin state mode switching.
+
+PS_PIN:
+Define the pin to query, e.g. PB4.
+
+PS_HIGH:
+If defined, a high level indicates mode switch, otherwise a low level is used.
+
+PS_CHARGE:
+If defined, the pin is set to high or low (depending on PS_HIGH) while the 
+light is switched on. This way, a capacitor connected to the pin can be
+charged or discharged.

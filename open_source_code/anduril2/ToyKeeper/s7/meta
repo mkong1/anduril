@@ -1,0 +1,9 @@
+Description: TK's full-featured clicky EDC firmware
+ s7: Designed for a Convoy S7 w/ Nichia 219B and qlite driver
+ brass-edc: Calibrated for the CNQG brass EDC
+Button-Type: clicky
+Memory: offtime, mem decay, none
+MCU: attiny13
+Authors: ToyKeeper
+Modes: battcheck, party strobe, beacon, bike flasher, variable strobe
+Extras:

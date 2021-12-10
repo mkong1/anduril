@@ -1,0 +1,7 @@
+Description: simple clicky firmware for pic10f322
+Authors: tterev3
+MCU: pic10f322
+Button-Type: clicky
+Memory: ontime
+Modes: beacon, config
+Extras: programmable modes

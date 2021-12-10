@@ -1,0 +1,8 @@
+Description: FET+1 code with an extended hidden blinky mode group
+Button-Type: clicky
+Memory: offtime, OTC, none
+MCU: attiny13
+Authors: ToyKeeper
+License: GPLv3
+Modes: battcheck, party strobe, variable strobe, bike flasher
+Extras: dual PWM, offtime-3, hidden modes, hidden mode groups, turbo timer

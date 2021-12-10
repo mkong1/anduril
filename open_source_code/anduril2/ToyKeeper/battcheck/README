@@ -1,0 +1,142 @@
+How to calibrate a driver with these tools
+------------------------------------------
+
+
+Voltage
+-------
+
+What you'll need:
+  - A full (ish) battery.
+  - An empty (ish) battery.
+  - A DMM.
+  - Ability to run python scripts (optional).
+
+The process:
+
+1. Flash battcheck.hex to a driver.
+
+2. For each battery (full and empty), do the following:
+   - Measure the battery voltage with the DMM.  Write this down.
+   - Connect the battery to the driver.
+   - Count out the blinks the light makes, at least two or three times.
+     Write down the most common value.
+     For example, "143" will blink once, pause, blink four times, pause, then
+     blink three times...  then pause longer and repeat.  If there is a zero,
+     it will make a very dim short blink to represent the zero.
+
+3. Put both measurements in a file, like readings/mydriver.volts, in the same
+   format as other *.volts files:
+   # Optional comment explaining which driver this is.
+   179 - 4.09V
+   136 - 3.15V
+
+4. Run "battcheck.py mydriver.volts" to get a  list of common, expected ADC
+   values in C #define format.  For example:
+   #define ADC_44     193
+   #define ADC_43     189
+   ...
+   #define ADC_21     88
+   #define ADC_20     83
+
+5. Plug those values into whichever firmware you like.  By default, it can
+   be pasted directly into tk-calibration.h with no changes.  Other code
+   may need it in slightly different formats.
+
+
+OTC / off-time capacitor
+------------------------
+
+What you'll need:
+  - A metronome of some sort (preferably at 120bpm).
+
+The process:
+
+1. Flash offtime-cap.hex to your driver.
+
+2. Connect a power source to your driver -- one which can be easily 
+   turned on and off (or connected and disconnected).  A fully-assembled 
+   light works well.
+
+   I normally use two alligator clips which lead to a stripped wire, 
+   clipping one to the driver's ground ring (the big pin on a 7135 chip 
+   works well) and the other to the battery-side spring.  At the other 
+   end, I hold the stripped wires onto a battery.
+
+3. Start a metronome at 120 bpm.
+
+   On many Linux-based systems, the following works:
+   while true ; do beep -l 10 -f 3500 ; sleep 0.5s ; done
+
+4. Disconnect the power on a metronome tick, then reconnect on another 
+   metronome tick.  Each tick is 0.5s, so 2 seconds would be 
+   "disconnect, tick, tick, tick, connect".
+
+5. Write down the value blinked out by the light.
+
+6. Repeat the measurement several times.
+
+7. Take an average of all the measurement values.
+
+8. Repeat the whole measurement process for each length of time you want 
+   to get a value for.
+
+9. Plug the averaged value(s) in to your firmware of choice.
+
+For example, I measured two drivers and got the following results:
+
+Driver 1:
+  time - avg : list of measured values
+  0.5s - 240.6 : 235, 241, 241, 242, 244, 241
+  1.0s - 218.6 : 221, 220, 219, 217, 216
+  1.5s - 196.6 : 199, 196, 197, 194, 197
+  2.0s - 172.0 : 172, 171, 173, 172, 172
+  3.0s - 133.2 : 135, 131, 134, 133, 133
+
+Driver 2:
+  time - avg : list of measured values
+  0.5s - 222.0 : 221, 220, 225, 218, 221, 227
+  1.0s - 175.6 : 176, 180, 173, 178, 171
+  1.5s - 127.2 : 134, 132, 123, 120, 129, 125
+  2.0s - 99.0 : 99, 100, 99, 97, 100
+  3.0s - 86.6 : 86, 87, 87, 87, 86
+
+Note: If you're using a lighted tailcap, you must do these OTC measurements
+with the light fully assembled.
+
+
+Temperature / thermal regulation
+--------------------------------
+
+What you'll need:
+  - Some way to heat up the driver, like a hair dryer.
+
+The process:
+
+Honestly, this one works best by trial and error, and can take a while.  But
+for a relatively short method, try this...
+
+1. Flash temperature.hex to your driver.
+
+2. Connect the driver to power.
+
+3. Write down the blink pattern while the driver is at room temperature.
+
+4. Heat up the driver with a hair dryer or something.
+
+5. Write down the blink pattern while the driver is hot.
+
+6. Take an average of these two values, and put that into your firmware as a
+   rough guess of what the thermal ceiling should be.  Or, if you don't have a
+   hair dryer, just make a guess...  like add 5 to the room temperature value.
+
+... and the time-consuming part:
+
+7. Flash your target firmware, fully assemble the light, and run it on turbo
+   until the output steps down and stabilizes.
+   
+8. If the final, stable output level is too low, increase the thermal ceiling
+   value by one.  If it's too high or it takes too long to start stepping down,
+   decrease the thermal ceiling value by one.
+
+9. Recharge your battery then repeat at step 7 until the step-down pattern is
+   about right.

@@ -1,0 +1,11 @@
+Description: Ramping UI for 1-channel clicky-switch lights
+  Ramps up and down and allows the user to stop at any level.
+  Double-tap to shortcut to highest level.
+  Options: Memory, stop-at-the-top, turbo timer, factory reset.
+Button-Type: clicky
+Memory: offtime, mem decay, configurable
+MCU: attiny13
+Authors: gChart, ToyKeeper
+Modes: ramp, battcheck, config
+Extras: LVP, ramping UI, turbo timer
+License: GPLv3

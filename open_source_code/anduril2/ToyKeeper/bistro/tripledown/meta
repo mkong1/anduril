@@ -1,0 +1,10 @@
+Description: "Bistro tripledown" firmware for clicky-switch lights
+  Like bistro, but with 3-channel "tripledown" support.
+  See description in parent directory for more details.
+Button-Type: clicky
+Memory: offtime, OTC, configurable
+MCU: attiny25, attiny45, attiny85
+Authors: ToyKeeper
+Modes: battcheck, voltage readout, tactical strobe, random strobe, police strobe, bike flasher, config, muggle
+Extras: triple PWM, offtime-3, hidden modes, mode groups, thermal regulation, LVP, soft start
+License: GPLv3

@@ -1,0 +1,7 @@
+Description: baby-like heartbeat effect
+Authors: DrJones
+MCU: attiny13
+Button-Type:
+Memory:
+Modes: variable heartbeat
+Extras: special effect demo

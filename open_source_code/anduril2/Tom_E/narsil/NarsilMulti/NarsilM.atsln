@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "NarsilM", "NarsilM.cproj", "{15DE09C3-0AF4-4D66-A5AF-C8CEB4C6C58E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15DE09C3-0AF4-4D66-A5AF-C8CEB4C6C58E}.Debug|AVR.ActiveCfg = Debug|AVR
+		{15DE09C3-0AF4-4D66-A5AF-C8CEB4C6C58E}.Debug|AVR.Build.0 = Debug|AVR
+		{15DE09C3-0AF4-4D66-A5AF-C8CEB4C6C58E}.Release|AVR.ActiveCfg = Release|AVR
+		{15DE09C3-0AF4-4D66-A5AF-C8CEB4C6C58E}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

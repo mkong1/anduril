@@ -1,0 +1,138 @@
+Rev History prior to 'M' version
+================================
+
+// Vers 1.4 2017-04-23:
+//   - added compile switch STARTUP_LIGHT_OFF to allow powering up at max setting
+//   - change LVP thresholds from 3.2/3.0V to 3.0/2.8V (takes voltage sag into account)
+//   - if tail mode switching is enabled for mode set operation, don't blink the LED
+//   - add more compile switch conditionals on VOLT_MON_R1R2
+//   - change DEFAULT_STEPDOWN_TEMP from 52 to 54 for more general use
+// Vers 1.3 2017-04-02:
+//   - added thermal stepdown capability, and blinking out the approx. temperature reading
+//   - restructured config UI to make it ramping/mode set specific - much simpler for ramping
+//   - added option for reading of voltage via 1.1V internal reference source (no R1/R2, use R1/R2 optionally)
+//   - in ramping, if going to moon from OFF, moon won't overwrite the last saved level
+// Vers 1.3 2017-02-15:
+//   - reduced timeout from OFF to standby/sleep from 10 secs to 5 secs
+//   - implement blinking of the ind. LED when ramping completes to indicate what channel the output is on
+//   - blinks the ind. LED of output channel for click to last level
+//
+// Vers 1.2 2016-11-30:
+//   - added the USING_3807135_BANK switch for supporting 380 7135's
+// Vers 1.2 2016-09-04:
+//   - added support for 2.2V, 2.3V and 2.4V reporting (min was 2.5V)
+//   - in ramping, remove the 3X click toggle of the locator LED (4X click for lock-out turns it off anyway)
+//   - bug fix: mode sets 9-12 could not be selected!! Fixed this.
+//
+// Vers 1.1 2016-09-02:
+//   - disable default turbo-timeout
+// Vers 1.1 2016-08-28/29: (delivered to ThorFire - in Narsil 2016-08-29.zip)
+//   - default Turbo Timeout to 2 mins
+//   - re-wrote LVP handling to fix a couple bugs and handle ramping-moon mode properly
+//   - blink 8 times when shutting off the level by dropping below the critical level, 2.6v now (was 2.7v)
+//   - changed timing of LVP check to every 4 secs, not 3 secs, added a 1/4 sec delay after the drop
+// 
+// Vers 1.1 2016-08-07:
+//   - in ramping, Add Dbl-click in Batt Check: blink out vers # of firmware
+//   - in ramping, Add Dbl-click on max to enter strobe modes
+//-----------------------------------------------------------------------------------------------------------
+// Vers 1.12 2016-07-16:
+//   - in ramping, add 4X click to do a lock-out
+//   - add attempt to disable brown-out detection when going in to power saving (not working on my Attiny85's)
+//   - bug fix: sometimes, ramping up from OFF, then release, then ramp again quick - it ramps up but should ramp down
+//   - don't let a dbl-click to MAX effect the saved output level (ramping to a level is the last save level)
+//   - added a new mode set in slot #8 for 10-25-50 levels (no max), original #11 is dropped
+//   - bug fix: flaky, bad problems could have happened for the mode sets #8 to #12 -- fixed this
+//
+// Vers 1.11 2016-07-11:
+//   - bug fix: dbl-click or triple-click in Battery Check mode were being acted on (should be ignored)
+//   - in ramping, add a timeout, after which, to not toggle/change the ramping direction
+//   - bug fix: with turbo-timeout enabled and in ramping with moon mode active,
+//     the turbo-timeout kicks in and turns up the output to turbo drop down level -- fixed this
+//   - slightly speed up multiple click timing (shorten LOCK_OUT_TICKS from 16 to 14)
+//   - in ramping, if you turn the light from OFF to ON to the previous level, the direction will now default to lo->hi
+//   - add changes in an attempt to eliminate power fluctuations causing a lockup or coming on with the LED ON (lockup
+//     still happens, but doesn't seem to come up with the LED on and light still operational anymore)
+//
+// Vers 1.10 2016-07-06:
+//   - add validation marker byte (0x5d) to avoid loading erroneous config settings - might fix the power fluctuation problems
+//   - add flicker when ramping reaches the limits
+//   - bug fixes: if holding the button for entering battery check, don't allow config setting or strobe modes to be started
+//   - bug fix: in ramping, when click to last level and the last level is moon, the ind. LED was left ON -- fixed this
+//   - add a compile switch to enable reverse ramping direction (toggling)
+//
+// 2016-07-01:
+//   - replaced the tk-calibration.h header with tk-calibWight.h and tk-calibMTN17DDm.h. Use the most
+//     applicable for proper LVp and battery check reporting, depending on the driver
+//
+// 2016-06-08:
+//   - add double-click support to max when ON (already worked from OFF)
+//   - add triple-click to be configurable, currently it's battery voltage level display
+//   - add a pause at moon mode for 0.368 sec delay when ramping up from OFF (allows user to easier stop and engage moon mode)
+//   - add new 2.4 sec ramping tables (older 2.046 sec table is compiled out)
+//
+// 2016-05-19..25:
+//   - add full ramping support
+// 2016-04-06:
+//   - add a new config setting for blinky mode control: disable, 1 strobe mode only, all blinkies
+// 04/04/2016:
+//   - Bug fix: turn OFF locator LED when in lockout, restore upon exiting
+//   - add feature of toggling locator LED: from OFF, 1 quick click the click&hold til the main LED goes OFF
+//
+// 04/03/2016:
+//   - add turning OFF the AtoD during low power sleep mode - knocked the amps down by half
+//
+// 03/21/2016:
+//   - Bug fix: modes/alt_modes tables (now byPrimModes and bySecModes) was [8] -- too small for new 7 mode entry ([10] now)
+// 03/20/2016:
+//   - extend the power savings delay to 6 minutes only if the battery voltage is low, so the Indicator LED
+//     can blink every 8 secs, and after the 6 mins, shut off the Indicator LED to save power
+//
+// 03/19/2016:
+//   - add onboard LED blink for battery voltage level display (BVLD)
+//   - add a few more config settings on a new advanced config UI off of the battery voltage level display
+//   - add 4 more mode sets, total of 12
+
+// 03/05/2016:
+//   - set default settings to mode set #4, moon mode ON, order lo->hi, memory OFF, turbo-timeout OFF
+//   - Bug fix: in LoadConfig(), setting of config2 was suspect, added parens:
+//   -    from: eeprom_read_byte((const byte *)eepos+1)
+//   -      to: eeprom_read_byte((const byte *)(eepos+1))
+//   - rearranged params stored in EEPROM in LoadConfig() and SaveConfig(), added comments
+//
+// 01/31/2016:
+//   - add support for a on board LED: turn ON initially, turn OFF during config mode
+//   - increase 1st strobe mode to 16 Hz
+
+// 12/02/2015:
+//   - make lock-out easier by shortening the hold time which eliminates activation of strobe. It
+//     makes it easier to confirm if lock-out is set, because if strobe does activate, you know
+//     lock-out is not set
+//   - change the blinks for entering a setting configuration mode: it now blinks quickly twice,
+//     followed by slow blinks of 1 to 5 (1 for first setting, 5 for the 5th setting). It makes
+//     config mode slower but easier to track what setting you are in
+//   - add a long hold to exit configuration mode. A short hold will skip to the next setting, but
+//     if you continue to hold a little longer, it will exit altogether, indicated by 5 quick blinks
+//
+// 11/16/2015:
+//   - OFF mode wasn't setting PWM mode properly - fixed this (corrected moon mode flicker!)
+//   - for all strobe modes, set PWM mode to PHASE only once, not repeatedly
+// 10/30/2015 - restore 3 modes for med to 35%
+// 10/29/2015 - lengthen CONFIG_ENTER_DUR from 128 to 160
+//            - lengthen LOCK_OUT_TICKS from 12 to 16
+//            - temp change 3 modes for med to 50% for LJ
+// 10/27/2015 - bug fixes w/strobes
+// 10/26/2015 - changes:
+//   - added tk-delay.h into project (forgot it)
+//   - add multiple strobe/beacon modes
+// 
+// 10/25/2015 - added "n.n" style voltage blinking status (Battery Check)
+// 10/18/2015 - finalized config mode - checkpoint, tested in the SupFire and AS31
+// 10/11/2015 - cleanups in header
+// 10/07/2015 - full mode config options (4 options total), few bug fixes, lock-out added and working
+// 09/17/2015 - renamed to eSwitchBrownOut
+// 08/17/2015 - change over to 25/45/85 support
+//				  - bug fix: hold if in 1st mode won't engage strobe
+//      
+// 07/26/2015 - attempt to merge in NOINIT functionality to have rear tail clicky functional
+// 02/14/2015 - copied from JohnnyC, merged in mods from my earlier e-switch version

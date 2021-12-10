@@ -1,0 +1,25 @@
+This UI implements smooth ramping.  The interface is:
+
+From off:
+
+  - Short press to access the last-used mode.
+  - Long press to enter moon mode and optionally start ramping.
+  - Double click for the highest mode.
+
+While on:
+
+  - Short press to turn off.
+  - Long press and hold to ramp brightness up or down.  Stops at the 
+    highest and lowest levels, and auto-reverses when appropriate.
+  - After releasing a ramp action, ramp again within 1 second to reverse 
+    the ramp direction.  This way if you go too far, just release and 
+    ramp again to go back to where you intended to stop.
+  - (TODO) Double click for a blinky mode (beacon?).
+
+Low-voltage protection is enabled by default, but turbo step-down is 
+not.  Change the compile-time options if you want turbo (there isn't 
+enough room for it with the default options).
+
+If you enable PFM (pulse frequency modulation), the ramp should be 
+smoother at the lowest levels.  Otherwise, the lowest levels will ramp 
+in a stair-step pattern.
