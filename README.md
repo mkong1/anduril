@@ -3,7 +3,7 @@
 ## Differences from OS:
 Running feature changes available in CHANGELOG
 
-The base branch is up-to-date as of Rev 637 in open source.
+The base branch is up-to-date as of Rev 642 (2021-12-13) in open source.
 
 ## Flash your light with an existing hex file:
 I've put the hex files and basic scripts for AVRDude for this Anduril 2 fork in the `hex_files` directory.
