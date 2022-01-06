@@ -20,6 +20,9 @@
 #ifndef TINT_RAMPING_H
 #define TINT_RAMPING_H
 
+//MK default to tint-switching
+#define TINT_RAMP_TOGGLE_ONLY
+
 // 0: smooth tint ramp
 // 1: toggle tint only between two extremes
 #ifdef TINT_RAMP_TOGGLE_ONLY
