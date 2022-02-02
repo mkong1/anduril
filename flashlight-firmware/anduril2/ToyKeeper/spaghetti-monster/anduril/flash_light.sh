@@ -19,7 +19,8 @@ usage="\nUsage: `basename $0` -fhl
     10. FW3A no FET
     11. FW3A with 219b/c LEDs (50% FET)
     12. FW3A (FET)
-    13. DM11 B35AM
+    13. FW3X (Lume1)
+    14. DM11 B35AM
   -f hex filename (hard-coded with -p t1634, might not work with your light!)"
 
 while getopts ':hlf:' option; do
@@ -64,7 +65,10 @@ while getopts ':hlf:' option; do
          12) echo "FW3A (FET)"
            avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3a.hex
            exit;;
-         13) echo "Noctigon DM11 B35AM"
+         13) echo "FW3X (Lume1)"
+           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3x-lume1.hex
+           exit;;
+         14) echo "Noctigon DM11 B35AM"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.noctigon-dm11-12v.hex
            exit;;
        esac
