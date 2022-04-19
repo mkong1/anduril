@@ -41,13 +41,13 @@ while getopts ':hlf:' option; do
          4) echo "D4V2/KR4 with 219b"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.noctigon-kr4-219b.hex
            exit;;
-         5) echo "D4V2/KR4 tintramp"
+         5) echo "KR4 tintramp"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.noctigon-kr4-tintramp.hex
            exit;;
          6) echo "D4SV2"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.emisar-d4sv2.hex
            exit;;
-         7) echo "D4SV2 tintramp"
+         7) echo "D4V2/D4SV2 tintramp"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.emisar-d4sv2-tintramp.hex
            exit;;
          8) echo "MF01S"

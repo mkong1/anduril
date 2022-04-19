@@ -6,3 +6,6 @@
 #include "cfg-emisar-d4sv2-tintramp.h"
 #undef MODEL_NUMBER
 #define MODEL_NUMBER "0215"
+
+// the button doesn't light up
+#undef USE_BUTTON_LED
