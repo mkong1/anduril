@@ -1,11 +1,11 @@
-#ifndef HWDEF_NOCTIGON_DM11_H
-#define HWDEF_NOCTIGON_DM11_H
+#ifndef HWDEF_NOCTIGON_KR4_12V_H
+#define HWDEF_NOCTIGON_KR4_12V_H
 
-/* Noctigon DM11 driver layout (attiny1634)
- * (based on Noctigon K1)
+/* Noctigon KR4 (12V) driver layout (attiny1634)
+ * (based on Noctigon DM11-12V and KR4)
  *
  * Pin / Name / Function
- *   1    PA6   FET PWM (direct drive) (PWM1B) (on some models)
+ *   1    PA6   (none) (PWM1B) (reserved for DD drivers)
  *   2    PA5   R: red aux LED (PWM0B)
  *   3    PA4   G: green aux LED
  *   4    PA3   B: blue aux LED
@@ -19,12 +19,12 @@
  *  12    PC3   RESET
  *  13    PC2   (none)
  *  14    PC1   SCK
- *  15    PC0   (none) PWM0A
+ *  15    PC0   boost PMIC enable (PWM0A not used)
  *  16    PB3   main LED PWM (PWM1A)
- *  17    PB2   MISO / (none) (PCINT10)
+ *  17    PB2   MISO / e-switch (PCINT10)
  *  18    PB1   MOSI / battery voltage (ADC6)
  *  19    PB0   Opamp power
- *  20    PA7   e-switch  (PCINT7)
+ *  20    PA7   (none)  (PCINT7)
  *      ADC12   thermal sensor
  *
  * Main LED power uses one pin to turn the Opamp on/off,
@@ -32,7 +32,6 @@
  * Linear brightness control uses the power level pin, with dynamic PWM.
  * The on/off pin is only used to turn the main LED on and off,
  * not to change brightness.
- * Some models also have a direct-drive FET for turbo.
  */
 
 #ifdef ATTINY
@@ -41,16 +40,17 @@
 #define ATTINY 1634
 #include <avr/io.h>
 
-#define PWM_CHANNELS 2  // override this for the no-FET version
+#define PWM_CHANNELS 1  // can't use DD FET on boost drivers
 #define PWM_BITS 16  // data type needs 16 bits, not 8
 #define PWM_TOP  255 // highest value used in top half of ramp
 #define USE_DYN_PWM  // dynamic frequency and speed
 
-#define SWITCH_PIN   PA7    // pin 20
-#define SWITCH_PCINT PCINT7 // pin 20 pin change interrupt
-#define SWITCH_PCIE  PCIE0  // PCIE0 is for PCINT[7:0]
-#define SWITCH_PCMSK PCMSK0 // PCMSK0 is for PCINT[7:0]
-#define SWITCH_PORT  PINA   // PINA or PINB or PINC
+#define SWITCH_PIN   PB2     // pin 17
+#define SWITCH_PCINT PCINT10 // pin 17 pin change interrupt
+#define SWITCH_PCIE  PCIE1   // PCIE1 is for PCINT[11:8]
+#define SWITCH_PCMSK PCMSK1  // PCMSK1 is for PCINT[11:8]
+#define SWITCH_PORT  PINB    // PINA or PINB or PINC
+#define PCINT_vect   PCINT1_vect  // ISR for PCINT[11:8]
 
 #define PWM1_PIN PB3        // pin 16, Opamp reference
 #define PWM1_LVL OCR1A      // OCR1A is the output compare register for PB3
@@ -59,14 +59,14 @@
 #define PWM1_PHASE_RESET_ON   // force reset while turning on
 #define PWM1_PHASE_SYNC       // manual sync while changing level
 
-#define PWM2_PIN PA6        // pin 1, DD FET PWM
-#define PWM2_LVL OCR1B      // OCR1B is the output compare register for PA6
-
 // PWM parameters of both channels are tied together because they share a counter
 #define PWM1_TOP ICR1       // holds the TOP value for for variable-resolution PWM
 
 #define LED_ENABLE_PIN  PB0    // pin 19, Opamp power
 #define LED_ENABLE_PORT PORTB  // control port for PB0
+
+#define LED2_ENABLE_PIN  PC0    // pin 15, boost PMIC enable
+#define LED2_ENABLE_PORT PORTC  // control port for PC0
 
 
 #define USE_VOLTAGE_DIVIDER  // use a dedicated pin, not VCC, because VCC input is flattened
@@ -116,12 +116,13 @@
 // ... so just hardcode it in each hwdef file instead
 inline void hwdef_setup() {
   // enable output ports
+  // boost PMIC on/off
+  DDRC = (1 << LED2_ENABLE_PIN);
   // Opamp level and Opamp on/off
   DDRB = (1 << PWM1_PIN)
        | (1 << LED_ENABLE_PIN);
-  // DD FET PWM, aux R/G/B, button LED
-  DDRA = (1 << PWM2_PIN)
-       | (1 << AUXLED_R_PIN)
+  // aux R/G/B, button LED
+  DDRA = (1 << AUXLED_R_PIN)
        | (1 << AUXLED_G_PIN)
        | (1 << AUXLED_B_PIN)
        | (1 << BUTTON_LED_PIN)
@@ -133,10 +134,10 @@ inline void hwdef_setup() {
   // WGM1[3:0]: 1,0,1,0: PWM, Phase Correct, adjustable (DS table 12-5)
   // CS1[2:0]:    0,0,1: clk/1 (No prescaling) (DS table 12-6)
   // COM1A[1:0]:    1,0: PWM OC1A in the normal direction (DS table 12-4)
-  // COM1B[1:0]:    1,0: PWM OC1B in the normal direction (DS table 12-4)
+  // COM1B[1:0]:    0,0: PWM OC1B disabled (DS table 12-4)
   TCCR1A  = (1<<WGM11)  | (0<<WGM10)   // adjustable PWM (TOP=ICR1) (DS table 12-5)
           | (1<<COM1A1) | (0<<COM1A0)  // PWM 1A in normal direction (DS table 12-4)
-          | (1<<COM1B1) | (0<<COM1B0)  // PWM 1B in normal direction (DS table 12-4)
+          | (0<<COM1B1) | (0<<COM1B0)  // PWM 1B disabled (DS table 12-4)
           ;
   TCCR1B  = (0<<CS12)   | (0<<CS11) | (1<<CS10)  // clk/1 (no prescaling) (DS table 12-6)
           | (1<<WGM13)  | (0<<WGM12)  // phase-correct adjustable PWM (DS table 12-5)
@@ -146,8 +147,8 @@ inline void hwdef_setup() {
   PWM1_TOP = PWM_TOP;
 
   // set up e-switch
-  //PORTA = (1 << SWITCH_PIN);  // TODO: configure PORTA / PORTB / PORTC?
-  PUEA = (1 << SWITCH_PIN);  // pull-up for e-switch
+  //PORTB = (1 << SWITCH_PIN);  // TODO: configure PORTA / PORTB / PORTC?
+  PUEB = (1 << SWITCH_PIN);  // pull-up for e-switch
   SWITCH_PCMSK = (1 << SWITCH_PCINT);  // enable pin change interrupt
 }
 
