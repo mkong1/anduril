@@ -47,6 +47,7 @@
 #define USE_DYN_PWM  // dynamic frequency and speed
 #define PWM_DATATYPE2 uint32_t  // only needs 32-bit if ramp values go over 255
 
+#ifndef SWITCH_PIN
 #define SWITCH_PIN   PA7     // pin 20
 #define SWITCH_PCINT PCINT7  // pin 20 pin change interrupt
 #define SWITCH_PCIE  PCIE0   // PCIE1 is for PCINT[7:0]
@@ -54,6 +55,7 @@
 #define SWITCH_PORT  PINA    // PINA or PINB or PINC
 #define SWITCH_PUE   PUEA    // pullup group A
 #define PCINT_vect   PCINT0_vect  // ISR for PCINT[7:0]
+#endif
 
 // usually PWM1_LVL would be a hardware register, but we need to abstract
 // it out to a soft brightness value, in order to handle tint ramping
@@ -63,6 +65,9 @@ uint16_t PWM1_LVL;
 #define PWM1_PIN PB3        // pin 16, Opamp reference
 #define TINT1_LVL OCR1A     // OCR1A is the output compare register for PB3
 #define PWM1_CNT TCNT1      // for dynamic PWM, reset phase
+#define PWM1_PHASE_RESET_OFF  // force reset while shutting off
+#define PWM1_PHASE_RESET_ON   // force reset while turning on
+#define PWM1_PHASE_SYNC       // manual sync while changing level
 
 // gah, this driver is weird...
 // two linear channels are treated as one,
