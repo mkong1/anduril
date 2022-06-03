@@ -21,10 +21,10 @@
  *  14    PC1   SCK
  *  15    PC0   (none) PWM0A
  *  16    PB3   main LED PWM (PWM1A)
- *  17    PB2   MISO / e-switch? (PCINT10)
+ *  17    PB2   MISO / (none) (PCINT10)
  *  18    PB1   MOSI / battery voltage (ADC6)
  *  19    PB0   Opamp power
- *  20    PA7   e-switch?  (PCINT7)
+ *  20    PA7   e-switch  (PCINT7)
  *      ADC12   thermal sensor
  *
  * Main LED power uses one pin to turn the Opamp on/off,
@@ -46,13 +46,6 @@
 #define PWM_TOP  255 // highest value used in top half of ramp
 #define USE_DYN_PWM  // dynamic frequency and speed
 
-//#define SWITCH_PIN   PB2     // pin 17
-//#define SWITCH_PCINT PCINT10 // pin 17 pin change interrupt
-//#define SWITCH_PCIE  PCIE1   // PCIE1 is for PCINT[11:8]
-//#define SWITCH_PCMSK PCMSK1  // PCMSK1 is for PCINT[11:8]
-//#define SWITCH_PORT  PINB    // PINA or PINB or PINC
-//#define PCINT_vect   PCINT1_vect  // ISR for PCINT[11:8]
-
 #define SWITCH_PIN   PA7    // pin 20
 #define SWITCH_PCINT PCINT7 // pin 20 pin change interrupt
 #define SWITCH_PCIE  PCIE0  // PCIE0 is for PCINT[7:0]
@@ -62,6 +55,9 @@
 #define PWM1_PIN PB3        // pin 16, Opamp reference
 #define PWM1_LVL OCR1A      // OCR1A is the output compare register for PB3
 #define PWM1_CNT TCNT1      // for dynamic PWM, reset phase
+#define PWM1_PHASE_RESET_OFF  // force reset while shutting off
+#define PWM1_PHASE_RESET_ON   // force reset while turning on
+#define PWM1_PHASE_SYNC       // manual sync while changing level
 
 #define PWM2_PIN PA6        // pin 1, DD FET PWM
 #define PWM2_LVL OCR1B      // OCR1B is the output compare register for PA6
@@ -150,8 +146,6 @@ inline void hwdef_setup() {
   PWM1_TOP = PWM_TOP;
 
   // set up e-switch
-  ////PORTB = (1 << SWITCH_PIN);  // TODO: configure PORTA / PORTB / PORTC?
-  //PUEB = (1 << SWITCH_PIN);  // pull-up for e-switch
   //PORTA = (1 << SWITCH_PIN);  // TODO: configure PORTA / PORTB / PORTC?
   PUEA = (1 << SWITCH_PIN);  // pull-up for e-switch
   SWITCH_PCMSK = (1 << SWITCH_PCINT);  // enable pin change interrupt
