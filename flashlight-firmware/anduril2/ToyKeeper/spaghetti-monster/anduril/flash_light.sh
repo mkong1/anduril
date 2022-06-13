@@ -66,7 +66,7 @@ while getopts ':hlf:' option; do
            avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3a.hex
            exit;;
          13) echo "FW3X (Lume1)"
-           avrdude -c usbasp -p t85 -u -Uflash:w:anduril.fw3x-lume1.hex
+           avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.fw3x-lume1.hex
            exit;;
          14) echo "Noctigon DM11 B35AM"
            avrdude -c usbasp -p t1634 -u -Uflash:w:anduril.noctigon-dm11-12v.hex
