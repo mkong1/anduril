@@ -108,8 +108,8 @@
 #define USE_BATTCHECK
 // Choose a battery indicator style
 //#define BATTCHECK_4bars  // up to 4 blinks
-#define BATTCHECK_8bars  // up to 8 blinks
-//#define BATTCHECK_VpT  // Volts + tenths
+//#define BATTCHECK_8bars  // up to 8 blinks
+#define BATTCHECK_VpT  // Volts + tenths
 
 // output to use for blinks on battery check (and other modes)
 #define BLINK_BRIGHTNESS    RAMP_SIZE/4
@@ -213,14 +213,15 @@ PROGMEM const uint8_t hiddenmodes[] = { HIDDENMODES };
 *  3 = ML White 4 = 5% White
 *  5 = 15% White 6= 35% White
 *  7 = 50% White 8 = 100% White
-*  Group 1: Low Color, High Color, ML, 5%, 15%, 35%, 50%, 100%
-*  Group 2: Low Color, High Color, ML, 35%, 100%
-*  Group 3: Low Color, ML, 5%, 15%, 35%, 50%, 100%
-*  Group 4: ML, 5%, 15%, 35%, 50%, 100%
-*  Group 5: ML, 5%, 15%, 100%
-*  Group 6: ML, 15%, 100%
-*  Group 7: 5%, 15%, 35%, 50%, 100%
-*  Group 8: 15%, 100%
+* Mode Groups:
+*  1- low red,high red,ml,5,15,35,50,100
+*  2- low red,high red,5,15,35,100
+*  3- low red,ml,5,15,35,50,100
+*  4- low red,5,15,35,100
+*  5- low red,high red,15,100
+*  6- low red,15,100
+*  7- ML,5 ,15,35,50,100
+*  8- ML,5,35,100,low red // MK change
 */
 
 #define NUM_MODEGROUPS 8
@@ -232,7 +233,7 @@ PROGMEM const uint8_t modegroups[] = {
     1, 2, 4, 8, 0, 0,  0,  0,
     1, 5, 8, 0, 0, 0,  0,  0,
     3, 4, 5, 6, 7, 8, 0,  0,
-    4, 5, 6, 8, 0, 0, 0, 0,
+    3, 4, 6, 8, 1, 0, 0, 0,
   //  10, 30, 50,  0,                  // muggle mode, exception to "must be 8 bytes long"
 };
 uint8_t modes[] = { 1,2,3,4,5,6,7,8,9, HIDDENMODES };  // make sure this is long enough...

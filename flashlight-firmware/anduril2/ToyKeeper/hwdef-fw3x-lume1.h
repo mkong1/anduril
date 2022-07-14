@@ -110,9 +110,9 @@
 #define EXTERN_TEMP_FORMULA(m) (((m)-205)/4.09)
 
 // this driver allows for aux LEDs under the optic
-#define AUXLED_R_PIN    PA5    // pin 2
+#define AUXLED_R_PIN    PA3    // pin 2, MK driver swapped wires, normally PA5
 #define AUXLED_G_PIN    PA4    // pin 3
-#define AUXLED_B_PIN    PA3    // pin 4
+#define AUXLED_B_PIN    PA5    // pin 4, MK driver swapped wires, normally PA3
 #define AUXLED_RGB_PORT PORTA  // PORTA or PORTB or PORTC
 #define AUXLED_RGB_DDR  DDRA   // DDRA or DDRB or DDRC
 #define AUXLED_RGB_PUE  PUEA   // PUEA or PUEB or PUEC
