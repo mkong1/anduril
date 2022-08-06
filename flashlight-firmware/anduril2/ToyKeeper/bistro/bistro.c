@@ -82,7 +82,7 @@
 //#define RAMP_FET   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,6,9,13,17,21,25,30,35,41,47,53,60,67,75,83,91,101,111,121,132,144,156,169,183,198,213,255
 
 // uncomment to ramp up/down to a mode instead of jumping directly
-#define SOFT_START
+// #define SOFT_START
 
 // Enable battery indicator mode?
 #define USE_BATTCHECK
@@ -98,8 +98,8 @@
 
 // Hidden modes are *before* the lowest (moon) mode, and should be specified
 // in reverse order.  So, to go backward from moon to turbo to strobe to
-// battcheck, use BATTCHECK,STROBE,TURBO .
-#define HIDDENMODES         BIKING_STROBE,BATTCHECK,POLICE_STROBE,TURBO
+// battcheck, use BATTCHECK,STROBE,TURBO.
+#define HIDDENMODES         BATTCHECK
 
 #define TURBO     RAMP_SIZE       // Convenience code for turbo mode
 #define BATTCHECK 254       // Convenience code for battery check mode
@@ -158,8 +158,8 @@
 #define FIRSTBOOT 0b01010101
 uint8_t firstboot = FIRSTBOOT;  // detect initial boot or factory reset
 #endif
-uint8_t modegroup = 5;     // which mode group (set above in #defines)
-uint8_t enable_moon = 1;   // Should we add moon to the set of modes?
+uint8_t modegroup = 8;     // which mode group (set above in #defines)
+uint8_t enable_moon = 0;   // Should we add moon to the set of modes?
 uint8_t reverse_modes = 0; // flip the mode order?
 uint8_t memory = 0;        // mode memory, or not (set via soldered star)
 #ifdef OFFTIM3
@@ -199,9 +199,9 @@ PROGMEM const uint8_t modegroups[] = {
     11, 26, 46, 64,  0,  0,  0,  0,
     11, 23, 36, 50, 64,  0,  0,  0,
     11, 20, 31, 41, 53, 64,  0,  0,
-    29, 64,POLICE_STROBE,0,0,0,0,0,  // 7: special group A
+    18, 32, 45, 64,  0,  0,  0,  0,   // 7: MK mode
     BIKING_STROBE,BATTCHECK,11,29,64,0,0,0,  // 8: special group B
-     9, 18, 29, 46, 64,  0,  0,  0,  // 9: special group C
+     6, 18, 32, 45, 64,  0,  0,  0,  // 9: MK dimmer moon in normal rotation, not "moon"
     11, 29, 50,  0,                  // muggle mode, exception to "must be 8 bytes long"
 };
 //uint8_t modes[] = { 1,2,3,4,5,6,7,8,9, HIDDENMODES };  // make sure this is long enough...
