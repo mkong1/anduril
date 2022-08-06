@@ -99,7 +99,7 @@
 // Hidden modes are *before* the lowest (moon) mode, and should be specified
 // in reverse order.  So, to go backward from moon to turbo to strobe to
 // battcheck, use BATTCHECK,STROBE,TURBO .
-#define HIDDENMODES         BIKING_STROBE,BATTCHECK,POLICE_STROBE,TURBO
+#define HIDDENMODES         BATTCHECK
 
 #define TURBO     RAMP_SIZE       // Convenience code for turbo mode
 #define BATTCHECK 254       // Convenience code for battery check mode
@@ -158,8 +158,8 @@
 #define FIRSTBOOT 0b01010101
 uint8_t firstboot = FIRSTBOOT;  // detect initial boot or factory reset
 #endif
-uint8_t modegroup = 7;     // which mode group (set above in #defines)
-uint8_t enable_moon = 1;   // Should we add moon to the set of modes?
+uint8_t modegroup = 8;     // which mode group (set above in #defines)
+uint8_t enable_moon = 0;   // Should we add moon to the set of modes?
 uint8_t reverse_modes = 0; // flip the mode order?
 uint8_t memory = 0;        // mode memory, or not (set via soldered star)
 #ifdef OFFTIM3
@@ -199,10 +199,10 @@ PROGMEM const uint8_t modegroups[] = {
     11, 26, 46, 64,  0,  0,  0,  0,
     11, 23, 36, 50, 64,  0,  0,  0,
     11, 20, 31, 41, 53, 64,  0,  0,
-    22, 36, 50, 64, 0,   0,  0,  0, // MK mode
+    18, 32, 45, 64, 0,   0,  0,  0, // MK mode
     //29, 64,POLICE_STROBE,0,0,0,0,0,  // 7: special group A
     BIKING_STROBE,BATTCHECK,11,29,64,0,0,0,  // 8: special group B
-     9, 18, 29, 46, 64,  0,  0,  0,  // 9: special group C
+     6, 18, 32, 45, 64,  0,  0,  0,  // 9: MK with "moon" in the main rotation
     11, 29, 50,  0,                  // muggle mode, exception to "must be 8 bytes long"
 };
 //uint8_t modes[] = { 1,2,3,4,5,6,7,8,9, HIDDENMODES };  // make sure this is long enough...
